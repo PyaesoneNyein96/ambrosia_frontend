@@ -5,7 +5,7 @@
 
 
         <swiper-slide v-for="slide in img" :key="slide">
-            <!-- <img :src="slide" alt=""> -->
+
             <div :style="{ background: `url(${slide.url})` }" class="slide-img">
                 <div class="slide-text">
                     <h2 class="slide-title">{{ slide.title }}</h2>
@@ -62,9 +62,9 @@ export default {
 
 <style scoped>
 .slide-img {
-    margin-top: 85px;
+    margin-top: 0px;
     width: 100vw;
-    height: 99vh;
+    height: 100vh;
     background-position-y: bottom !important;
 }
 

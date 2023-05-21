@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <section id="menu" class="Login">
+    <div :style="{ background: `url(${'https://jooinn.com/images/blur-restaurant-1.png'})` }" class="login-background">
+        <section id=" menu" class="Login">
             <div class="container">
                 <div class="mx-auto ">
                     <div class="login-card-wrap">
@@ -20,11 +20,32 @@
 
 <script>
 export default {
-
+    name: 'Login_Register',
+    data() {
+        return {
+            logo: '../../assets/logo.png'
+        }
+    },
 }
 </script>
 
 <style scoped>
+.login-background {
+    position: relative !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 83vh;
+    object-fit: cover;
+    /* filter: blur(1);
+    -webkit-filter: blur(8px) !important; */
+    background-position: center !important;
+}
+
+.Login {
+    padding-top: 100px;
+}
+
 .form {
     display: flex;
     flex-direction: column;

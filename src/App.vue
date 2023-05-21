@@ -1,6 +1,6 @@
 <template>
   <app-Header />
-  <div class="pb-4"></div>
+  <div class=""></div>
 
   <router-view v-slot="{ Component }">
     <Transition name="fade" mode="out-in">
