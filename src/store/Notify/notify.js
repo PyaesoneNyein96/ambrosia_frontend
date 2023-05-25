@@ -14,3 +14,5 @@ const smsLogOut = (commit, sms = 'Your you are logged out') => {
 const smsInform = (commit, sms = "Check this out") => {
     return commit('notify/setNotification', { sms: sms, type: 'inform' }, { root: true })
 }
+
+export { smsError, smsSuccess, smsLogOut, smsInform }

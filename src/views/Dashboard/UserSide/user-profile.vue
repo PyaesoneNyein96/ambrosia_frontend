@@ -1,8 +1,8 @@
 <template>
     <div>
-        <ht class="mt-5">
+        <div class="mt-5">
             User Profile
-        </ht>
+        </div>
     </div>
 </template>
 
@@ -12,4 +12,4 @@ export default {
 }
 </script>
 
-<style  scoped></style>
+<style scoped></style>

@@ -1,3 +1,7 @@
+
+/* eslint-disable  */
+
+
 import { createRouter, createWebHistory, RouteRecordRaw, START_LOCATION } from 'vue-router'
 import store from '../store'
 
@@ -64,52 +68,59 @@ const router = createRouter({
 
 
 
+
+const LocalStorage_Check = localStorage.getItem('userCredentials');
+
+// VALIDATION
+
 const validation = (to, from, next) => {
 
-  const Auth = store.getters['auth/getAuth'];
-  console.log(Auth);
 
+  if ((to.meta.dashboard) && !LocalStorage_Check) {
 
-  if ((to.meta.dashboard) && !localStorage.getItem('userCredentials')) {
     router.push({ name: 'login' })
   }
-  // else if
-  //   (to.meta.dashboard && Auth) {
-  //   console.log('hide');
-  // }
-  else if
-    ((to.meta.login) && localStorage.getItem('userCredentials')) {
+  else if ((to.meta.login) && LocalStorage_Check) {
+
     router.push({ name: 'home' })
+
   } else {
 
-    next();
-
+    next()
   }
 
 }
 
+// EACH ROUTE CHECK 
+
 router.beforeEach((to, from, next) => {
 
+  store.commit('tool/setLoading', true)
+
   if (from === START_LOCATION) {
-    // store.commit('notify/setLoading', 'true');
-    if (store.getters['auth/getUserToken']) {
+
+
+    if (!LocalStorage_Check) {
+
       validation(to, from, next)
+
     } else {
 
-      if (!localStorage.getItem('userCredentials')) {
-        validation(to, from, next)
-      } else {
-        store.dispatch('auth/autoLogin').then(() => {
-          validation(to, from, next)
-        })
+      store.dispatch('auth/autoLogin').then(() => {
 
-      }
+        validation(to, from, next)
+      })
 
     }
 
   } else {
+
     validation(to, from, next)
   }
+  // setTimeout(() => {
+  store.commit('tool/setLoading', false)
+  // }, 1500);
+
 
 
 

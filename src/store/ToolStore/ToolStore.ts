@@ -1,5 +1,7 @@
+
+
 const ToolStore = {
-    namespace: true,
+    namespaced: true,
     state() {
         return {
             loading: false,
@@ -8,7 +10,7 @@ const ToolStore = {
     },
     getters: {
 
-        getLoading: state => state.loading,
+        getLoading: (state) => state.loading,
         getToggleNav: state => state.toggleNav
     },
     mutations: {

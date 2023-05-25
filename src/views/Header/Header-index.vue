@@ -6,8 +6,11 @@
             <div class="logo me-auto">
                 <h1>
                     <a href="/">
-                        <img src="../../assets/logo.png" alt="" class="img-fluid rounded-circle">
+                        <!-- <img src="../../assets/logo.png" alt="" class="img-fluid rounded-circle"> -->
                         <span class="d-none d-md-inline"> Ambrosia</span>
+                        <h1 class="text-light">
+
+                        </h1>
                         <span class="d-inline d-md-none text-muted" style="font-size: 18px;"> Ambrosia</span>
                     </a>
                 </h1>
@@ -32,8 +35,7 @@
 
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
                     <li>
-                        <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth"
-                            @click="navHide">
+                        <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth">
                             Dashboard
                         </router-link>
                     </li>
@@ -126,12 +128,10 @@ export default {
             this.$store.dispatch('auth/logout')
                 .then(() => {
                     console.log('done');
+                    this.$router.push({ name: 'login' })
                 })
         },
 
-        navHide() {
-            this.$store.commit('toggleNav', true)
-        }
 
 
     }

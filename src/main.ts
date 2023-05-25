@@ -5,12 +5,15 @@ import store from './store'
 
 import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import 'bootstrap/dist/js/bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Header from './views/Header/Header-index.vue';
 import Footer from './views/Footer/Footer-index.vue';
 import Loader from './components/Tools/mini-Loader.vue';
-import '../public/assets/js/main.js'
 
+
+import '../public/assets/css/style.css'
 
 
 const app = createApp(App);

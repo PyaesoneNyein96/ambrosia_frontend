@@ -11,7 +11,7 @@ const store = createStore({
         auth: AuthModule,
         food: FoodModule,
         notify: NotifyModule,
-        tool: ToolStore
+        tool: ToolStore,
     }
 });
 

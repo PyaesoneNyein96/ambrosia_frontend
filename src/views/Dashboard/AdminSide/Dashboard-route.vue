@@ -31,7 +31,12 @@
 
                     </ul>
                     <hr>
-                    <ul class="list-group">
+                    <ul class="list-group" v-if="isAdmin">
+                        <span class="h5 my-0 text-center">
+                            <i class="fa-solid fa-user-shield  ps-1"></i>
+                            <span class="d-none d-lg-inline h6 text-muted shadow p-1 rounded-2 bg-gradient mx-2">Admin
+                                Section</span>
+                        </span>
                         <li class="admin-nav-list">
                             <router-link :to="{ name: 'food-List' }">
                                 <i class="fa-solid fa-bowl-rice"></i>
@@ -45,12 +50,7 @@
                                 <span class="nav-item d-none d-lg-inline">Food-Add</span>
                             </router-link>
                         </li>
-                        <!-- <li class="admin-nav-list">
-                            <router-link :to="{ name: 'food-Edit', }">
-                                <i class="fa-solid fa-list-ol"></i>
-                                <span class="nav-item d-none d-lg-inline">Food-List</span>
-                            </router-link>
-                        </li> -->
+
                         <li class="admin-nav-list">
                             <router-link :to="{ name: 'category' }">
                                 <i class="fa-solid fa-tags"></i>
@@ -65,7 +65,9 @@
 
             <main class="col-lg-9 col-10  p-2">
                 <div class="main-wrap bg-secondary bg-gradient ">
+
                     <router-view />
+
                 </div>
             </main>
 
@@ -77,9 +79,18 @@
 <script>
 export default {
 
-    mounted() {
-        console.log('dashboard route');
-    }
+    data() {
+        return {
+
+        }
+    },
+
+    computed: {
+        isAdmin() {
+            return this.$store.getters['auth/isAdmin']
+        }
+    },
+
 }
 </script>
 

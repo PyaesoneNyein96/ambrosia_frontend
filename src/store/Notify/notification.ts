@@ -1,7 +1,7 @@
 
 
 const Notify = {
-    namespace: true,
+    namespaced: true,
     state() {
         return {
             AlertNotify: [false, '', ''],

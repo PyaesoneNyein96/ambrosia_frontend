@@ -1,10 +1,6 @@
 <template>
   <app-Header />
-  <!-- <div class="mt-5">
-    <h1>
-      {{ isAdmin }}
-    </h1>
-  </div> -->
+  <app-Loader v-if="isLoading" />
 
   <router-view v-slot="{ Component }">
     <Transition name="fade" mode="out-in">
@@ -12,13 +8,14 @@
     </Transition>
   </router-view>
 
-  <app-Loader class="d-none" />
+
 
   <app-Footer />
 </template>
 
 <script>
 
+import { mapGetters } from 'vuex'
 
 
 export default {
@@ -29,9 +26,11 @@ export default {
     }
   },
   computed: {
-    isHide() {
-      return this.$store.getters['tool/getToggleNav']
-    },
+
+
+    ...mapGetters({
+      isLoading: 'tool/getLoading'
+    })
 
 
 
@@ -41,7 +40,4 @@ export default {
 
 
 </script>
-<style>
-/* @import '../public/assets/css/style.css' */
-/* @import '../' */
-</style>
+<style></style>

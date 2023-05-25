@@ -1,15 +1,17 @@
 <template>
-    <div class="loader-wrap">
-        <div class="loader">
-            <span class="l">L</span>
-            <span class="o">o</span>
-            <span class="a">a</span>
-            <span class="d">d</span>
-            <span class="i">i</span>
-            <span class="n">n</span>
-            <span class="g">g</span>
-            <span class="d1">.</span>
-            <span class="d2">.</span>
+    <div class="shell">
+        <div class="loader-wrap">
+            <div class="loader">
+                <span class="l">L</span>
+                <span class="o">o</span>
+                <span class="a">a</span>
+                <span class="d">d</span>
+                <span class="i">i</span>
+                <span class="n">n</span>
+                <span class="g">g</span>
+                <span class="d1">.</span>
+                <span class="d2">.</span>
+            </div>
         </div>
     </div>
 </template>
@@ -21,10 +23,21 @@ export default {
 </script>
 
 <style scoped>
+.shell {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #91919160;
+    cursor: pointer;
+    z-index: 1000;
+}
+
 .loader-wrap {
     width: 100%;
-    height: 500px;
-    background-color: rgba(229, 255, 174, 0);
+    height: 90vh !important;
+    background-color: rgba(229, 255, 174, 0.053);
     display: flex;
     justify-content: center;
     align-items: center;

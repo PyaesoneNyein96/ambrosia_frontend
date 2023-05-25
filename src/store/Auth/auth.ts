@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import router from '../../router'
+import { Loader } from '../ToolStore/loader.js'
 
 const AuthModule = {
     namespaced: true,
@@ -8,7 +9,7 @@ const AuthModule = {
         return {
             userData: '',
             userToken: '',
-            auth: null,
+            auth: false,
             isAdmin: false,
         }
     },
@@ -25,6 +26,7 @@ const AuthModule = {
         isAdmin: state => state.isAdmin,
 
 
+
     },
 
 
@@ -38,7 +40,8 @@ const AuthModule = {
         setUserData(state, payload) {
             state.userData = payload.userInfo,
                 state.userToken = payload.userToken,
-                state.auth = payload.auth
+                state.auth = payload.auth,
+                state.isAdmin = payload.userInfo ? payload.userInfo.role : false
         }
 
 
@@ -51,6 +54,9 @@ const AuthModule = {
         // LOGIN ================================================================================================
         login: ({ commit, getters }, payload) => {
 
+
+            Loader(commit, true)
+
             axios.post(`http://localhost:8000/api/user/login`, payload)
                 .then((res) => {
                     commit('setUserData', res.data);
@@ -61,10 +67,14 @@ const AuthModule = {
                     }
 
                     router.push('/')
-
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.log(err)
-                });
+                }).finally(() => {
+
+                    Loader(commit, false)
+
+                })
         },
 
 
@@ -93,11 +103,17 @@ const AuthModule = {
 
         // LOG OUT ================================================================================================ 
         logout: ({ commit }) => {
+
+            Loader(commit, true)
+
             localStorage.setItem('userCredentials', '');
-            commit('setUserData', '')
-            commit('setToken', '')
-            commit('setAuth', false)
-            router.push('/')
+            commit('setUserData', '');
+            commit('setToken', '');
+            commit('setAuth', false);
+
+            Loader(commit, false)
+            // router.push({ name: 'login' })
+
 
         }
         ,
@@ -112,8 +128,10 @@ const AuthModule = {
 
                     commit('setUserData', res.data)
 
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.log(err);
+
 
                 })
         }
