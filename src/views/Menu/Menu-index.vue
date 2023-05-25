@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section id="menu" class="menu">
+        <section id="menu" class="menu mt-3">
             <div class="container">
 
                 <div class="section-title">
@@ -10,108 +10,107 @@
                 <div class="row">
                     <div class="col-lg-12 d-flex justify-content-center">
                         <ul id="menu-flters">
-                            <li data-filter="*" class="filter-active">Show All</li>
-                            <li data-filter=".filter-starters">Starters</li>
-                            <li data-filter=".filter-salads">Salads</li>
-                            <li data-filter=".filter-specialty">Specialty</li>
+                            <li data-filter="*" class="filter-specialty" @click="GetSpecific('all')"
+                                :class="{ 'filter-active': classForAll == 'all' }">
+                                Show All
+                            </li>
+                            <li data-filter=".filter-specialty" v-for="c in Categories" :key="c.id"
+                                @click="GetSpecific(c.id)" :class="{ 'filter-active': isActive == c.id }">
+                                {{ c.name }}
+                            </li>
+
                         </ul>
                     </div>
                 </div>
 
-                <div class="row menu-container">
 
-                    <div class="col-lg-6 menu-item filter-starters">
+
+                <div class="row menu-container" v-if="MenuList != 0">
+
+
+                    <div class="col-lg-6 menu-item filter-starters " v-for="menu in MenuList" :key="menu">
                         <div class="menu-content">
-                            <a href="#">Lobster Bisque</a><span>$5.95</span>
+                            <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
                         </div>
                         <div class="menu-ingredients">
-                            Lorem, deren, trataro, filede, nerada
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-specialty">
-                        <div class="menu-content">
-                            <a href="#">Bread barrel</a><span>$6.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Lorem, deren, trataro, filede, nerada
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-starters">
-                        <div class="menu-content">
-                            <a href="#">Crab Cake</a><span>$7.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            A delicate crab cake served on a toasted roll with lettuce and tartar sauce
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-salads">
-                        <div class="menu-content">
-                            <a href="#">Caesar Selections</a><span>$8.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Lorem, deren, trataro, filede, nerada
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-specialty">
-                        <div class="menu-content">
-                            <a href="#">Tuscan Grilled</a><span>$9.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Grilled chicken with provolone, artichoke hearts, and roasted red pesto
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-starters">
-                        <div class="menu-content">
-                            <a href="#">Mozzarella Stick</a><span>$4.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Lorem, deren, trataro, filede, nerada
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-salads">
-                        <div class="menu-content">
-                            <a href="#">Greek Salad</a><span>$9.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Fresh spinach, crisp romaine, tomatoes, and Greek olives
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-salads">
-                        <div class="menu-content">
-                            <a href="#">Spinach Salad</a><span>$9.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Fresh spinach with mushrooms, hard boiled egg, and warm bacon vinaigrette
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 menu-item filter-specialty">
-                        <div class="menu-content">
-                            <a href="#">Lobster Roll</a><span>$12.95</span>
-                        </div>
-                        <div class="menu-ingredients">
-                            Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
+                            {{ menu.description }}
                         </div>
                     </div>
 
                 </div>
 
+                <div class="row menu-container" v-else>
+                    <div class="wrap text-center mt-5">
+                        <h3 class="">There is no Menu items yet . . .
+                            <span class="span men-content"> <router-link :to="{ name: 'home' }">Back to home</router-link>
+                            </span>
+                        </h3>
+
+                    </div>
+                </div>
+
             </div>
         </section>
+
+
     </div>
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
+
 export default {
-    name: 'Menu-index'
+    name: 'Menu-index',
+    data() {
+        return {
+            isActive: '',
+            classForAll: ''
+        }
+    },
+    computed: {
+        ...mapGetters({
+            MenuList: 'food/getFoodList',
+            Categories: 'food/getCategories'
+        })
+    },
+    methods: {
+        GetSpecific(i) {
+            this.$store.dispatch('food/GetSpecific', i);
+
+            // play with active class
+            if (i == 'all') {
+                this.x()
+            } else {
+                this.activeClass(i)
+            }
+        },
+
+        activeClass(i) {
+            this.isActive = i,
+                this.classForAll = null
+        },
+        x() {
+            this.classForAll = 'all',
+                this.isActive = null
+        }
+
+
+    },
+
+
+    mounted() {
+        this.$store.dispatch('food/GetSpecific', 'all');
+
+        this.$store.dispatch('food/getCategories');
+
+    }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#menu {
+    min-height: 70vh;
+}
+</style>

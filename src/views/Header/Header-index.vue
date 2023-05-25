@@ -8,7 +8,7 @@
                     <a href="/">
                         <img src="../../assets/logo.png" alt="" class="img-fluid rounded-circle">
                         <span class="d-none d-md-inline"> Ambrosia</span>
-                        <span class="d-inline d-md-none text-muted" style="font-size: 13px;"> Ambrosia</span>
+                        <span class="d-inline d-md-none text-muted" style="font-size: 18px;"> Ambrosia</span>
                     </a>
                 </h1>
 
@@ -22,13 +22,40 @@
 
 
 
-
-
                     <li><a class="nav-link scrollto" href="#specials">Specials</a></li>
-                    <li><a class="nav-link scrollto" href="#events">Events</a></li>
-                    <li><a class="nav-link scrollto" href="#chefs">Chefs</a></li>
-                    <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                    <!-- <li><a class="nav-link scrollto" href="#events">Events</a></li> -->
+                    <!-- <li><a class="nav-link scrollto" href="#chefs">Chefs</a></li>
+                    <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li> -->
+
+
+
+
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li>
+                        <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth"
+                            @click="navHide">
+                            Dashboard
+                        </router-link>
+                    </li>
+
+                    <li><router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">Login</router-link></li>
+                    <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
+
+
+                    <!-- <li><router-link class="nav-link scrollto " :to="{ name: 'why_us' }">Why Choose us</router-link></li> -->
+
+
+
+
+
+
+                    <li class="dropdown"><a href="#">
+                            <span> More
+                                <span v-if="userData" class="text-danger px-2 mx-2 bg-info badge badge-pill">
+                                    {{ userData.name }}
+                                </span>
+                            </span>
+                            <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">Drop Down 1</a></li>
                             <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i
@@ -46,25 +73,36 @@
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li>
-                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <!-- <li><router-link class="nav-link scrollto " :to="{ name: 'why_us' }">Why Choose us</router-link></li> -->
                 </ul>
-                <i class="bi bi-list mobile-nav-toggle"></i>
+                <i class="bi bi-list mobile-nav-toggle">
+                </i>
+
             </nav>
+
             <span>
-                <!-- <router-link :to="{ name: 'booking' }" class="book-a-table-btn scrollto">Reservation</router-link> -->
                 <button class=" book-a-table-btn scrollto" @click="show">Reservation</button>
             </span>
+
 
 
         </div>
     </header>
 </template>
 
+
 <script>
+
+import { mapGetters } from 'vuex';
+
 
 export default {
     name: 'Header-index',
+    computed: {
+        ...mapGetters({
+            userData: 'auth/getUserData',
+            auth: 'auth/getUserToken'
+        })
+    },
     methods: {
         show() {
             this.$swal({
@@ -83,6 +121,19 @@ export default {
                 })
         },
 
+
+        logout() {
+            this.$store.dispatch('auth/logout')
+                .then(() => {
+                    console.log('done');
+                })
+        },
+
+        navHide() {
+            this.$store.commit('toggleNav', true)
+        }
+
+
     }
 
 }
@@ -93,6 +144,9 @@ export default {
     top: 0px !important;
 }
 
+.logout {
+    cursor: pointer;
+}
 
 li .router-link-exact-active {
     color: rgb(236, 206, 37);

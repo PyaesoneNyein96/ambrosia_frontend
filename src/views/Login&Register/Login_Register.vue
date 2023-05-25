@@ -4,12 +4,33 @@
             <div class="container">
                 <div class="mx-auto ">
                     <div class="login-card-wrap">
-                        <form class="form mx-auto shadow" style="width: 340px;">
 
-                            <p class="heading"><span class="h3">Ambrosia</span> LOGIN</p>
-                            <input placeholder="Username" class="input" type="text">
-                            <input placeholder="Password" class="input" type="password">
-                            <button class="btn">Login</button>
+                        <Form class="form mx-auto shadow" style="max-width:350px;" @submit="onSubmit"
+                            :validation-schema="formSchema">
+
+                            <p class="heading"><span class="h3">Ambrosia</span>
+                                <br>
+                                <span v-html="type ? 'LOGIN' : 'REGISTER'"></span>
+                            </p>
+
+                            <Field name="email" v-slot="{ field, errors, errorMessage }">
+                                <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
+                                    type="text" placeholder="Email . . ." />
+                            </Field>
+
+
+                            <Field name="password" v-slot="{ field, errors, errorMessage }">
+                                <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
+                                    type="password" placeholder="Password . . ." />
+                            </Field>
+
+
+
+                            <p class="already py-0 my-0" @click="type = !type"
+                                v-html="type ? 'I want to Register' : 'I already have an account'"></p>
+
+                            <button class="btn" v-html="type ? 'Login' : 'Register'"></button>
+
                         </form>
                     </div>
                 </div>
@@ -19,13 +40,42 @@
 </template>
 
 <script>
+
+/* eslint-disable  */
+
+import inputTemplate from '../../components/Tools/form-input-template.vue'
+
+import * as yup from 'yup';
+import { Field, Form } from 'vee-validate'
 export default {
     name: 'Login_Register',
+    components: {
+        Field,
+        Form,
+        inputTemplate
+    },
+
+
     data() {
         return {
-            logo: '../../assets/logo.png'
+            formSchema: {
+                email: yup.string().required('Email field is required !').email('Your Email is not valid !!'),
+                password: yup.string().required('Password field is required !')
+            },
+            type: true
         }
     },
+
+    methods: {
+        onSubmit(value, { resetForm }) {
+            if (this.type === true) {
+                this.$store.dispatch('auth/login', value)
+            } else {
+                this.$store.dispatch('auth/register', value)
+            }
+            resetForm()
+        }
+    }
 }
 </script>
 
@@ -37,8 +87,6 @@ export default {
     background-size: cover;
     height: 83vh;
     object-fit: cover;
-    /* filter: blur(1);
-    -webkit-filter: blur(8px) !important; */
     background-position: center !important;
 }
 
@@ -49,11 +97,10 @@ export default {
 .form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-top: 3em;
-    padding-left: 2.8em;
-    padding-right: 2.8em;
-    padding-bottom: 2.1em;
+    align-items: center;
+    gap: 30px;
+    padding-top: 1em;
+    padding-bottom: 2em;
     border: 2px dashed #DAA06D;
     border-radius: 15px;
     background-color: #EADDCA;
@@ -66,32 +113,45 @@ export default {
     text-align: center;
 }
 
+.already {
+    color: #bf8859;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.already:hover {
+    color: #c0854a;
+    transform: scale(1.03);
+}
+
 .form .heading {
     padding-left: 0.8em;
     color: #DAA06D;
     background-color: transparent;
     letter-spacing: .5em;
     text-align: center;
-    padding-top: 1em;
-    padding-bottom: 3em;
+    padding-top: 1.5em;
+    padding-bottom: 0em;
     text-shadow: inset -1px -1px 1px #DAA06D;
+    cursor: pointer;
 }
 
 .form .input {
     outline: none;
-    padding: 0.5em;
     border: 1px solid #DAA06D;
     color: #DAA06D;
-    width: 14em;
+    width: 17em;
     height: 3em;
     border-radius: 10px;
     background-color: #EADDCA;
     text-align: center;
+    cursor: text;
 }
 
 .form .btn {
     align-self: center;
-    margin-top: 2em;
+    /* margin-top: 2em; */
     border-radius: 10px;
     outline: none;
     border: none;

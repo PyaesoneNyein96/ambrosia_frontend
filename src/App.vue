@@ -1,12 +1,18 @@
 <template>
   <app-Header />
-  <div class=""></div>
+  <!-- <div class="mt-5">
+    <h1>
+      {{ isAdmin }}
+    </h1>
+  </div> -->
 
   <router-view v-slot="{ Component }">
     <Transition name="fade" mode="out-in">
       <component :is="Component" :key="$route.path"></component>
     </Transition>
   </router-view>
+
+  <app-Loader class="d-none" />
 
   <app-Footer />
 </template>
@@ -16,8 +22,20 @@
 
 
 export default {
+  name: 'App',
+  data() {
+    return {
 
-  name: 'App'
+    }
+  },
+  computed: {
+    isHide() {
+      return this.$store.getters['tool/getToggleNav']
+    },
+
+
+
+  },
 
 }
 
