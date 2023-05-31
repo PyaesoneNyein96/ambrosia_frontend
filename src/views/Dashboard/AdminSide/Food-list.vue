@@ -32,9 +32,15 @@
                         </td>
                         <td>{{ f.name }}</td>
                         <td>{{ f.price }}</td>
-                        <td class="description">{{ f.description }}</td>
+                        <td class="description">
+
+                            {{ f.description }}
+
+                        </td>
+
                         <td>{{ f.status == 1 ? 'A' : 'N/A' }}</td>
-                        <td>{{ f.type == 1 ? 'Food' : 'Drink' }}</td>
+
+                        <td>{{ f.type == 1 ? 'Food' : 'Beverage' }}</td>
 
                         <td class="tag-field">
                             <span class="d-block bg-light col-8 d-lg-inline text-start" v-for="tag in f.tag" :key="tag.id"
@@ -131,7 +137,9 @@ export default {
 
 .img-wrap img {
     width: 80px;
+    height: 80px;
     transition: all 0.5s ease-in-out;
+    object-fit: cover;
 }
 
 .img-wrap img:hover {
@@ -142,9 +150,30 @@ table * {
     font-size: 13px;
 }
 
-.description {
-    max-width: 150px;
+.table-responsive {
+    /* width: 100%; */
+    height: 70vh;
 }
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: rgb(243, 240, 235);
+}
+
+.description {
+    max-width: 150px !important;
+    max-height: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    text-align: start;
+}
+
+
+
+
 
 .tag-field * {
     font-size: 0.9em;

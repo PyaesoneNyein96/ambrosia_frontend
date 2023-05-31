@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <input type="text" v-model="form.image" class="form-control" placeholder="Image URL"
+                        <input type="text" v-model="form.image" class="form-control shadow-none" placeholder="Image URL"
                             :class="{ 'is-invalid': getError.image }">
                         <p class="text-danger px-2 small" v-for=" err  in  getError.image " :key="err">
                             {{ err }}
@@ -53,7 +53,7 @@
                     <!-- ========== Description Section ========== -->
 
                     <div class="mb-4">
-                        <textarea v-model="form.description" name="description" class="form-control" rows="4"
+                        <textarea v-model="form.description" name="description" class="form-control shadow-none" rows="4"
                             placeholder="Description" :class="{ 'is-invalid': getError.description }"></textarea>
                         <p class="text-danger px-2 small" v-for="err in getError.description" :key="err">
                             {{ err }}
@@ -64,7 +64,7 @@
                     <!-- ========== Category Section ========== -->
 
                     <div class="mb-4">
-                        <select name="" class="form-control" v-model="form.category_id"
+                        <select name="" class="form-control shadow-none" v-model="form.category_id"
                             :class="{ 'is-invalid': getError.category_id }">
                             <option value="" selected disabled> - Choice Category</option>
                             <option :value="cat.id" v-for="cat in categories" :key="cat.id">
@@ -77,10 +77,12 @@
                     <!-- ========== Type Section ========== -->
 
                     <div class="mb-2">
-                        <select class="form-control" v-model="form.type" :class="{ 'is-invalid': getError.type }">
+                        <select class="form-control shadow-none" v-model="form.type"
+                            :class="{ 'is-invalid': getError.type }">
                             <option value="" selected disabled> - Choice Type</option>
-                            <option :value="form.type" v-for="type in types" :key="type">
-                                {{ type }}</option>
+                            <option :value="type.id" v-for="type in types" :key="type">
+                                {{ type.name }}
+                            </option>
                         </select>
                         <p class="text-danger px-2 small" v-for="err in getError.type" :key="err">
                             {{ err }}
@@ -112,6 +114,10 @@
                         </p>
 
                     </div>
+
+                    <button class="btn btn-danger" @click="trigger">
+                        Ok
+                    </button>
 
 
 
@@ -151,7 +157,7 @@ export default {
 
         return {
             id: '',
-            types: ['Meal', 'Drink'],
+            types: [{ id: 1, name: 'Food' }, { id: 0, name: 'Beverage' }],
             form: null,
             tagErr: false,
             oldTags: []
@@ -204,18 +210,18 @@ export default {
                     return i !== e
                 })
             }
-            // console.log(this.form.tags);
+
 
         },
 
         updateForm() {
-            console.log(this.form);
+            console.log(this.form.type);
 
             if (!this.form.tags) {
                 this.tagErr = true
             } else {
 
-                console.log(this.form.tag);
+
                 this.$store.dispatch('food/UpdateFood', this.form)
                     .then(() => {
                         this.$store.commit('food/setErr', []);
@@ -233,9 +239,13 @@ export default {
             // console.log(this.oldTags);
         },
 
-        checkChange(i) {
-            console.log(i);
+        trigger() {
+            this.$toast.success({
+                title: 'Okay par',
+                message: 'Operation completed successfully',
+            });
         }
+
 
     },
     watch: {

@@ -26,15 +26,54 @@ export default {
     }
   },
   computed: {
-
-
     ...mapGetters({
-      isLoading: 'tool/getLoading'
+      isLoading: 'tool/getLoading',
+      notify: 'notify/getAlertNotify'
     })
 
 
 
   },
+  watch: {
+
+    notify(notify) {
+
+      if (notify[0] == true) {
+
+        if (notify[2] == 'success') {
+          //
+          this.$toast.success({
+            title: 'Success',
+            message: notify[1],
+          });
+
+        }
+
+
+
+
+
+
+      } // notify true
+
+
+
+    }, // notify end
+
+
+
+  },
+
+
+  // mounted() {
+
+
+
+
+
+  // }
+
+
 
 }
 

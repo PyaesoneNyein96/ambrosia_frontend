@@ -79,21 +79,25 @@
                             {{ err }}
                         </p>
                     </div>
+
+
                     <!-- ========== Type Section ========== -->
 
                     <div class="mb-2">
                         <select class="form-control shadow-none" v-model="form.type"
                             :class="{ 'is-invalid': getError.type }">
                             <option value="" selected disabled> - Choice Type</option>
-                            <option :value="type" v-for="type in types" :key="type">
-                                {{ type }}</option>
+                            <option :value="type.id" v-for="type in types" :key="type">
+                                {{ type.name }}</option>
                         </select>
                         <p class="text-danger px-2 small" v-for="err in getError.type" :key="err">
                             {{ err }}
                         </p>
                     </div>
 
+
                     <!-- ========== Tag Section ========== -->
+
                     <div class="wrap row my-4 mx-2" :class="{ 'bd-red': getError.tags }">
                         <span class="h6 m-0 text-muted">Tags</span>
                         <div class="mt-3 col-lg-4 bg-light shadow-sm rounded" v-for="tag in tags" :key="tag.id">
@@ -145,7 +149,7 @@ export default {
 
         return {
 
-            types: ['Meal', 'Drink'],
+            types: [{ id: 1, name: 'Food' }, { id: 0, name: 'Beverage' }],
             form: {
                 name: '',
                 price: '',

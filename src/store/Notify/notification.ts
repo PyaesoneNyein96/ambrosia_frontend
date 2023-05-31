@@ -10,10 +10,12 @@ const Notify = {
         }
     },
     getters: {
-        getAlertNofiry: state => state.AlertNotify
+        getAlertNotify: state => state.AlertNotify
 
     },
     mutations: {
+        //Notification SMS 
+
         setNotification: (state, payload) => {
             state.AlertNotify = [true, payload.sms, payload.type]
         },

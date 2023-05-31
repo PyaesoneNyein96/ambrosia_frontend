@@ -2,7 +2,8 @@
 import axios from 'axios'
 import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
-// import { number } from 'yup'
+
+import { smsSuccess, smsError, smsInform } from '../Notify/notify.js'
 
 const FoodModule = {
     namespaced: true,
@@ -46,7 +47,10 @@ const FoodModule = {
 
 
     actions: {
+        //==================================================================================
         //Categories
+        //==================================================================================
+
         getCategories: ({ commit }) => {
             axios.get('http://localhost:8000/api/user/categoriesList')
                 .then((res) => {
@@ -56,6 +60,11 @@ const FoodModule = {
                     console.log(err);
                 })
         },
+
+        //==================================================================================
+        // Get Tag 
+        //==================================================================================
+
         getTags: ({ commit }) => {
             axios.get('http://localhost:8000/api/user/tagsList')
                 .then((res) => {
@@ -68,8 +77,10 @@ const FoodModule = {
                 })
         },
 
-
+        //==================================================================================
         // ALL OR SPECIFIC FOOD by Category
+        //==================================================================================
+
         GetSpecific: ({ commit }, payload) => {
             Loader(commit, true)
             axios.get(`http://localhost:8000/api/user/menu/getSpecific/${payload}`)
@@ -83,7 +94,10 @@ const FoodModule = {
                 })
         },
 
+
+        //==================================================================================
         // FOOD CREATE 
+        //==================================================================================
 
         createFood: ({ commit }, payload) => {
 
@@ -102,14 +116,14 @@ const FoodModule = {
 
         },
 
-        // GET FOOD BY EAC SPECIFIC (EDIT)s
 
+
+        //==================================================================================
+        // GET FOOD BY EAC SPECIFIC (EDIT) 
+        //==================================================================================
 
         getFoodBySpecific: ({ commit }, payload) => {
             Loader(commit, true)
-
-
-            // const id = Number(payload)
 
             axios.get(`http://localhost:8000/api/food/${payload}`,)
                 .then(res => {
@@ -126,15 +140,19 @@ const FoodModule = {
         },
 
 
+        //==================================================================================
         // Update Food 
+        //==================================================================================
+
         UpdateFood: ({ commit }, payload) => {
 
-            // le.log(payload.id);
 
             axios.post(`http://localhost:8000/api/food/update`, payload)
                 .then(res => {
-
                     router.push({ name: 'food-List' });
+
+
+                    smsSuccess(commit, `"${res.data.food.name}" Successfully Updated`);
                 })
                 .catch(err => {
                     commit('setErr', err.response.data.errors);
