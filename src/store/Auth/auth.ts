@@ -66,7 +66,8 @@ const AuthModule = {
                         localStorage.setItem('userCredentials', getters.getUserToken);
                     }
 
-                    router.push('/')
+                    // router.push({ name: 'dashboard' })
+                    router.push('/dashboard')
                 })
                 .catch((err) => {
                     console.log(err)
@@ -106,10 +107,10 @@ const AuthModule = {
 
             Loader(commit, true)
 
-            localStorage.setItem('userCredentials', '');
             commit('setUserData', '');
             commit('setToken', '');
             commit('setAuth', false);
+            localStorage.setItem('userCredentials', '');
 
             Loader(commit, false)
             // router.push({ name: 'login' })

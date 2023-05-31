@@ -14,7 +14,8 @@
                                 :class="{ 'filter-active': classForAll == 'all' }">
                                 Show All
                             </li>
-                            <li data-filter=".filter-specialty" v-for="c in Categories" :key="c.id"
+
+                            <li data-filter="filter-specialty" v-for="c in Categories" :key="c.id"
                                 @click="GetSpecific(c.id)" :class="{ 'filter-active': isActive == c.id }">
                                 {{ c.name }}
                             </li>
@@ -79,6 +80,9 @@ export default {
         GetSpecific(i) {
             this.$store.dispatch('food/GetSpecific', i);
 
+
+
+
             // play with active class
             if (i == 'all') {
                 this.x()
@@ -87,23 +91,27 @@ export default {
             }
         },
 
-        activeClass(i) {
-            this.isActive = i,
-                this.classForAll = null
-        },
         x() {
-            this.classForAll = 'all',
-                this.isActive = null
-        }
+            this.classForAll = 'all';
+            this.isActive = null
+        },
+
+        activeClass(i) {
+            this.isActive = i;
+            this.classForAll = null
+        },
+
 
 
     },
 
 
     mounted() {
-        this.$store.dispatch('food/GetSpecific', 'all');
+        this.$store.dispatch('food/GetSpecific', 'All');
 
         this.$store.dispatch('food/getCategories');
+
+
 
     }
 }

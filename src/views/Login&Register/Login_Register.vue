@@ -1,5 +1,6 @@
 <template>
     <div :style="{ background: `url(${'https://jooinn.com/images/blur-restaurant-1.png'})` }" class="login-background">
+
         <section id=" menu" class="Login">
             <div class="container">
                 <div class="mx-auto ">
@@ -14,8 +15,10 @@
                             </p>
 
                             <Field name="email" v-slot="{ field, errors, errorMessage }">
+
                                 <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
                                     type="text" placeholder="Email . . ." />
+
                             </Field>
 
 
@@ -62,7 +65,8 @@ export default {
                 email: yup.string().required('Email field is required !').email('Your Email is not valid !!'),
                 password: yup.string().required('Password field is required !')
             },
-            type: true
+            type: true,
+            // bg_image: '../../../public/assets/img/login-Background/blur-restaurant-1.png'
         }
     },
 
@@ -88,6 +92,8 @@ export default {
     height: 83vh;
     object-fit: cover;
     background-position: center !important;
+
+    /* background-image: url('../../../public/assets/img/login-Background/blur-restaurant-1.png'); */
 }
 
 .Login {

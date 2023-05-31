@@ -1,14 +1,14 @@
 <template>
     <div class=" container-fluid">
 
-        <div class=" row">
-            <nav class="col-lg-3 col-2 col-1">
+        <div class="row">
+            <nav class="col-lg-2 col-2">
                 <div class="nav-body ">
                     <ul class="list-group">
                         <li>
                             <router-link :to="{ name: 'main_dashboard' }">
                                 <i class="fa-solid fa-desktop me-1"></i>
-                                <span class="h3 d-none d-lg-inline">
+                                <span class="h4 d-none d-lg-inline">
                                     Dashboard
                                 </span>
                                 <hr>
@@ -31,40 +31,45 @@
 
                     </ul>
                     <hr>
-                    <ul class="list-group" v-if="isAdmin">
-                        <span class="h5 my-0 text-center">
-                            <i class="fa-solid fa-user-shield  ps-1"></i>
-                            <span class="d-none d-lg-inline h6 text-muted shadow p-1 rounded-2 bg-gradient mx-2">Admin
-                                Section</span>
-                        </span>
-                        <li class="admin-nav-list">
-                            <router-link :to="{ name: 'food-List' }">
-                                <i class="fa-solid fa-bowl-rice"></i>
-                                <!-- <i class="fa-solid fa-bowl-food"></i> -->
-                                <span class="nav-item d-none d-lg-inline">Food-List</span>
-                            </router-link>
-                        </li>
-                        <li class="admin-nav-list">
-                            <router-link :to="{ name: 'food-Add' }">
-                                <i class="fa-solid fa-circle-plus"></i>
-                                <span class="nav-item d-none d-lg-inline">Food-Add</span>
-                            </router-link>
-                        </li>
 
-                        <li class="admin-nav-list">
-                            <router-link :to="{ name: 'category' }">
-                                <i class="fa-solid fa-tags"></i>
-                                <span class="nav-item d-none d-lg-inline">Category</span>
-                            </router-link>
-                        </li>
-                    </ul>
+                    <TransitionGroup name="down">
+                        <ul class="list-group" v-if="isAdmin">
+
+                            <li class="admin-nav-list">
+                                <i class="fa-solid fa-user-shield  "></i>
+                                <span class="d-none d-lg-inline  text-muted shadow p-1 rounded-2 bg-gradient pe-2 ms-2"
+                                    style="font-size: 15px;">
+                                    Admin </span>
+                            </li>
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'food-List' }">
+                                    <i class="fa-solid fa-bowl-rice"></i>
+                                    <!-- <i class="fa-solid fa-bowl-food"></i> -->
+                                    <span class="nav-item d-none d-lg-inline">Food-List</span>
+                                </router-link>
+                            </li>
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'food-Add' }">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                    <span class="nav-item d-none d-lg-inline">Food-Add</span>
+                                </router-link>
+                            </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'category' }">
+                                    <i class="fa-solid fa-tags"></i>
+                                    <span class="nav-item d-none d-lg-inline">Category</span>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </TransitionGroup>
                 </div>
 
 
             </nav>
 
-            <main class="col-lg-9 col-10  p-2">
-                <div class="main-wrap bg-secondary bg-gradient ">
+            <main class="col-lg-10 col-10 first-wrap p-2">
+                <div class="main-wrap shadow rounded rounded-3  p-1 bg-gradient ">
 
                     <router-view />
 
@@ -97,7 +102,7 @@ export default {
 <style scoped>
 ul li {
     list-style: none;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 
@@ -120,6 +125,8 @@ li a {
     color: whitesmoke;
 }
 
+
+
 .nav-item {
     color: white;
     font-size: 20px;
@@ -131,8 +138,13 @@ li a {
 }
 
 .main-wrap {
+    background-color: rgb(245, 243, 235);
     min-height: 86vh;
     margin-top: 75px;
+}
+
+.first-wrap {
+    background-color: rgba(122, 90, 8, 0.908);
 }
 
 /* MEDIA QUERY  */
@@ -229,6 +241,20 @@ li a {
 li a .router-link-active,
 .router-link-exact-active {
     color: goldenrod
+}
+
+
+/* Transition */
+.down-enter-active,
+.down-leave-active {
+    opacity: 1;
+    transition: all 1s ease-in-out;
+}
+
+.down-enter-from,
+.down-leave-to {
+    opacity: 0;
+    transform: translateY(-100%);
 }
 </style>
 

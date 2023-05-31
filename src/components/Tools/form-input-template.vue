@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="element == 'input'">
-            <input class="input form-control-color shadow-none" :type="type" v-bind="field"
+            <input class="login form-control-color shadow-none" :type="type" v-bind="field"
                 :class="{ 'is-invalid': errors.length !== 0 }" :placeholder="placeholder">
             <div class="py-0 text-center">
                 <Transition name="slow" appear>
@@ -11,6 +11,8 @@
                 </Transition>
             </div>
         </div>
+
+
 
 
     </div>
@@ -31,7 +33,7 @@ export default {
 </script>
 
 <style scoped>
-.form .input {
+form .login {
     outline: none;
     padding: 0.5em;
     border: 1px solid #DAA06D;
@@ -44,7 +46,7 @@ export default {
     cursor: text;
 }
 
-.form .input:focus {
+.form .login:focus {
     background-color: #EADDCA;
 }
 

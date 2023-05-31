@@ -10,6 +10,7 @@ import Booking from '../views/booking/Booking-index.vue'
 import Menu from '../views/Menu/Menu-index.vue'
 import Why_us from '../views/WhyChoose/why-us.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
+import Page404 from '../page-404.vue'
 
 import Dashboard from '../views/Dashboard/AdminSide/Dashboard-route.vue'
 import MainDashboard from '../views/Dashboard/AdminSide/Main-Dashboard.vue'
@@ -21,6 +22,7 @@ import Category from '../views/Dashboard/AdminSide/category-add-list.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
+
 
 
 
@@ -44,6 +46,7 @@ const router = createRouter({
     { path: '/why_us', component: Why_us, name: 'why_us' },
 
 
+
     { path: '/login', component: Login, name: 'login', meta: { login: true } },
 
 
@@ -52,15 +55,16 @@ const router = createRouter({
       children: [
         { path: '', component: MainDashboard, name: 'main_dashboard' },
         { path: 'food_add', component: Food_Add, name: 'food-Add' },
-        { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit' },
+        { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit', meta: { edit: true } },
         { path: 'food_list', component: Food_List, name: 'food-List' },
         { path: 'categories', component: Category, name: 'category' },
 
         { path: 'user_profile', component: UserProfile, name: 'user_Profile' },
         { path: 'user_check', component: UserCheck, name: 'user_Check' }
       ]
-    }
+    },
 
+    { path: '/:pathMatch(.*)', component: Page404, name: 'page404' }
 
   ],
 
@@ -69,26 +73,31 @@ const router = createRouter({
 
 
 
-const LocalStorage_Check = localStorage.getItem('userCredentials');
+
 
 // VALIDATION
 
 const validation = (to, from, next) => {
 
 
-  if ((to.meta.dashboard) && !LocalStorage_Check) {
+  if ((to.meta.dashboard) && !localStorage.getItem('userCredentials')) {
 
     router.push({ name: 'login' })
   }
-  else if ((to.meta.login) && LocalStorage_Check) {
+  else if ((to.meta.login) && localStorage.getItem('userCredentials')) {
 
     router.push({ name: 'home' })
 
-  } else {
+  }
+  else if ((to.meta.edit) && store.getters['food/getSpecific'].id != to.params.id) {
 
+    router.push({ name: 'food-List' })
+
+  }
+  else {
     next()
   }
-
+  store.commit('tool/setLoading', false)
 }
 
 // EACH ROUTE CHECK 
@@ -100,7 +109,7 @@ router.beforeEach((to, from, next) => {
   if (from === START_LOCATION) {
 
 
-    if (!LocalStorage_Check) {
+    if (!localStorage.getItem('userCredentials')) {
 
       validation(to, from, next)
 
@@ -117,9 +126,9 @@ router.beforeEach((to, from, next) => {
 
     validation(to, from, next)
   }
-  // setTimeout(() => {
-  store.commit('tool/setLoading', false)
-  // }, 1500);
+
+
+
 
 
 

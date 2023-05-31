@@ -11,6 +11,7 @@
                 <span class="g">g</span>
                 <span class="d1">.</span>
                 <span class="d2">.</span>
+                <span class="d3">.</span>
             </div>
         </div>
     </div>
@@ -24,23 +25,30 @@ export default {
 
 <style scoped>
 .shell {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #91919160;
+    background-color: #37727c00;
     cursor: pointer;
     z-index: 1000;
 }
 
 .loader-wrap {
     width: 100%;
-    height: 90vh !important;
-    background-color: rgba(229, 255, 174, 0.053);
+    height: 100% !important;
+    background-color: rgba(229, 255, 174, 0);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.loader {
+    background-color: rgba(7, 169, 77, 0);
+    /* padding: 50px; */
+    /* border-radius: 100%; */
+    box-shadow: 2px 2px 50px rgba(172, 255, 47, 0.016);
 }
 
 .l {
@@ -107,20 +115,35 @@ export default {
 }
 
 .d1 {
-    color: black;
+    color: rgb(255, 244, 42);
     opacity: 0;
+    font-size: 60px;
     animation: pass1 2s ease-in-out infinite;
     animation-delay: 1.6s;
-    letter-spacing: 0.5em;
+    /* letter-spacing: 0.5em; */
+    letter-spacing: 0.1em;
     text-shadow: 2px 2px 3px #919191;
 }
 
 .d2 {
-    color: black;
+    color: rgb(227, 4, 4);
     opacity: 0;
+    font-size: 60px;
     animation: pass1 2s ease-in-out infinite;
     animation-delay: 2s;
-    letter-spacing: 0.5em;
+    /* letter-spacing: 0.5em; */
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 3px #919191;
+}
+
+.d3 {
+    color: rgb(0, 255, 0);
+    opacity: 0;
+    font-size: 60px;
+    animation: pass1 2s ease-in-out infinite;
+    animation-delay: 2s;
+    /* letter-spacing: 0.5em; */
+    letter-spacing: 0.1em;
     text-shadow: 2px 2px 3px #919191;
 }
 
