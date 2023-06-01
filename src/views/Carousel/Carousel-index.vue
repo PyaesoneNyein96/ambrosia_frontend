@@ -1,7 +1,7 @@
 <template>
     <swiper :scrollbar="{
         hide: true,
-    }" :modules="modules" class="mySwiper" style="cursor: pointer;">
+    }" :modules="modules" :autoplay="1000" class="mySwiper" style="cursor: pointer;">
 
 
         <swiper-slide v-for="slide in img" :key="slide.id">
@@ -23,6 +23,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import '../../../public/CustomStyle/style.css';
+import 'swiper/css/autoplay'
 import { Scrollbar } from 'swiper';
 
 
@@ -42,26 +43,31 @@ export default {
                     title: 'Ambrosia',
                     description: `A world of mouthwatering creations. From hors d'oeuvres to desserts, our restaurant carousel presents
                     artful dishes that will leave you longing for more.`,
-                    url: 'https://images.wallpaperscraft.com/image/single/restaurant_table_interior_39288_1920x1080.jpg',
+                    // url: 'https://images.wallpaperscraft.com/image/single/restaurant_table_interior_39288_1920x1080.jpg',
+                    url: 'https://london.danslenoir.com/templates/yootheme/cache/a3/SHOOTING_WEBSITE_13-a3055975.jpeg',
                 },
                 {
                     id: 2,
                     title: 'Ambrosia',
                     description: `An enchanting dining adventure with rotating dishes. Succulent steaks, fresh seafood, and delightful
                         surprises await.`,
-                    url: 'https://www.sanssouci-wien.com/wp-content/uploads/2017/02/veranda_essen-genie%C3%9Fen-im-sans-souci-wien_c_stefan-gergely-1920x1080.jpg',
+                    url: 'https://primalhfx.ca/wp-content/uploads/2017/12/Char5-1920x1080.jpg',
                 },
                 {
                     id: 3,
                     title: 'Ambrosia',
                     description: `Where culinary fantasies come alive. Imaginative dishes with seasonal ingredients. Farm-to-table freshness and modern twists on classics.`,
-                    url: 'https://coolwallpapers.me/picsup/6006625-bar-chairs-interior-restaurant-table-bar-cafe.jpg',
+                    url: 'https://images8.alphacoders.com/104/1046601.jpg',
                 },
             ]
 
 
         }
     },
+
+
+
+
 
 }
 </script>
@@ -71,7 +77,8 @@ export default {
     margin-top: 0px;
     width: 100vw;
     height: 100vh;
-    background-position-y: bottom !important;
+    background-position-y: center !important;
+    object-fit: cover !important;
 }
 
 .slide-text {

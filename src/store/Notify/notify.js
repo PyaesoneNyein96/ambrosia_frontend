@@ -1,10 +1,10 @@
 
-const smsError = (commit, sms = 'Something wrong!!!') => {
-    return commit('notify/setNotification', { sms: sms, type: 'err' }, { root: true })
+const smsError = (commit, title = 'Error', sms = 'Something wrong!!!') => {
+    return commit('notify/setNotification', { title: title, sms: sms, type: 'error' }, { root: true })
 }
 
-const smsSuccess = (commit, sms = 'Successfully completed.') => {
-    return commit('notify/setNotification', { sms: sms, type: 'success' }, { root: true })
+const smsSuccess = (commit, title = 'Success', sms = 'Successfully completed.') => {
+    return commit('notify/setNotification', { title: title, sms: sms, type: 'success' }, { root: true })
 }
 
 const smsLogOut = (commit, sms = 'Your you are logged out') => {

@@ -106,6 +106,7 @@ const FoodModule = {
 
             axios.post(`http://localhost:8000/api/food/create`, payload)
                 .then(res => {
+                    console.log(res.data);
 
                     router.push({ name: 'food-List' })
                 }).catch(err => {
@@ -152,10 +153,11 @@ const FoodModule = {
                     router.push({ name: 'food-List' });
 
 
-                    smsSuccess(commit, `"${res.data.food.name}" Successfully Updated`);
+                    smsSuccess(commit, `${res.data.food.name}`, `Successfully Updated .`);
                 })
                 .catch(err => {
                     commit('setErr', err.response.data.errors);
+                    smsError(commit, "Update Error", 'Incomplete Process !!!')
                 })
 
         }

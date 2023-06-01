@@ -4,7 +4,7 @@ const Notify = {
     namespaced: true,
     state() {
         return {
-            AlertNotify: [false, '', ''],
+            AlertNotify: [false, '', '', ''],
 
             loading: false,
         }
@@ -17,7 +17,7 @@ const Notify = {
         //Notification SMS 
 
         setNotification: (state, payload) => {
-            state.AlertNotify = [true, payload.sms, payload.type]
+            state.AlertNotify = [true, payload.title, payload.sms, payload.type]
         },
 
         // LOADING

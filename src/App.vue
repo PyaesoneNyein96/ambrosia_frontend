@@ -34,21 +34,33 @@ export default {
 
 
   },
+
+
+  methods: {
+    toast(notify, x) {
+      return this.$toast[x]({
+        title: notify[1],
+        message: notify[2],
+        animateInside: true,
+        position: 'topRight',
+        iconUrl: 'https://rb.gy/9lw00',
+        resetOnHover: true,
+      });
+    }
+  },
+
   watch: {
 
     notify(notify) {
 
       if (notify[0] == true) {
 
-        if (notify[2] == 'success') {
-          //
-          this.$toast.success({
-            title: 'Success',
-            message: notify[1],
-          });
+        if (notify[3] == 'success') {
+          this.toast(notify, `success`);
 
+        } else if (notify[3] == 'error') {
+          this.toast(notify, 'error');
         }
-
 
 
 
@@ -58,7 +70,7 @@ export default {
 
 
 
-    }, // notify end
+    }, // notify function end
 
 
 

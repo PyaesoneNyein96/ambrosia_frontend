@@ -115,9 +115,7 @@
 
                     </div>
 
-                    <button class="btn btn-danger" @click="trigger">
-                        Ok
-                    </button>
+
 
 
 
@@ -219,15 +217,15 @@ export default {
 
             if (!this.form.tags) {
                 this.tagErr = true
-            } else {
-
-
-                this.$store.dispatch('food/UpdateFood', this.form)
-                    .then(() => {
-                        this.$store.commit('food/setErr', []);
-                        this.tagErr = false
-                    });
             }
+
+            // Not Updated if Iag Err occur cause DB::Transition 
+            this.$store.dispatch('food/UpdateFood', this.form)
+                .then(() => {
+                    this.$store.commit('food/setErr', []);
+                    this.tagErr = false
+                });
+
 
 
         },
@@ -286,7 +284,7 @@ export default {
 
 <style scoped>
 .bd-red {
-    border: red 1.5px solid;
+    border: rgba(255, 12, 12, 0.663) 1.7px solid;
     border-radius: 10px;
     padding: 10px;
 }

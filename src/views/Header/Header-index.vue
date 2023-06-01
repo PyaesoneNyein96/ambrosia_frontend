@@ -34,7 +34,7 @@
 
 
                     <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li>
+                    <li v-if="!navLinkToHide">
                         <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth">
                             Dashboard
                         </router-link>
@@ -44,7 +44,7 @@
                     <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
 
 
-                    <!-- <li><router-link class="nav-link scrollto " :to="{ name: 'why_us' }">Why Choose us</router-link></li> -->
+                    <!-- <li><router-link class="nav-link scrollto " :to="{ name: 'why_us' }">About us</router-link></li> -->
 
 
 
@@ -54,12 +54,12 @@
                     <li class="dropdown"><a href="#">
                             <span> More
                                 <span v-if="userData" class="text-danger px-2 mx-2 bg-info badge badge-pill">
-                                    {{ userData.name }}
+                                    <!-- {{ userData.name }} -->
                                 </span>
                             </span>
                             <i class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="#">Drop Down 1</a></li>
+                        <ul class="toggle-ul">
+                            <li><a href="#">Our Chain-Store</a></li>
                             <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i
                                         class="bi bi-chevron-right"></i></a>
                                 <ul>
@@ -103,7 +103,15 @@ export default {
         ...mapGetters({
             userData: 'auth/getUserData',
             auth: 'auth/getUserToken'
-        })
+        }),
+
+
+        navLinkToHide() {
+            return this.$route.matched.some(r => r.name === 'dashboard')
+            // return this.$route.path.startsWith('/dashboard');
+            // return this.$route.path.startsWith('/dashboard/');
+        }
+
     },
     methods: {
         show() {
@@ -145,11 +153,24 @@ export default {
     cursor: pointer;
 }
 
-li .router-link-exact-active {
-    color: rgb(236, 206, 37);
+.router-link-active {
+    color: rgb(210, 131, 53) !important;
+    font-size: 17px !important;
 }
 
 span .router-link-exact-active {
     color: rgb(131, 65, 35)
+}
+
+.toggle-ul {
+    background-color: rgb(249, 238, 225) !important;
+}
+
+.toggle-ul li a {
+    color: rgb(93, 51, 4) !important;
+}
+
+.toggle-ul li :hover {
+    background-color: bisque;
 }
 </style>
