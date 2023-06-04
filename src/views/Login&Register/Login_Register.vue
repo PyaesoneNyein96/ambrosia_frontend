@@ -1,5 +1,6 @@
 <template>
     <div :style="{ background: `url(${'https://jooinn.com/images/blur-restaurant-1.png'})` }" class="login-background">
+        <!-- <div class="login-background"> -->
 
         <section id=" menu" class="Login">
             <div class="container">
@@ -84,6 +85,10 @@ export default {
 </script>
 
 <style scoped>
+/* .login-background {
+    background: url('../../../../public/assets/img/navBackground/dashboard-nav-background.jpg');
+} */
+
 .login-background {
     position: relative !important;
     background-position: center;
@@ -92,6 +97,7 @@ export default {
     height: 83vh;
     object-fit: cover;
     background-position: center !important;
+    /* background: url('../../../public/assets/img/login-Background/blur-restaurant-1.png') !important; */
 
     /* background-image: url('../../../public/assets/img/login-Background/blur-restaurant-1.png'); */
 }

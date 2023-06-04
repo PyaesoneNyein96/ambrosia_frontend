@@ -10,8 +10,8 @@
                 <div class="row">
                     <div class="col-lg-12 d-flex justify-content-center">
                         <ul id="menu-flters">
-                            <li data-filter="*" class="filter-specialty" @click="GetSpecific('all')"
-                                :class="{ 'filter-active': classForAll == 'all' }">
+                            <li data-filter="*" class="filter-specialty" @click="GetSpecific('All')"
+                                :class="{ 'filter-active': classForAll == 'All' }">
                                 Show All
                             </li>
 
@@ -33,9 +33,15 @@
                         <div class="menu-content">
                             <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
                         </div>
-                        <div class="menu-ingredients">
-                            {{ menu.description }}
+                        <div class="info-wrap mt-2 d-flex justify-content-evenly">
+                            <div class="img-wrap me-2">
+                                <img :src="menu.image" alt="Food" style="width:70px">
+                            </div>
+                            <div class="menu-ingredients">
+                                {{ menu.description }}
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -78,13 +84,13 @@ export default {
     },
     methods: {
         GetSpecific(i) {
-            this.$store.dispatch('food/GetSpecific', i);
+            this.$store.dispatch('food/GetSpecific_All', i);
 
 
 
 
             // play with active class
-            if (i == 'all') {
+            if (i == 'All') {
                 this.x()
             } else {
                 this.activeClass(i)
@@ -92,7 +98,7 @@ export default {
         },
 
         x() {
-            this.classForAll = 'all';
+            this.classForAll = 'All';
             this.isActive = null
         },
 
@@ -107,12 +113,14 @@ export default {
 
 
     mounted() {
-        this.$store.dispatch('food/GetSpecific', 'All');
+        this.$store.dispatch('food/GetSpecific_All', 'All');
+
 
         this.$store.dispatch('food/getCategories');
 
-
-
+    },
+    beforeUpdate() {
+        console.log(this.MenuList);
     }
 }
 </script>

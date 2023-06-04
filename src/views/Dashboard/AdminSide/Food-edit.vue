@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="p-3 fw-bold">
-            Edit Food {{ this.id }}
+            Edit Food
             <hr>
         </h1>
         <div class="col-md-9 mx-auto" v-if="form !== null">
@@ -213,7 +213,7 @@ export default {
         },
 
         updateForm() {
-            console.log(this.form.type);
+            // console.log(this.form.type);
 
             if (!this.form.tags) {
                 this.tagErr = true

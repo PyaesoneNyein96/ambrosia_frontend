@@ -56,11 +56,29 @@
                             </li>
 
                             <li class="admin-nav-list">
-                                <router-link :to="{ name: 'category' }">
-                                    <i class="fa-solid fa-tags"></i>
-                                    <span class="nav-item d-none d-lg-inline">Category</span>
+                                <router-link :to="{ name: 'package' }">
+                                    <!-- <i class="fa-solid fa-tags"></i> -->
+                                    <i class="fas fa-box-open    "></i>
+                                    <span class="nav-item d-none d-lg-inline">Packages</span>
                                 </router-link>
                             </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'category' }">
+                                    <!-- <i class="fa-solid fa-table-columns"></i> -->
+                                    <i class="fa-solid fa-table-cells"></i>
+                                    <span class="nav-item d-none d-lg-inline">Categories</span>
+                                </router-link>
+                            </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'tag' }">
+                                    <i class="fa-solid fa-tags"></i>
+                                    <span class="nav-item d-none d-lg-inline">Tags</span>
+                                </router-link>
+                            </li>
+
+
                         </ul>
                     </TransitionGroup>
                 </div>
@@ -138,13 +156,13 @@ li a {
 }
 
 .main-wrap {
-    background-color: rgb(245, 243, 235);
+    background-color: white;
     min-height: 86vh;
     margin-top: 75px;
 }
 
 .first-wrap {
-    background-color: rgba(122, 90, 8, 0.908);
+    background-color: rgba(51, 42, 21, 0.908);
 }
 
 /* MEDIA QUERY  */
@@ -160,12 +178,14 @@ li a {
         margin-top: 80px;
         margin-bottom: 20px;
         margin-left: 10px;
-        text-align: center;
+        text-align: start;
+        padding-left: 2em;
     }
 
     .nav-item {
         color: white;
         font-size: 15px;
+
         transition: all 0.3s ease-in-out;
     }
 
@@ -185,13 +205,44 @@ li a {
         border-radius: 10px;
         margin-top: 80px;
         margin-left: 10px;
-        text-align: center;
+        text-align: start;
+        padding-left: 1em;
     }
 
     .nav-item {
         color: white;
-        font-size: 15px;
+        font-size: 14px;
         transition: all 0.3s ease-in-out;
+    }
+
+    li i {
+        margin-right: 0.5em;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    .nav-body {
+        position: sticky;
+        top: 100px;
+        max-width: 300px;
+        background-color: rgba(90, 94, 19, 0.177);
+        padding: 20px 5px;
+        border-radius: 10px;
+        margin-top: 80px;
+        margin-left: 10px;
+        text-align: center;
+        /* padding-left: 1em; */
+    }
+
+    .nav-item {
+        color: white;
+        font-size: 14px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    li i {
+        margin-right: 0.5em;
     }
 
 }
@@ -205,7 +256,7 @@ li a {
         padding: 20px 5px;
         border-radius: 10px;
         margin-top: 80px;
-        margin-left: 10px;
+        /* margin-left: 1.5em; */
         text-align: center;
     }
 
@@ -223,9 +274,10 @@ li a {
         top: 100px;
         max-width: 300px;
         background-color: rgba(89, 227, 87, 0.125);
-        padding: 20px 5px;
+        padding: 20px 10px;
         border-radius: 10px;
         margin-left: 0;
+        /* padding-left: 1.3em; */
         text-align: center;
     }
 

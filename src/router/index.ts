@@ -7,6 +7,7 @@ import store from '../store'
 
 import Home from '../views/Home/Home-index.vue'
 import Booking from '../views/booking/Booking-index.vue'
+import Booking_Phone from '../views/booking/Booking-phone.vue'
 import Menu from '../views/Menu/Menu-index.vue'
 import Why_us from '../views/WhyChoose/why-us.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
@@ -19,6 +20,9 @@ import Food_Edit from '../views/Dashboard/AdminSide/Food-edit.vue'
 import Food_List from '../views/Dashboard/AdminSide/Food-list.vue'
 
 import Category from '../views/Dashboard/AdminSide/category-add-list.vue'
+import Tag from '../views/Dashboard/AdminSide/tag-add-list.vue'
+
+import Package from '../views/Dashboard/AdminSide/Package-add.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
@@ -42,7 +46,8 @@ const router = createRouter({
 
     { path: '/', component: Home, name: 'home' },
     { path: '/menu', component: Menu, name: 'menu' },
-    { path: '/book', component: Booking, name: 'booking' },
+    { path: '/book', component: Booking, name: 'booking', meta: { book: true } },
+    { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
     { path: '/why_us', component: Why_us, name: 'why_us' },
 
 
@@ -58,6 +63,8 @@ const router = createRouter({
         { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit', meta: { edit: true } },
         { path: 'food_list', component: Food_List, name: 'food-List' },
         { path: 'categories', component: Category, name: 'category' },
+        { path: 'tags', component: Tag, name: 'tag' },
+        { path: 'package', component: Package, name: 'package' },
 
         { path: 'user_profile', component: UserProfile, name: 'user_Profile' },
         { path: 'user_check', component: UserCheck, name: 'user_Check' }
@@ -93,6 +100,9 @@ const validation = (to, from, next) => {
 
     router.push({ name: 'food-List' })
 
+  }
+  else if ((to.meta.book_phone) && store.getters['auth/getAuth'] == true && store.getters['auth/isAdmin'] == 1) {
+    router.push({ name: 'booking' })
   }
   else {
     next()

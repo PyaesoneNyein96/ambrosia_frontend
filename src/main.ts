@@ -31,7 +31,6 @@ app.component('app-Header', Header);
 app.component('app-Footer', Footer);
 app.component('app-Loader', Loader);
 
-
 app.config.globalProperties.$toast = iziToast;
 
 app

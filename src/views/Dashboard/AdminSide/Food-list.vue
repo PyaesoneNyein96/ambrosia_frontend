@@ -54,11 +54,11 @@
                         <td>{{ f.category.name }}</td>
                         <td>
                             <div class="btn-wrap">
-                                <button class="btn btn-success ms-1 btn-sm py-0" @click="gotToEdit(f.id)">
+                                <button class="btn btn-success ms-1 btn-sm py-1" @click="gotToEdit(f.id)">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                     <span class="d-none d-lg-inline">Edit</span>
                                 </button>
-                                <button class="btn btn-danger ms-1 btn-sm py-0">
+                                <button class="btn btn-danger ms-1 btn-sm py-1" @click="del(f.name, f.id)">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                     <span class="d-none d-lg-inline">Delete</span>
                                 </button>
@@ -85,7 +85,8 @@
 <script>
 
 import { mapGetters } from 'vuex'
-// import router from '../../../router'
+import { smsQuestion } from '../../../store/Notify/notify.js'
+
 
 
 export default {
@@ -93,19 +94,67 @@ export default {
 
     computed: {
         ...mapGetters({
-            allFoodList: 'food/getFoodList'
+            allFoodList: 'food/getFoodList',
+            notify: 'notify/getAlertNotify',
         })
     },
 
     methods: {
+
+
         gotToEdit(num) {
             const id = Number(num);
-
             this.$store.dispatch('food/getFoodBySpecific', id)
+        },
+
+        del(name, id) {
+            const info = { name: name, id: id }
+            smsQuestion(this.$store.commit, info);
         }
     },
+
+    watch: {
+        notify(notify) {
+            if (notify[0] == true) {
+                this.$toast.question({
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    displayMode: 'once',
+                    id: 'question',
+                    zindex: 999,
+                    title: notify[1].name,
+                    message: notify[2],
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function (instance, toast) {
+                            this.$store.dispatch('food/deleteFood', notify[1].id);
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                        }, true],
+                        ['<button>NO</button>', function (instance, toast) {
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                        }],
+                    ],
+                    onClosing: function (instance, toast, closedBy) {
+                        console.info('Closing | closedBy: ' + closedBy);
+                    },
+                    onClosed: function (instance, toast, closedBy) {
+                        console.info('Closed | closedBy: ' + closedBy);
+                    }
+                });
+            }
+        }
+    },
+
+
+
+
     mounted() {
-        this.$store.dispatch('food/GetSpecific', 'All');
+        this.$store.dispatch('food/GetSpecific_All', 'All');
     }
 }
 </script>

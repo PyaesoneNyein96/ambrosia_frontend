@@ -1,43 +1,44 @@
 <template>
-    <swiper :scrollbar="{
-        hide: true,
-    }" :modules="modules" :autoplay="1000" class="mySwiper" style="cursor: pointer;">
+    <div class="bg-dark bg-gradient">
+        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="3000" :transition="2500" v-if="slides">
+            <Slide v-for="slide in slides" :key="slide">
+                <Transition name="carousel" appear>
+                    <div class="slide-img" :style="{ background: `url(${slide.url})` }">
+                        <div class="slide-text-wrap">
+                            <h2>Ambrosia</h2>
+                            <h4 class="slide-text">{{ slide.description }}</h4>
+                        </div>
+                    </div>
+                </Transition>
+            </Slide>
 
-
-        <swiper-slide v-for="slide in img" :key="slide.id">
-
-            <div :style="{ background: `url(${slide.url})` }" class="slide-img">
-                <div class="slide-text">
-                    <h2 class="slide-title">{{ slide.title }}</h2>
-                    <p :id='slide.id'>{{ slide.description }}</p>
-                </div>
-            </div>
-
-        </swiper-slide>
-    </swiper>
+            <template #addons>
+                <Pagination />
+            </template>
+        </Carousel>
+    </div>
 </template>
 
 <script>
 
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/scrollbar';
-import '../../../public/CustomStyle/style.css';
-import 'swiper/css/autoplay'
-import { Scrollbar } from 'swiper';
+/* eslint-disable */
 
+import 'vue3-carousel/dist/carousel.css'
+import { Carousel, Slide, Pagination } from 'vue3-carousel'
+// import '../../../public/CustomStyle/style.css';
 
 
 export default {
     name: 'Carousel-index',
     components: {
-        Swiper,
-        SwiperSlide
+        Carousel,
+        Slide,
+        Pagination
     },
     data() {
         return {
-            modules: [Scrollbar],
-            img: [
+
+            slides: [
                 {
                     id: 1,
                     title: 'Ambrosia',
@@ -81,17 +82,52 @@ export default {
     object-fit: cover !important;
 }
 
-.slide-text {
+.slide-text-wrap {
+    min-height: 8em;
     position: absolute;
     bottom: 6.5%;
     left: 8%;
     right: 10%;
     z-index: 999;
-    background-color: rgba(136, 122, 84, 0.61);
+    background-color: rgba(39, 38, 41, 0.648);
     text-align: start;
     padding: 1em;
     border-radius: 0.7em;
     color: rgb(255, 255, 255);
-    box-shadow: 1px 0px 5px rgb(76, 62, 62);
+    box-shadow: 1px 0px 5px rgba(76, 62, 62, 0.422);
+    opacity: 1;
+}
+
+h1,
+h2 {
+    color: goldenrod;
+}
+
+.slide-text {
+    color: rgb(148, 151, 250);
+    font-size: 1.5em !important;
+    text-shadow: 1px 1px 40px lightblue;
+}
+
+@media (max-width:500px) {
+    .slide-text {
+        color: rgb(148, 151, 250);
+        font-size: 1.2em !important;
+        text-shadow: 1px 1px 40px lightblue;
+    }
+
+}
+
+
+.carousel-enter-active,
+.carousel-leave-active {
+    transition: all 1s ease;
+    opacity: 1;
+}
+
+.carousel-enter-from,
+.carousel-leave-to {
+    opacity: 0;
+    transform: translateY(-40%);
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
     <div class="category-wrap">
         <h1 class="p-3 fw-bold">
-            Food Categories
+            Food Tags
             <hr>
         </h1>
 
         <div class="container col-md-10  rounded-3">
             <div class="row  mx-auto">
                 <div class="col-md-6 bg-light left-side mt-3 p-2">
-                    <span class="h5 ">Add Categories</span>
+                    <span class="h5 ">Add Tags</span>
                     <form class=" shadow-sm p-3" @submit.prevent="add">
-                        <input type="text" name="category" class="form-control shadow-none" v-model="category_name"
+                        <input type="text" name="category" class="form-control shadow-none" v-model="tag_name"
                             placeholder="Add Category name . . .">
 
                         <div class="err-wrap" v-if="getErr.length != 0">
@@ -25,22 +25,21 @@
                 <div class="col-md-6 mt-3 right-side p-0">
                     <div class="card p-1 m-0 shadow-sm">
                         <div class="card-title mt-2">
-                            <span class="h5"> Categories List</span>
+                            <span class="h5"> Tags List</span>
                             <hr>
                         </div>
-                        <div class="card-body p-0" v-if="categories.length != 0">
+                        <div class="card-body p-0" v-if="tags.length != 0">
                             <TransitionGroup name="item" appear>
-                                <ul v-for="(category, i) in categories" :key="category.id" class="text-start list-group">
+                                <ul v-for="(tag, i) in tags" :key="tag.id" class="text-start list-group">
                                     <li class="list-group-item d-flex justify-content-between">
-                                        {{ i + 1 }}. {{ category.name }}
+                                        {{ i + 1 }}. {{ tag.name }}
                                         <span class="btn-wrap">
-                                            <button class="btn btn-success me-1 btn-sm py-0" @click="edit(category.id)">
+                                            <button class="btn btn-success me-1 btn-sm py-0" @click="edit(tag.id)">
                                                 <i class="fa fa-edit fa-sm" aria-hidden="true"></i>
                                                 <span class="d-none d-lg-inline">Edit</span>
                                             </button>
 
-                                            <button class="btn btn-danger btn-sm py-0"
-                                                @click="del(category.name, category.id)">
+                                            <button class="btn btn-danger btn-sm py-0" @click="del(tag.name, tag.id)">
                                                 <i class="fa fa-trash fa-sm" aria-hidden="true"></i>
                                                 <span class="d-none d-lg-inline">Delete</span>
                                             </button>
@@ -73,14 +72,14 @@ export default {
     name: 'category-add',
     data() {
         return {
-            category_name: '',
+            tag_name: '',
 
         }
     },
     computed: {
         ...mapGetters({
-            categories: 'food/getCategories',
-            getErr: 'food/getCategoryErr',
+            tags: 'food/getTags',
+            getErr: 'food/getTagErr',
             notify: 'notify/getAlertNotify',
         }),
     },
@@ -90,16 +89,18 @@ export default {
     methods: {
 
         ...mapActions({
-            addCategory: 'food/addCategory',
-            getCategories: 'food/getCategories',
+            addTag: 'food/addTag',
+            getTags: 'food/getTags',
         }),
 
 
         add() {
 
-            const name = { name: this.category_name }
-            this.addCategory(name);
-            this.getCategories;
+            const name = { name: this.tag_name }
+            this.addTag(name);
+            this.getTags;
+
+            console.log(this.getErr);
 
         },
 
@@ -131,7 +132,7 @@ export default {
                     buttons: [
                         ['<button><b>YES</b></button>', function (instance, toast) {
 
-                            store.dispatch('food/deleteCategory', notify[1].id);
+                            store.dispatch('food/deleteTag', notify[1].id);
 
                             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
@@ -142,31 +143,27 @@ export default {
 
                         }],
                     ],
-                    // onClosing: function (instance, toast, closedBy) {
-                    //     console.info('Closing | closedBy: ' + closedBy);
-                    // },
-                    // onClosed: function (instance, toast, closedBy) {
-                    //     console.info('Closed | closedBy: ' + closedBy);
-                    // }
+
                 });
             }
         },
-        categories() {
-            this.category_name = ''
+
+        tags() {
+            this.tag_name = ''
         }
     },
 
 
 
     // beforeUpdate() {
-    //     if (this.category_name !== '') {
-    //         this.$store.commit('food/clearCategoryErr');
+    //     if (this.tag_name == '' && !this.getErr) {
+    //         this.$store.commit('food/clearTagErr');
     //     }
     // },
 
 
     mounted() {
-        this.$store.dispatch('food/getCategories')
+        this.$store.dispatch('food/getTags')
     },
 
 }
