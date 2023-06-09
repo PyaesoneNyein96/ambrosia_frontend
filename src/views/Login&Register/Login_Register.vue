@@ -23,14 +23,23 @@
                             </Field>
 
 
-                            <Field name="password" v-slot="{ field, errors, errorMessage }">
+                            <Field name="password" v-slot="{ field, errors, errorMessage }" v-model="password">
                                 <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
                                     type="password" placeholder="Password . . ." />
                             </Field>
 
+                            <Field name="confirm_password" v-slot="{ field, errors, errorMessage }" v-if="!type"
+                                v-model="confirm">
+                                <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
+                                    type="password" placeholder="Confirm Password . . ." />
+                                <p class="small text-danger py-0" v-if="err">
+                                    Passwords must match !!
+                                </p>
+                            </Field>
 
 
-                            <p class="already py-0 my-0" @click="type = !type"
+
+                            <p class="already py-0 my-0" @click="typeChange()"
                                 v-html="type ? 'I want to Register' : 'I already have an account'"></p>
 
                             <button class="btn" v-html="type ? 'Login' : 'Register'"></button>
@@ -48,6 +57,7 @@
 /* eslint-disable  */
 
 import inputTemplate from '../../components/Tools/form-input-template.vue'
+import { mapGetters } from 'vuex'
 
 import * as yup from 'yup';
 import { Field, Form } from 'vee-validate'
@@ -64,21 +74,50 @@ export default {
         return {
             formSchema: {
                 email: yup.string().required('Email field is required !').email('Your Email is not valid !!'),
-                password: yup.string().required('Password field is required !')
+                password: yup.string().required('Password field is required !'),
+                // confirm_password: ''
             },
             type: true,
-            // bg_image: '../../../public/assets/img/login-Background/blur-restaurant-1.png'
+            password: '',
+            confirm: '',
+            err: false
+
         }
     },
 
+    computed: {
+        ...mapGetters({
+            getAuthErr: 'auth/getAuthErr'
+        })
+    },
+
     methods: {
+
+        typeChange() {
+            this.type = !this.type;
+            if (!this.type) {
+                this.formSchema.confirm_password = yup.string().required('Confirm password field is required !')
+
+            } else {
+                this.formSchema.confirm_password = null
+            }
+        },
+
         onSubmit(value, { resetForm }) {
             if (this.type === true) {
                 this.$store.dispatch('auth/login', value)
             } else {
-                this.$store.dispatch('auth/register', value)
+
+                if (this.password !== this.confirm) {
+                    this.err = true
+                } else {
+
+                    this.$store.dispatch('auth/register', value)
+                    resetForm()
+                }
+
+
             }
-            resetForm()
         }
     }
 }
@@ -110,7 +149,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 15px;
     padding-top: 1em;
     padding-bottom: 2em;
     border: 2px dashed #DAA06D;

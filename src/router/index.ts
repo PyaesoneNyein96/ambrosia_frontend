@@ -58,16 +58,18 @@ const router = createRouter({
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { dashboard: true },
       children: [
-        { path: '', component: MainDashboard, name: 'main_dashboard' },
-        { path: 'food_add', component: Food_Add, name: 'food-Add' },
-        { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit', meta: { edit: true } },
-        { path: 'food_list', component: Food_List, name: 'food-List' },
-        { path: 'categories', component: Category, name: 'category' },
-        { path: 'tags', component: Tag, name: 'tag' },
-        { path: 'package', component: Package, name: 'package' },
-
         { path: 'user_profile', component: UserProfile, name: 'user_Profile' },
-        { path: 'user_check', component: UserCheck, name: 'user_Check' }
+        { path: 'user_check', component: UserCheck, name: 'user_Check' },
+
+        { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
+        { path: 'food_add', component: Food_Add, name: 'food-Add', meta: { food_add: true } },
+        { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit', meta: { edit: true } },
+        { path: 'food_list', component: Food_List, name: 'food-List', meta: { food_list: true } },
+        { path: 'categories', component: Category, name: 'category', meta: { categories: true } },
+        { path: 'tags', component: Tag, name: 'tag', meta: { tags: true } },
+        { path: 'package', component: Package, name: 'package', meta: { package: true } },
+
+
       ]
     },
 
@@ -101,8 +103,14 @@ const validation = (to, from, next) => {
     router.push({ name: 'food-List' })
 
   }
-  else if ((to.meta.book_phone) && store.getters['auth/getAuth'] == true && store.getters['auth/isAdmin'] == 1) {
+  else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
     router.push({ name: 'booking' })
+  }
+
+  else if (((to.meta.food_add) || (to.meta.edit) ||
+    (to.meta.food_list) || (to.meta.categories) ||
+    (to.meta.tags) || (to.meta.package)) && store.getters['auth/isAdmin'] == 0) {
+    router.push({ name: 'main_dashboard' })
   }
   else {
     next()

@@ -18,6 +18,7 @@ import 'izitoast/dist/css/iziToast.css';
 import Header from './views/Header/Header-index.vue';
 import Footer from './views/Footer/Footer-index.vue';
 import Loader from './components/Tools/mini-Loader.vue';
+import Search from './components/Tools/search-index.vue'
 
 
 
@@ -30,6 +31,7 @@ const app = createApp(App);
 app.component('app-Header', Header);
 app.component('app-Footer', Footer);
 app.component('app-Loader', Loader);
+app.component('app-Search', Search)
 
 app.config.globalProperties.$toast = iziToast;
 

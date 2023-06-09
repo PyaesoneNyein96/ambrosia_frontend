@@ -71,12 +71,14 @@
                     </li>
 
                 </ul>
-                <i class="bi bi-x mobile-nav-toggle">
-                    <div class="hamburger-menu d-block d-lg-none" @click="isMobile = !isMobile">
-                        <div ref="bar-1" class="bar"></div>
-                        <div ref="bar-2" class="bar"></div>
-                        <div ref="bar-3" class="bar"></div>
+                <i class="bi bi-x mobile-nav-toggle" @click="isMobileChange">
+                    <div class="hamburger-menu d-block d-lg-none">
+                        <div ref="bar_1" class="bar"></div>
+                        <div ref="bar_2" class="bar"></div>
+                        <div ref="bar_3" class="bar"></div>
                     </div>
+
+
                     <!-- <span class="d-block d-md-none" @click="isMobile = !isMobile">X</span> -->
                 </i>
 
@@ -86,6 +88,7 @@
 
             <span>
                 <button class=" book-a-table-btn scrollto" @click="show">Reservation</button>
+                <!-- {{ this.authCheck }} -->
             </span>
 
 
@@ -103,6 +106,7 @@ import { smsInform, smsLogOut } from '../../store/Notify/notify.js'
 import { mapGetters } from 'vuex';
 
 
+
 export default {
     name: 'Header-index',
 
@@ -116,7 +120,8 @@ export default {
     computed: {
         ...mapGetters({
             userData: 'auth/getUserData',
-            auth: 'auth/getUserToken'
+            auth: 'auth/getAuth',
+            // authCheck: 'auth/getAuth'
         }),
 
 
@@ -127,6 +132,9 @@ export default {
         }
 
     },
+
+
+
     methods: {
         show() {
             this.$swal({
@@ -152,6 +160,7 @@ export default {
         },
         // LOG OUT
         logout() {
+            this.isMobile = false
             this.$store.dispatch('auth/logout')
                 .then(() => {
                     this.$router.push({ name: 'home' })
@@ -166,18 +175,49 @@ export default {
 
         deepDropDown() {
             this.deepDrop = !this.deepDrop
+        },
+
+        //=================
+
+        isMobileChange() {
+            console.log('hello');
+            this.isMobile = !this.isMobile;
+
+            if (this.isMobile) {
+                this.animate()
+            } else {
+                this.back()
+            }
+
+        },
+        animate() {
+            this.$refs.bar_1.classList.add('top-change');
+            this.$refs.bar_2.style.opacity = 0;
+            this.$refs.bar_3.classList.add('bot-change');
+        },
+
+
+        back() {
+            this.$refs.bar_1.classList.remove('top-change');
+            this.$refs.bar_2.style.opacity = 1;
+            this.$refs.bar_3.classList.remove('bot-change');
+
         }
 
 
+
     },
-    mounted() {
-        this.$router.beforeEach((to, from, next) => {
-            this.isMobile = false; // Set isMenuOpen to false when the route changes
-            next();
-        });
+    watch: {
+        $route(to, from) {
+            this.isMobile = false;
+            this.back(); //Important ***
+
+        },
+    },
 
 
-    }
+
+
 
 
 }
@@ -185,6 +225,10 @@ export default {
 
 
 <style scoped>
+nav * {
+    cursor: pointer;
+}
+
 #header {
     top: 0px !important;
 }
@@ -225,12 +269,14 @@ span .router-link-exact-active {
 
 .hamburger-menu {
     width: 30px;
-    height: 20px;
+    height: 10px;
     display: flex;
+    margin-bottom: 10px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    /* background-color: green; */
 }
 
 .bar {
@@ -238,18 +284,16 @@ span .router-link-exact-active {
     height: 3px;
     background-color: #fffefe;
     margin-bottom: 5px;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease-in-out;
 }
 
-.hamburger-menu.active .bar:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+.top-change {
+    transform: rotate(-315deg) translate(16px, 6px);
+    background-color: rgb(242, 227, 15);
 }
 
-.hamburger-menu.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger-menu.active .bar:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+.bot-change {
+    transform: rotate(-45deg) translate(5px, 5px);
+    background-color: rgb(144, 123, 8);
 }
 </style>

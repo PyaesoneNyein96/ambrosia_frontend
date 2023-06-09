@@ -2,6 +2,7 @@
 import axios from 'axios'
 import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
+import { smsError, smsSuccess } from '../Notify/notify.js'
 
 const AuthModule = {
     namespaced: true,
@@ -10,7 +11,7 @@ const AuthModule = {
             userData: '',
             userToken: '',
             auth: false,
-            isAdmin: false,
+            isAdmin: '',
         }
     },
 
@@ -24,6 +25,8 @@ const AuthModule = {
         getAuth: state => state.auth,
 
         isAdmin: state => state.isAdmin,
+
+        getAuthErr: state => state.authErr,
 
 
 
@@ -41,9 +44,8 @@ const AuthModule = {
             state.userData = payload.userInfo,
                 state.userToken = payload.userToken,
                 state.auth = payload.auth,
-                state.isAdmin = payload.userInfo ? payload.userInfo.role : false
-        }
-
+                state.isAdmin = payload.userInfo ? payload.userInfo.role : 0
+        },
 
     },
 
@@ -57,8 +59,13 @@ const AuthModule = {
 
             Loader(commit, true)
 
+            console.log(payload);
             axios.post(`http://localhost:8000/api/user/login`, payload)
+
                 .then((res) => {
+                    if (res.data.userInfo.image !== null) {
+                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                    }
                     commit('setUserData', res.data);
 
                     const Token = getters.getUserToken;
@@ -66,11 +73,13 @@ const AuthModule = {
                         localStorage.setItem('userCredentials', getters.getUserToken);
                     }
 
-                    // router.push({ name: 'dashboard' })
-                    router.push('/dashboard')
+                    smsSuccess(commit, 'Login', 'Welcome to our Ambrosia');
+                    router.push({ name: 'dashboard' })
+
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.log(err.response.data);
+                    smsError(commit, "Login Error", err.response.data.message)
                 }).finally(() => {
 
                     Loader(commit, false)
@@ -93,11 +102,11 @@ const AuthModule = {
                     if (Token) {
                         localStorage.setItem('userCredentials', getters.getUserToken);
                     }
-
+                    smsSuccess(commit, "Register", 'Register Successfully Done')
                     router.push('/')
 
                 }).catch((err) => {
-                    console.log(err);
+                    smsError(commit, 'Register Error', '')
                 })
         },
 
@@ -126,14 +135,35 @@ const AuthModule = {
 
             axios.post(`http://localhost:8000/api/user/autoLogin`, { 'token': userCredentials })
                 .then((res) => {
-
+                    if (res.data.userInfo.image !== null) {
+                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                    }
                     commit('setUserData', res.data)
-
                 })
                 .catch((err) => {
+                    router.push({ name: 'login' });
+                    smsError(commit, 'Auto Login Error', 'Something went wrong, Please Login again.')
+                    localStorage.setItem('userCredentials', '')
                     console.log(err);
+                })
+        },
 
+        // User Profile Data Update ========================================================================================
 
+        profileUpdate: ({ commit }, payload) => {
+            // console.log(payload);
+
+            axios.post('http://localhost:8000/api/user/profile/update', payload)
+                .then(res => {
+
+                    if (res.data.userInfo.image !== null) {
+                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                    }
+                    commit('setUserData', res.data)
+
+                    smsSuccess(commit, 'Profile Update', "Profile  Successfully Updated. ")
+                }).catch(err => {
+                    smsError(commit, 'Profile Update Error', err)
                 })
         }
 

@@ -53,12 +53,25 @@
                     <!-- ========== Description Section ========== -->
 
                     <div class="mb-4">
-                        <textarea v-model="form.description" name="description" class="form-control shadow-none" rows="4"
-                            placeholder="Description" :class="{ 'is-invalid': getError.description }"></textarea>
+                        <input v-model="form.description" class="w-100 form-control shadow-none" type="text"
+                            placeholder="description" min="1" :class="{ 'is-invalid': getError.description }">
                         <p class="text-danger px-2 small" v-for="err in getError.description" :key="err">
                             {{ err }}
                         </p>
                     </div>
+
+
+
+                    <!-- ========== Excerpt Section ========== -->
+
+                    <div class="mb-4">
+                        <textarea v-model="form.excerpt" name="excerpt" class="form-control shadow-none" rows="4"
+                            placeholder="Excerpt" :class="{ 'is-invalid': getError.excerpt }"></textarea>
+                        <p class="text-danger px-2 small" v-for="err in getError.excerpt" :key="err">
+                            {{ err }}
+                        </p>
+                    </div>
+
 
 
                     <!-- ========== Category Section ========== -->
@@ -94,31 +107,20 @@
                     <!-- ========== Tag Section ========== -->
 
 
-                    <div class="wrap row my-4 mx-2" :class="{ 'bd-red': getError.tags }">
+                    <div class="wrap row mt-4 mx-2" :class="{ 'bd-red': getError.tags }">
                         <span class="h6 m-0 text-muted">Tags</span>
-                        <span v-if="oldTags" class="">Previous Tags :
-                            <span class="mx-1 small text-light bg-secondary rounded-2 p-1" v-for="t in this.oldTags"
-                                :key="t">
-                                {{ t.name }}
-                            </span>
-                        </span>
 
                         <div class="mt-3 col-lg-3 bg-light shadow-sm rounded" v-for="(tag, i) in tags" :key="i">
                             <label class="small label text-secondary px-2 rounded-2 check-label" :for="tag.id">
                                 {{ tag.name }}
                             </label>
-                            <input type="checkbox" :value="tag.id" :id="tag.id" @click="changed(tag.id)">
+
+                            <input type="checkbox" :id="tag.id" @click="changed(tag.id)" :checked="oldVal.includes(tag.id)">
                         </div>
-                        <p class="text-danger px-2 small" v-for="err in getError.tags" :key="err">
-                            {{ err }}
-                        </p>
-
                     </div>
-
-
-
-
-
+                    <p class="text-danger px-2  small" v-for="err in getError.tags" :key="err">
+                        {{ err }}
+                    </p>
 
 
 
@@ -158,8 +160,8 @@ export default {
             types: [{ id: 1, name: 'Food' }, { id: 0, name: 'Beverage' }],
             form: null,
             tagErr: false,
-            oldTags: []
-
+            oldTags: [],
+            oldVal: [],
 
 
         }
@@ -196,6 +198,8 @@ export default {
 
 
 
+
+
     },
 
     methods: {
@@ -208,12 +212,11 @@ export default {
                     return i !== e
                 })
             }
-
-
         },
 
+
+
         updateForm() {
-            // console.log(this.form.type);
 
             if (!this.form.tags) {
                 this.tagErr = true
@@ -234,7 +237,17 @@ export default {
             this.form = { ...this.getSpecific };
             this.form.tags = [];
             this.oldTags = this.getSpecific.tag;
-            // console.log(this.oldTags);
+
+            for (const i of this.oldTags) {
+                this.oldVal.push(i.id);
+                this.form.tags.push(i.id)
+            }
+
+            // console.log(this.form);
+
+
+
+
         },
 
         trigger() {
@@ -253,10 +266,11 @@ export default {
         },
 
 
+
     },
 
 
-    mounted() {
+    beforeMount() {
 
         this.id = this.$route.params.id;
         if (!this.categories) {
@@ -270,6 +284,8 @@ export default {
 
 
 
+        // console.log(this.oldTags);
+        // console.log(this.tags);
 
 
 

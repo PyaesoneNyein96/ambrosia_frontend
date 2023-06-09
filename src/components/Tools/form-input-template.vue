@@ -9,6 +9,7 @@
                         {{ errorMessage }}
                     </p>
                 </Transition>
+                <!-- <TransitionGroup -->
             </div>
         </div>
 
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
     props: [
         'type',
@@ -28,7 +30,9 @@ export default {
         'placeholder',
         'element',
 
-    ]
+    ],
+
+
 }
 </script>
 

@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <input type="text" v-model="form.image" class="form-control" placeholder="Image URL"
+                        <input type="text" v-model="form.image" class="form-control shadow-none" placeholder="Image URL"
                             :class="{ 'is-invalid': getError.image }">
                         <p class="text-danger px-2 small" v-for=" err  in  getError.image " :key="err">
                             {{ err }}
@@ -57,10 +57,18 @@
                     <!-- ========== Description Section ========== -->
 
                     <div class="mb-4">
-                        <textarea v-model="form.description" name="description" class="form-control shadow-none" rows="4"
-                            placeholder="Description" :class="{ 'is-invalid': getError.description }"></textarea>
-
+                        <input v-model="form.description" class="w-100 form-control shadow-none" type="text"
+                            placeholder="description" min="1" :class="{ 'is-invalid': getError.description }">
                         <p class="text-danger px-2 small" v-for="err in getError.description" :key="err">
+                            {{ err }}
+                        </p>
+                    </div>
+                    <!-- ========== Excerpt Section ========== -->
+                    <div class="mb-4">
+                        <textarea v-model="form.excerpt" class="form-control shadow-none" rows="4" placeholder="Excerpt"
+                            :class="{ 'is-invalid': getError.excerpt }"></textarea>
+
+                        <p class="text-danger px-2 small" v-for="err in getError.excerpt" :key="err">
                             {{ err }}
                         </p>
                     </div>
@@ -153,9 +161,10 @@ export default {
             form: {
                 name: '',
                 price: '',
-                description: '',
-                category_id: '',
                 status: 1,
+                description: '',
+                excerpt: '',
+                category_id: '',
                 image: '',
                 type: '',
                 tags: [],
@@ -201,7 +210,7 @@ export default {
                 })
             }
 
-            console.log(this.form.tags);
+            // console.log(this.form.tags);
 
         },
 

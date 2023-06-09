@@ -9,6 +9,7 @@
             <div class="row  mx-auto">
                 <div class="col-md-6 bg-light left-side mt-3 p-2">
                     <span class="h5 ">Add Tags</span>
+
                     <form class=" shadow-sm p-3" @submit.prevent="add">
                         <input type="text" name="category" class="form-control shadow-none" v-model="tag_name"
                             placeholder="Add Category name . . .">
@@ -18,7 +19,11 @@
                                 {{ err }}
                             </p>
                         </div>
-                        <button class="mt-2 btn bg-dark bg-gradient text-light  rounded-0">Add</button>
+                        <button class="mt-2 btn bg-success bg-gradient text-light btn-sm rounded-0"
+                            v-html="action == true ? 'Add' : 'Update'"></button>
+                        <button type="button" class="mt-2 btn bg-primary ms-2 bg-gradient text-light btn-sm rounded-0"
+                            v-if="!action" @click="turnToAdd">Add new</button>
+
                     </form>
                 </div>
 
@@ -34,7 +39,8 @@
                                     <li class="list-group-item d-flex justify-content-between">
                                         {{ i + 1 }}. {{ tag.name }}
                                         <span class="btn-wrap">
-                                            <button class="btn btn-success me-1 btn-sm py-0" @click="edit(tag.id)">
+                                            <button class="btn btn-success me-1 btn-sm py-0"
+                                                @click="edit(tag.name, tag.id)">
                                                 <i class="fa fa-edit fa-sm" aria-hidden="true"></i>
                                                 <span class="d-none d-lg-inline">Edit</span>
                                             </button>
@@ -73,6 +79,8 @@ export default {
     data() {
         return {
             tag_name: '',
+            action: true,
+            edit_id: null,
 
         }
     },
@@ -91,17 +99,36 @@ export default {
         ...mapActions({
             addTag: 'food/addTag',
             getTags: 'food/getTags',
+            updateTag: 'food/updateTag'
         }),
 
+        turnToAdd() {
+            this.action = true,
+                this.tag_name = ''
+        },
 
         add() {
+            if (this.action === true) {
 
-            const name = { name: this.tag_name }
-            this.addTag(name);
+                const name = { name: this.tag_name }
+                this.addTag(name);
+
+            }
+            else {
+
+                const info = { name: this.tag_name, id: this.edit_id };
+                this.updateTag(info);
+
+            }
             this.getTags;
-
             console.log(this.getErr);
+        },
 
+        edit(name, id) {
+
+            this.action = false;
+            this.tag_name = name;
+            this.edit_id = id
         },
 
 

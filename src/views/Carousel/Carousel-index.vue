@@ -1,6 +1,6 @@
 <template>
     <div class="bg-dark bg-gradient">
-        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="3000" :transition="2500" v-if="slides">
+        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="10000" :transition="2500" v-if="slides">
             <Slide v-for="slide in slides" :key="slide">
                 <Transition name="carousel" appear>
                     <div class="slide-img" :style="{ background: `url(${slide.url})` }">

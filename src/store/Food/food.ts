@@ -4,7 +4,7 @@ import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
 
 import { smsSuccess, smsError, smsInform } from '../Notify/notify.js'
-import { dispatch } from './../../../../restaurant_api/vendor/livewire/livewire/js/util/dispatch';
+
 
 
 
@@ -18,6 +18,8 @@ const FoodModule = {
             foodList: '',
             categories: '',
             tags: '',
+
+            adminFoodList: '',
             errors: [],
             categoryErr: '',
             tagErr: '',
@@ -31,6 +33,8 @@ const FoodModule = {
         getTags: state => state.tags,
 
         getFoodList: state => state.foodList,
+
+        getAdminFoodList: state => state.adminFoodList, //admin food list 
 
         getSpecific: state => state.specFood,
 
@@ -47,17 +51,19 @@ const FoodModule = {
 
         setTags: (state, payload) => state.tags = payload,
 
-        setFoodList: (state, payload) => state.foodList = payload,
+        setFoodList: (state, payload) => state.foodList = payload, // user menu
 
-        setSpecificFood: (state, payload) => state.specFood = payload,
+        setAdminFoodList: (state, payload) => state.adminFoodList = payload, // admin food list set 
 
-        setErr: (state, payload) => state.errors = payload,
+        setSpecificFood: (state, payload) => state.specFood = payload, // admin Edit item set
 
-        setCategoryErr: (state, payload) => state.categoryErr = payload,
+        setErr: (state, payload) => state.errors = payload, // Food add or update
 
-        setTagErr: (state, payload) => state.tagErr = payload,
+        setCategoryErr: (state, payload) => state.categoryErr = payload, //category err
 
-        //Clear  =======================================
+        setTagErr: (state, payload) => state.tagErr = payload, // tag err
+
+        //Clear Err ======================================= 
         clearCategoryErr: (state) => state.categoryErr = '',
         clearTagErr: (state) => state.tagErr = '',
 
@@ -67,7 +73,7 @@ const FoodModule = {
 
     actions: {
         //==================================================================================
-        //Categories
+        //Get Categories
         //==================================================================================
 
         getCategories: ({ commit }) => {
@@ -76,9 +82,13 @@ const FoodModule = {
                     commit('setCategories', res.data);
 
                 }).catch((err) => {
-                    console.log(err);
+                    // console.log(err);
+                    smsError(commit, err.response.data.errors)
                 })
         },
+
+        // .................................................................................
+
 
         //==================================================================================
         // Get Tags
@@ -90,10 +100,13 @@ const FoodModule = {
                     commit('setTags', res.data);
 
                 }).catch((err) => {
-                    console.log(err);
+                    // console.log(err);
+                    smsError(commit, err.response.data.errors)
 
                 })
         },
+        // .................................................................................
+
 
         //==================================================================================
         // ALL OR SPECIFIC FOOD by Category
@@ -105,7 +118,8 @@ const FoodModule = {
                 .then((res) => {
                     commit('setFoodList', res.data)
                 }).catch((err) => {
-                    console.log(err);
+                    // console.log(err);
+                    smsError(commit, err.response.data.errors)
 
                 }).finally(() => {
                     Loader(commit, false)
@@ -136,7 +150,6 @@ const FoodModule = {
         },
 
 
-
         //==================================================================================
         // GET FOOD BY EAC SPECIFIC (EDIT) 
         //==================================================================================
@@ -151,7 +164,8 @@ const FoodModule = {
                     router.push({ name: 'food-Edit', params: { id: payload } })
                 })
                 .catch(err => {
-                    console.log(err);
+                    // console.log(err);
+                    smsError(commit, err.response.data.errors)
 
                 }).finally(() => {
                     Loader(commit, false)
@@ -193,7 +207,7 @@ const FoodModule = {
                 .then((res) => {
 
                     smsInform(commit, `${res.data.food.name}`, 'Successfully Deleted');
-                    dispatch('GetSpecific_All', 'All')
+                    dispatch('getFoodByType', 2)
                 }).catch(err => {
                     smsError(commit, 'Delete', err)
                 })
@@ -202,6 +216,32 @@ const FoodModule = {
                 })
 
         },
+
+
+        //==================================================================================
+        // Get Food By Type 
+        //==================================================================================
+
+        getFoodByType({ commit }, payload) {
+            Loader(commit, true)
+            axios.get(`http://localhost:8000/api/food/type/${payload}`)
+                .then(res => {
+                    // console.log(res);
+                    commit('setAdminFoodList', res.data)
+                })
+                .catch(err => {
+                    // console.log(err);
+                    smsError(commit, 'Type Error', err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
+
+
+        // .................................................................................
+
 
         //==================================================================================
         //==================================================================================
@@ -229,7 +269,9 @@ const FoodModule = {
 
         },
 
-
+        //==================================================================================
+        // Delete Category
+        //==================================================================================
         deleteCategory: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
@@ -245,6 +287,25 @@ const FoodModule = {
                     Loader(commit, false)
                 })
         },
+
+        //==================================================================================
+        //Update Category
+        //==================================================================================
+
+        updateCategory: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/category/update', payload)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+
+
 
         //==================================================================================
         //==================================================================================
@@ -271,6 +332,11 @@ const FoodModule = {
 
         },
 
+
+        //==================================================================================
+        // Delete Tag
+        //==================================================================================
+
         deleteTag: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
             // console.log(payload);
@@ -282,12 +348,51 @@ const FoodModule = {
                     dispatch('getTags');
                 })
                 .catch(err => {
-                    console.log(err.response.data.errors);
+                    // console.log(err.response.data.errors);
                     smsError(commit, err.response.data.errors.name)
                 }).finally(() => {
                     Loader(commit, false)
                 })
+        },
 
+        //==================================================================================
+        // Update Tag
+        //==================================================================================
+        updateTag: ({ commit, dispatch }, payload) => {
+            Loader(commit, true)
+            console.log(payload.name);
+
+            axios.post(`http://localhost:8000/api/tag/edit`, payload)
+                .then(res => {
+                    smsSuccess(commit, res.data.tag.name, `has been successfully Changed`);
+                    dispatch('getTags');
+                }).catch(err => {
+                    smsError(commit, err.response.data.errors.name)
+                    console.log(err);
+
+                }).finally(() => {
+                    Loader(commit, false)
+                })
+        },
+
+
+        //==================================================================================
+        // Search By Admin
+        //==================================================================================
+        searchByAdmin: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/search', payload)
+                .then(res => {
+                    commit('setAdminFoodList', res.data.result);
+                })
+                .catch(err => {
+                    console.log(err);
+                    smsError(commit, 'GENERAL ERROR', err)
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
 
         }
 

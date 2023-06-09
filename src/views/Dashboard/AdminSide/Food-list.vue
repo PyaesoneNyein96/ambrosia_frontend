@@ -4,11 +4,22 @@
             Food List
             <hr>
         </h1>
+        <div class="table-nav d-flex justify-content-between">
 
+            <div class="bg-light shadow-sm rounded-3 my-2">
+                <button class="btn-info text-light nav-btn btn btn-sm" @click="drink">Drink</button>
+                <button class="btn-success btn ms-1 btn-sm nav-btn" @click="food">Food</button>
+                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button>
+            </div>
+            <div class="search">
+                <app-Search class="search-btn" />
+            </div>
+        </div>
         <div class="col-md-12 px-2 mx-auto table-responsive pb-5">
 
 
-            <table class="table table-sm table-striped bg-light table-hover">
+
+            <table class="table table-sm table-striped bg-light table-hover" v-if="getAdminFoodList.length !== 0">
                 <thead class="text-center text-muted">
                     <tr>
                         <th class="num"> . No</th>
@@ -16,6 +27,7 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>description</th>
+                        <th>excerpt</th>
                         <th>Status</th>
                         <th>Type</th>
                         <th>Tag</th>
@@ -24,7 +36,8 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr v-for="(f, i) in allFoodList" :key="i">
+
+                    <tr v-for="(f, i) in getAdminFoodList" :key="i">
                         <td class="num">{{ i + 1 }}</td>
                         <td class="img-wrap">
                             <img :src="f.image" alt="meal" v-if="f.image">
@@ -33,28 +46,31 @@
                         <td>{{ f.name }}</td>
                         <td>{{ f.price }}</td>
                         <td class="description">
-
                             {{ f.description }}
-
+                        </td>
+                        <td class="description">
+                            {{ f.excerpt }}
                         </td>
 
                         <td>{{ f.status == 1 ? 'A' : 'N/A' }}</td>
 
                         <td>{{ f.type == 1 ? 'Food' : 'Beverage' }}</td>
 
-                        <td class="tag-field">
-                            <span class="d-block bg-light col-8 d-lg-inline text-start" v-for="tag in f.tag" :key="tag.id"
-                                style="min-width:100px">
-                                <span class="rounded-2 me-1 text-light px-1 bg-secondary col-2"
-                                    :class="{ 'bg-danger': tag.id == 1, 'bg-success': tag.id == 2, 'bg-warning': tag.id == 4 }">
-                                    {{ tag.name }}
+                        <td>
+                            <div class="tag-wrap row m-0 p-0">
+                                <span class=" tag-field col-6 mb-1" v-for="tag in f.tag" :key="tag.id">
+                                    <span class="rounded-2 me-1 text-light px-1 bg-secondary"
+                                        :class="{ 'bg-danger': tag.id == 1, 'bg-success': tag.id == 2, 'bg-warning': tag.id == 4 }">
+                                        {{ tag.name }}
+                                    </span>
                                 </span>
-                            </span>
+                            </div>
                         </td>
+
                         <td>{{ f.category.name }}</td>
                         <td>
                             <div class="btn-wrap">
-                                <button class="btn btn-success ms-1 btn-sm py-1" @click="gotToEdit(f.id)">
+                                <button class="btn btn-success ms-1 btn-sm py-1" @click="goToEdit(f.id)">
                                     <i class="fa fa-edit" aria-hidden="true"></i>
                                     <span class="d-none d-lg-inline">Edit</span>
                                 </button>
@@ -67,12 +83,19 @@
 
                     </tr>
 
+
                 </tbody>
 
-
-
-
             </table>
+
+            <div class=" text-center" v-if="getAdminFoodList.length == 0">
+                <h1 class="mt-5">
+                    There is No Data !!! <span class="text-warning" style="cursor: pointer;"
+                        @click="this.$router.push({ name: 'food-Add' })">Add New</span>
+                </h1>
+            </div>
+
+
 
 
 
@@ -86,30 +109,53 @@
 
 import { mapGetters } from 'vuex'
 import { smsQuestion } from '../../../store/Notify/notify.js'
+import { mapActions } from 'vuex'
+import store from '../../../store'
 
 
 
 export default {
     name: 'Food-list',
 
+
     computed: {
         ...mapGetters({
             allFoodList: 'food/getFoodList',
+            getAdminFoodList: 'food/getAdminFoodList',
             notify: 'notify/getAlertNotify',
         })
     },
 
     methods: {
+        // Map Actions
+        ...mapActions({
+            GetSpecific_All: 'food/GetSpecific_All',
+            getFoodBySpecific: 'food/getFoodBySpecific',
+            getFoodByType: 'food/getFoodByType',
 
+        }),
 
-        gotToEdit(num) {
-            const id = Number(num);
-            this.$store.dispatch('food/getFoodBySpecific', id)
+        // Type Filter by click
+        drink() {
+            this.getFoodByType([0])
+        },
+        food() {
+            this.getFoodByType([1])
+        },
+        all() {
+            this.getFoodByType([2])
         },
 
+        // To Edit
+        goToEdit(num) {
+            const id = Number(num);
+            this.getFoodBySpecific(id)
+        },
+
+        // To Delete
         del(name, id) {
             const info = { name: name, id: id }
-            smsQuestion(this.$store.commit, info);
+            smsQuestion(store.commit, info);
         }
     },
 
@@ -128,7 +174,7 @@ export default {
                     position: 'center',
                     buttons: [
                         ['<button><b>YES</b></button>', function (instance, toast) {
-                            this.$store.dispatch('food/deleteFood', notify[1].id);
+                            store.dispatch('food/deleteFood', notify[1].id);
 
                             instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
@@ -151,10 +197,9 @@ export default {
     },
 
 
-
-
-    mounted() {
-        this.$store.dispatch('food/GetSpecific_All', 'All');
+    beforeMount() {
+        // this.GetSpecific_All('All');
+        this.getFoodByType([2])
     }
 }
 </script>
@@ -162,11 +207,15 @@ export default {
 <style  scoped>
 /* Responsive */
 
-@media (max-width:800px) {
+@media (min-width:800px) {
 
     th,
     td {
         font-size: 12px;
+    }
+
+    .search-btn {
+        margin-right: 30px;
     }
 }
 
@@ -175,6 +224,15 @@ export default {
     th,
     td {
         font-size: 10px;
+    }
+
+    .search-btn {
+        margin-right: 0;
+    }
+
+    .nav-btn {
+        font-size: 10px;
+        padding: 5px 5px;
     }
 
 }
@@ -223,9 +281,10 @@ thead {
 
 
 
+.tag-wrap {
+    width: 150px !important;
+    height: max-content;
 
-.tag-field * {
-    font-size: 0.9em;
 }
 
 thead {

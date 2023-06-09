@@ -119,9 +119,9 @@ export default {
         this.$store.dispatch('food/getCategories');
 
     },
-    beforeUpdate() {
-        console.log(this.MenuList);
-    }
+    // beforeUpdate() {
+    //     console.log(this.MenuList);
+    // }
 }
 </script>
 
