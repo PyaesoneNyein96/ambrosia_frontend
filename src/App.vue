@@ -19,7 +19,7 @@ import { mapGetters } from 'vuex'
 import success from '../public/assets/audio/success.wav'
 import err from '../public/assets/audio/wrong-answer-129254.mp3'
 import info from '../public/assets/audio/info.mp3'
-import BigSuccess from '../public/assets/audio/order_success.mp3'
+// import BigSuccess from '../public/assets/audio/order_success.mp3'
 import warning from '../public/assets/audio/warning.mp3'
 
 

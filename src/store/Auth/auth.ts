@@ -12,6 +12,7 @@ const AuthModule = {
             userToken: '',
             auth: false,
             isAdmin: '',
+            profileErr: '',
         }
     },
 
@@ -27,6 +28,8 @@ const AuthModule = {
         isAdmin: state => state.isAdmin,
 
         getAuthErr: state => state.authErr,
+
+        getProfileErr: state => state.profileErr
 
 
 
@@ -46,6 +49,8 @@ const AuthModule = {
                 state.auth = payload.auth,
                 state.isAdmin = payload.userInfo ? payload.userInfo.role : 0
         },
+
+        setProfileErr: (state, payload) => state.profileErr = payload
 
     },
 
@@ -106,7 +111,7 @@ const AuthModule = {
                     router.push('/')
 
                 }).catch((err) => {
-                    smsError(commit, 'Register Error', '')
+                    smsError(commit, 'Register Error', err)
                 })
         },
 
@@ -151,19 +156,27 @@ const AuthModule = {
         // User Profile Data Update ========================================================================================
 
         profileUpdate: ({ commit }, payload) => {
-            // console.log(payload);
+            console.log(payload);
 
             axios.post('http://localhost:8000/api/user/profile/update', payload)
                 .then(res => {
+
 
                     if (res.data.userInfo.image !== null) {
                         res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
                     }
                     commit('setUserData', res.data)
+                    commit('setProfileErr', '')
+                    // console.log(res.data);
+
 
                     smsSuccess(commit, 'Profile Update', "Profile  Successfully Updated. ")
                 }).catch(err => {
-                    smsError(commit, 'Profile Update Error', err)
+                    smsError(commit, 'Profile Update Error', err.response.data.message)
+                    // if (Array.isArray(err.response.data.errors)) {
+                    commit('setProfileErr', err.response.data.errors)
+                    // }
+
                 })
         }
 

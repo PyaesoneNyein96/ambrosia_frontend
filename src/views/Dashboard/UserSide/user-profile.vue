@@ -17,13 +17,14 @@
                                     <img :src="avatar_slot" class="bg-warning card-img" id="profile" v-if="!form.image">
                                     <img :src="form.image" class="bg-warning card-img" id="profile" v-else>
                                 </div>
-                                <div class="avatar-wrap px-4 mt-0 row">
+
+                                <!-- <div class="avatar-wrap px-4 mt-0 row">
                                     <div class="col  mx-auto" v-for=" i in avatar " :key="i.id">
                                         <img :src="i.url" class="card-img rounded-5 bg-success p-1 avatars"
                                             @click="avatar_Change(i)" :hidden="disabled">
                                     </div>
                                 </div>
-                                <hr>
+                                <hr> -->
 
                                 <div class="text-center" :hidden="disabled">
                                     <label for="profile_pic" class="btn btn-info rounded-1 text-light py-1">
@@ -44,23 +45,38 @@
 
                                 <!-- ========== Name Section ========== -->
                                 <div class="form-floating mb-2">
-                                    <input v-model="form.name" type="text" class="form-control shadow-none" placeholder=" "
+                                    <input v-model="form.name" type="text" class="form-control shadow-none" placeholder=""
                                         :disabled="disabled">
                                     <label class="form-label">User Name</label>
+                                    <div v-if="getProfileErr.name && getProfileErr.name.length != 0">
+                                        <small class="text-danger" v-for="err in getProfileErr.name" :key="err">
+                                            {{ err }}
+                                        </small>
+                                    </div>
                                 </div>
 
                                 <!-- ========== Email Section ========== -->
                                 <div class="form-floating mb-2">
-                                    <input type="text" class="form-control  shadow-none" placeholder=" "
-                                        v-model="form.email" :disabled="disabled">
+                                    <input type="text" class="form-control  shadow-none" placeholder="" v-model="form.email"
+                                        :disabled="disabled">
                                     <label class="form-label">User Email</label>
+                                    <div v-if="getProfileErr.email">
+                                        <small class="text-danger" v-for="err in getProfileErr.email" :key="err">
+                                            {{ err }}
+                                        </small>
+                                    </div>
                                 </div>
 
                                 <!-- ========== Phone Section ========== -->
                                 <div class="form-floating mb-2">
-                                    <input type="number" class="form-control shadow-none" placeholder=" "
+                                    <input type="number" class="form-control shadow-none" placeholder=""
                                         v-model="form.phone" :disabled="disabled">
                                     <label class="form-label">User Phone</label>
+                                    <div v-if="getProfileErr.phone">
+                                        <small class="text-danger" v-for="err in getProfileErr.phone" :key="err">
+                                            {{ err }}
+                                        </small>
+                                    </div>
                                 </div>
 
 
@@ -218,6 +234,7 @@ export default {
         ...mapGetters({
             userData: 'auth/getUserData',
             getTags: 'food/getTags',
+            getProfileErr: 'auth/getProfileErr'
         })
     },
 
@@ -239,18 +256,19 @@ export default {
             }
         },
 
-        avatar_Change(i) {
-            this.form.image = i.url;
-            // let profile = document.getElementById('profile_pic').files[0];
-            let profile = document.getElementById('profile_pic');
-            profile.value = null;
-            console.log(this.form.image);
+        // avatar_Change(i) {
+        //     this.form.image = i.url;
+        //     let profile = document.getElementById('profile_pic').files[0];
+        //     let profile = document.getElementById('profile_pic');
+        //     profile.value = null;
+        //     console.log(this.form.image);
 
-        },
+        // },
 
         // --------- 
         update() {
 
+            console.log(this.form);
             const profile = document.getElementById('profile_pic').files[0];
             const formData = new FormData();
 
@@ -265,15 +283,16 @@ export default {
                 formData.append(key, value);
             });
 
-            if (profile !== undefined) {
-                formData.append('image', profile);
-            } else {
-                formData.append('image', this.form.image);
-            }
+
+            formData.append('image', profile);
+
+
 
             this.$store.dispatch('auth/profileUpdate', formData)
                 .then(() => {
-                    this.disabled = true
+                    if (!this.getProfileErr) {
+                        this.disabled = true
+                    }
                 })
         },
 
@@ -286,11 +305,12 @@ export default {
     watch: {
         userData() {
             this.setData();
+            // console.log(this.form);
         }
     },
 
     beforeMount() {
-        this.form = { ...this.userData };
+        this.form = this.userData;
         this.$store.dispatch('food/getTags');
 
     }
