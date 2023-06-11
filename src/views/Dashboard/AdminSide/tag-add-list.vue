@@ -75,7 +75,7 @@ import { mapActions } from 'vuex'
 
 
 export default {
-    name: 'category-add',
+    name: 'tag-add',
     data() {
         return {
             tag_name: '',
@@ -103,8 +103,8 @@ export default {
         }),
 
         turnToAdd() {
-            this.action = true,
-                this.tag_name = ''
+            this.action = true;
+            this.tag_name = ''
         },
 
         add() {
@@ -127,15 +127,14 @@ export default {
         edit(name, id) {
 
             this.action = false;
-            this.tag_name = name;
             this.edit_id = id
+            this.tag_name = name;
         },
 
 
         del(name, id) {
             const info = { name: name, id: id }
             smsQuestion(this.$store.commit, info, 'If you delete this, the associated <b>FOOD</b> will be completely lost')
-            // smsQuestion(this.$store.commit, info, 'Deleting this will destroy related f  ood.')
         }
 
 

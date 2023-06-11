@@ -18,7 +18,11 @@
                                 {{ err }}
                             </p>
                         </div>
-                        <button class="mt-2 btn bg-dark bg-gradient text-light  rounded-0">Add</button>
+                        <button class="mt-2 btn bg-success bg-gradient text-light btn-sm rounded-0"
+                            v-html="action == true ? 'Add' : 'Update'"></button>
+                        <button type="button" class="btn btn-primary btn-sm mt-2 ms-1 rounded-0 
+                        text-light py-1" v-if="!action" @click="turnToAdd">
+                            Add new</button>
                     </form>
                 </div>
 
@@ -33,8 +37,9 @@
                                 <ul v-for="(category, i) in categories" :key="category.id" class="text-start list-group">
                                     <li class="list-group-item d-flex justify-content-between">
                                         {{ i + 1 }}. {{ category.name }}
+
                                         <span class="btn-wrap">
-                                            <button class="btn btn-success me-1 btn-sm py-0" @click="edit(category.id)">
+                                            <button class="btn btn-success me-1 btn-sm py-0" @click="edit(category)">
                                                 <i class="fa fa-edit fa-sm" aria-hidden="true"></i>
                                                 <span class="d-none d-lg-inline">Edit</span>
                                             </button>
@@ -74,6 +79,9 @@ export default {
     data() {
         return {
             category_name: '',
+            action: true,
+            category_id: null,
+
 
         }
     },
@@ -92,14 +100,33 @@ export default {
         ...mapActions({
             addCategory: 'food/addCategory',
             getCategories: 'food/getCategories',
+            updateCategory: 'food/updateCategory',
         }),
 
 
+        turnToAdd() {
+            this.action = true;
+            this.category_name = ''
+        },
+
         add() {
 
-            const name = { name: this.category_name }
-            this.addCategory(name);
+            if (this.action == true) {
+                const name = { name: this.category_name }
+                this.addCategory(name);
+
+            } else {
+                const info = { name: this.category_name, id: this.category_id }
+                this.updateCategory(info);
+            }
             this.getCategories;
+
+        },
+        edit(x) {
+
+            this.action = false
+            this.category_id = x.id;
+            this.category_name = x.name;
 
         },
 
@@ -107,8 +134,9 @@ export default {
         del(name, id) {
             const info = { name: name, id: id }
             smsQuestion(this.$store.commit, info, 'If you delete this, the associated <b>FOOD</b> will be completely lost')
-            // smsQuestion(this.$store.commit, info, 'Deleting this will destroy related f  ood.')
-        }
+        },
+
+
 
 
     },

@@ -18,13 +18,7 @@
                                     <img :src="form.image" class="bg-warning card-img" id="profile" v-else>
                                 </div>
 
-                                <!-- <div class="avatar-wrap px-4 mt-0 row">
-                                    <div class="col  mx-auto" v-for=" i in avatar " :key="i.id">
-                                        <img :src="i.url" class="card-img rounded-5 bg-success p-1 avatars"
-                                            @click="avatar_Change(i)" :hidden="disabled">
-                                    </div>
-                                </div>
-                                <hr> -->
+
 
                                 <div class="text-center" :hidden="disabled">
                                     <label for="profile_pic" class="btn btn-info rounded-1 text-light py-1">
@@ -256,19 +250,9 @@ export default {
             }
         },
 
-        // avatar_Change(i) {
-        //     this.form.image = i.url;
-        //     let profile = document.getElementById('profile_pic').files[0];
-        //     let profile = document.getElementById('profile_pic');
-        //     profile.value = null;
-        //     console.log(this.form.image);
-
-        // },
 
         // --------- 
         update() {
-
-            console.log(this.form);
             const profile = document.getElementById('profile_pic').files[0];
             const formData = new FormData();
 
@@ -305,7 +289,7 @@ export default {
     watch: {
         userData() {
             this.setData();
-            // console.log(this.form);
+
         }
     },
 

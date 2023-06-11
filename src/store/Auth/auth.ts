@@ -149,25 +149,24 @@ const AuthModule = {
                     router.push({ name: 'login' });
                     smsError(commit, 'Auto Login Error', 'Something went wrong, Please Login again.')
                     localStorage.setItem('userCredentials', '')
-                    console.log(err);
+
                 })
         },
 
         // User Profile Data Update ========================================================================================
 
         profileUpdate: ({ commit }, payload) => {
-            console.log(payload);
+
 
             axios.post('http://localhost:8000/api/user/profile/update', payload)
                 .then(res => {
-
 
                     if (res.data.userInfo.image !== null) {
                         res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
                     }
                     commit('setUserData', res.data)
                     commit('setProfileErr', '')
-                    // console.log(res.data);
+
 
 
                     smsSuccess(commit, 'Profile Update', "Profile  Successfully Updated. ")

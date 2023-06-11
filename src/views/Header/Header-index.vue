@@ -180,7 +180,7 @@ export default {
         //=================
 
         isMobileChange() {
-            console.log('hello');
+
             this.isMobile = !this.isMobile;
 
             if (this.isMobile) {

@@ -11,6 +11,7 @@ import { smsSuccess, smsError, smsInform } from '../Notify/notify.js'
 
 
 
+
 const FoodModule = {
     namespaced: true,
     state() {
@@ -63,9 +64,7 @@ const FoodModule = {
 
         setTagErr: (state, payload) => state.tagErr = payload, // tag err
 
-        //Clear Err ======================================= 
-        clearCategoryErr: (state) => state.categoryErr = '',
-        clearTagErr: (state) => state.tagErr = '',
+
 
     },
 
@@ -139,7 +138,7 @@ const FoodModule = {
             axios.post(`http://localhost:8000/api/food/create`, payload)
                 .then(res => {
                     console.log(res.data);
-
+                    smsSuccess(commit, res.data.food.name, 'Successfully Created')
                     router.push({ name: 'food-List' })
                 }).catch(err => {
                     commit('setErr', err.response.data.errors);
@@ -257,7 +256,7 @@ const FoodModule = {
             axios.post(`http://localhost:8000/api/category/create`, payload)
                 .then((res) => {
                     dispatch('getCategories');
-                    commit('clearCategoryErr');
+                    commit('setCategoryErr', '');
                     smsSuccess(commit, res.data.category.name, 'has been successfully created')
                 }).catch((err) => {
 
@@ -292,15 +291,22 @@ const FoodModule = {
         //Update Category
         //==================================================================================
 
-        updateCategory: ({ commit }, payload) => {
+        updateCategory: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
+
 
             axios.post('http://localhost:8000/api/category/update', payload)
                 .then(res => {
-                    console.log(res.data);
+                    dispatch('getCategories');
+                    smsSuccess(commit, res.data.category.name, 'Successfully Updated')
+                    commit('setCategoryErr', '')
                 })
                 .catch(err => {
+                    smsError(commit, 'Category Update Error', err.response.data.errors.name)
                     console.log(err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
                 })
         },
 
@@ -319,7 +325,7 @@ const FoodModule = {
             axios.post(`http://localhost:8000/api/tag/add`, payload)
                 .then((res) => {
                     dispatch('getTags');
-                    commit('clearTagErr');
+                    // commit('setTagErr', '');
                     smsSuccess(commit, res.data.tag.name);
 
                 }).catch(err => {
@@ -360,7 +366,7 @@ const FoodModule = {
         //==================================================================================
         updateTag: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
-            console.log(payload.name);
+
 
             axios.post(`http://localhost:8000/api/tag/edit`, payload)
                 .then(res => {
