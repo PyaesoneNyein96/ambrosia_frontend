@@ -7,12 +7,12 @@
         <div class="table-nav d-flex justify-content-between">
 
             <div class="bg-light shadow-sm rounded-3 my-2">
-                <!-- <button class="btn-info text-light nav-btn btn btn-sm" @click="drink">Drink</button>
-                <button class="btn-success btn ms-1 btn-sm nav-btn" @click="food">Food</button>
-                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button> -->
+                <button class="btn-danger text-light nav-btn btn btn-sm" @click="admin">Admin</button>
+                <button class="btn-primary btn ms-1 btn-sm nav-btn" @click="member">Member</button>
+                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button>
             </div>
             <div class="search">
-                <!-- <app-Search class="search-btn" /> -->
+                <app-Search class="search-btn" />
             </div>
         </div>
         <div class="col-md-12 px-2 mx-auto table-responsive pb-5">
@@ -139,7 +139,7 @@
 
 import store from '../../../store'
 import { mapGetters } from 'vuex'
-import { smsQuestion, smsSuccess } from '../../../store/Notify/notify.js'
+import { smsQuestion } from '../../../store/Notify/notify.js'
 
 
 export default {
@@ -185,6 +185,17 @@ export default {
                 smsQuestion(store.commit, info, 'Are u sure to remove this user')
             }
 
+        },
+
+
+        member() {
+            this.$store.dispatch('users/admin_role', 0);
+        },
+        admin() {
+            this.$store.dispatch('users/admin_role', 1);
+        },
+        all() {
+            this.$store.dispatch('users/admin_role', 2);
         }
 
 

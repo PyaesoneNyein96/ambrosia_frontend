@@ -199,7 +199,7 @@ export default {
 
 
     beforeMount() {
-        // this.GetSpecific_All('All');
+
         this.getFoodByType([2])
     }
 }

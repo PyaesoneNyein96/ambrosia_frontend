@@ -83,7 +83,7 @@ const AuthModule = {
 
                 })
                 .catch((err) => {
-                    console.log(err.response.data);
+                    // console.log(err.response.data);
                     smsError(commit, "Login Error", err.response.data.message)
                 }).finally(() => {
 

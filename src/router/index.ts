@@ -20,7 +20,7 @@ import Food_Edit from '../views/Dashboard/AdminSide/Food-edit.vue'
 import Food_List from '../views/Dashboard/AdminSide/Food-list.vue'
 
 import UserList from '../views/Dashboard/AdminSide/User-list.vue'
-import UserEdit from '../views/Dashboard/AdminSide/User-edit.vue'
+// import UserEdit from '../views/Dashboard/AdminSide/User-edit.vue'
 
 import Category from '../views/Dashboard/AdminSide/category-add-list.vue'
 import Tag from '../views/Dashboard/AdminSide/tag-add-list.vue'
@@ -66,8 +66,8 @@ const router = createRouter({
 
         { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
         { path: 'food_add', component: Food_Add, name: 'food-Add', meta: { food_add: true } },
-        { path: 'food_edit/:id', component: Food_Edit, name: 'food-Edit', meta: { food_edit: true } },
-        { path: 'food_list', component: Food_List, name: 'food-List', meta: { food_list: true } },
+        { path: 'food_edit/:id', component: Food_Edit, name: 'food_Edit', meta: { food_edit: true } },
+        { path: 'food_list', component: Food_List, name: 'food_List', meta: { food_list: true } },
         { path: 'categories', component: Category, name: 'category', meta: { categories: true } },
         { path: 'tags', component: Tag, name: 'tag', meta: { tags: true } },
         { path: 'package', component: Package, name: 'package', meta: { package: true } },
@@ -100,7 +100,7 @@ const validation = (to, from, next) => {
     router.push({ name: 'home' })
   }
   else if ((to.meta.food_edit) && store.getters['food/getSpecific'].id != to.params.id) {
-    router.push({ name: 'food-List' })
+    router.push({ name: 'food_List' })
   }
   else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
     router.push({ name: 'booking' })

@@ -16,11 +16,11 @@ const FoodModule = {
     namespaced: true,
     state() {
         return {
-            foodList: '',
+            foodList: '', //menu
             categories: '',
             tags: '',
 
-            adminFoodList: '',
+            adminFoodList: '', //admin food list
             errors: [],
             categoryErr: '',
             tagErr: '',
@@ -139,7 +139,7 @@ const FoodModule = {
                 .then(res => {
                     console.log(res.data);
                     smsSuccess(commit, res.data.food.name, 'Successfully Created')
-                    router.push({ name: 'food-List' })
+                    router.push({ name: 'food_List' })
                 }).catch(err => {
                     commit('setErr', err.response.data.errors);
                 }).finally(() => {
@@ -160,7 +160,7 @@ const FoodModule = {
                 .then(res => {
                     commit('setSpecificFood', res.data);
                 }).then(() => {
-                    router.push({ name: 'food-Edit', params: { id: payload } })
+                    router.push({ name: 'food_Edit', params: { id: payload } })
                 })
                 .catch(err => {
                     // console.log(err);
@@ -182,7 +182,7 @@ const FoodModule = {
 
             axios.post(`http://localhost:8000/api/food/update`, payload)
                 .then(res => {
-                    router.push({ name: 'food-List' });
+                    router.push({ name: 'food_List' });
                     smsSuccess(commit, `${res.data.food.name}`, `Successfully Updated .`);
                 })
                 .catch(err => {
@@ -218,7 +218,7 @@ const FoodModule = {
 
 
         //==================================================================================
-        // Get Food By Type 
+        // Get Food By (Type) 
         //==================================================================================
 
         getFoodByType({ commit }, payload) {
@@ -389,7 +389,7 @@ const FoodModule = {
         searchByAdmin: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/search', payload)
+            axios.post('http://localhost:8000/api/search/food', payload)
                 .then(res => {
                     commit('setAdminFoodList', res.data.result);
                 })

@@ -42,7 +42,7 @@
                                     Admin </span>
                             </li>
                             <li class="admin-nav-list">
-                                <router-link :to="{ name: 'food-List' }">
+                                <router-link :to="{ name: 'food_List' }">
                                     <i class="fa-solid fa-bowl-rice"></i>
                                     <!-- <i class="fa-solid fa-bowl-food"></i> -->
                                     <span class="nav-item d-none d-lg-inline">Food-List</span>

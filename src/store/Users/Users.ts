@@ -2,7 +2,7 @@
 import axios from "axios"
 import { Loader } from '../ToolStore/loader.js'
 import { smsError, smsSuccess, smsInform } from '../Notify/notify.js'
-import router from '../../router'
+
 
 
 
@@ -70,8 +70,6 @@ const UserModule = {
         deleteUser: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
 
-
-
             axios.post(`http://localhost:8000/api/user/delete/${payload}`)
                 .then((res) => {
                     console.log(res.data);
@@ -92,6 +90,9 @@ const UserModule = {
 
         },
 
+        // ==================================
+        // Update User 
+        // ==================================
 
         updateUser: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
@@ -113,6 +114,58 @@ const UserModule = {
                 })
 
         },
+
+
+        // ==================================
+        // Search User 
+        // ==================================
+
+        searchUserByAdmin: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/search/user', payload)
+                .then(res => {
+
+                    for (const u of res.data.result) {
+                        if (u.image !== null) {
+                            u.image = `http://localhost:8000/storage/profile/` + u.image
+                        }
+                    }
+                    commit('setUserList', res.data.result)
+
+                }).catch(err => {
+                    smsError(commit, err)
+                }).finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
+
+        // ==================================
+        // Search By (Role)
+        // ==================================
+
+        admin_role: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.post(`http://localhost:8000/api/user/role/${payload}`)
+                .then(res => {
+
+                    for (const u of res.data) {
+                        if (u.image !== null) {
+                            u.image = `http://localhost:8000/storage/profile/` + u.image
+                        }
+                    }
+                    commit('setUserList', res.data)
+                }).catch(err => {
+                    smsError(commit, err)
+                }).finally(() => {
+                    Loader(commit, false)
+                })
+
+        }
+
+
 
     }
 }
