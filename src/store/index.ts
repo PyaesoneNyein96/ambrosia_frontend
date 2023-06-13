@@ -3,7 +3,8 @@ import { createStore } from 'vuex'
 import AuthModule from './Auth/auth'
 import FoodModule from './Food/food';
 import NotifyModule from './Notify/notification'
-import ToolStore from './ToolStore/ToolStore'
+import ToolsModule from './ToolStore/ToolStore'
+import UserModule from './Users/Users';
 
 
 const store = createStore({
@@ -11,7 +12,8 @@ const store = createStore({
         auth: AuthModule,
         food: FoodModule,
         notify: NotifyModule,
-        tool: ToolStore,
+        tool: ToolsModule,
+        users: UserModule,
     }
 });
 

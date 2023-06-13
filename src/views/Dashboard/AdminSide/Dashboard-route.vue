@@ -77,6 +77,12 @@
                                     <span class="nav-item d-none d-lg-inline">Tags</span>
                                 </router-link>
                             </li>
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'user_list' }">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span class="nav-item d-none d-lg-inline">Users</span>
+                                </router-link>
+                            </li>
 
 
                         </ul>

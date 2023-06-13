@@ -79,6 +79,7 @@
                                     <legend class="float-none w-auto p-2">
                                         <span class="text-muted h5">Optional:</span>
                                     </legend>
+
                                     <!-- ========== Gender Section ========== -->
                                     <div class="form-group mb-2">
                                         <select class="form-select shadow-none" id="gender" v-model="form.gender"
@@ -108,22 +109,22 @@
                                     <div class="form-group my-3 d-flex justify-content-start">
 
                                         <div class="warning-wrap me-3">
-                                            <input id="warning_1" type="checkbox" class="form-checkbox me-2"
-                                                v-model="form.restrictions" :disabled="disabled">
+                                            <input id="warning_1" type="checkbox" class="form-checkbox me-2" hidden
+                                                @change="restrictionChange" :disabled="disabled">
                                             <label for="warning_1" class="form-label fw-bold text-secondary"
-                                                :class="{ 'text-danger': form.restrictions }">
-                                                Dietary Restrictions
+                                                :class="{ 'text-danger': form.restrictions == 1 }">
+                                                Dietary Restrictions :{{ form.restrictions == 1 ? 'Yes' : 'No' }}
                                             </label>
                                         </div>
 
                                         <div class="warning-wrap">
-                                            <input id="warning_2" type="checkbox" class="form-checkbox me-2"
-                                                v-model="form.allergies" @click="allergies = !allergies"
-                                                :disabled="disabled">
+                                            <input id="warning_2" type="checkbox" class="form-checkbox me-2" hidden
+                                                :disabled="disabled" @change="allergiesChange">
                                             <label for="warning_2" class="form-label fw-bold text-secondary"
-                                                :class="{ 'text-danger': form.allergies }">
-                                                Allergies: {{ allergies == true ? 'Yes' : 'No' }}
+                                                :class="{ 'text-danger': form.allergies == 1 }">
+                                                Allergies: {{ form.allergies == 1 ? 'Yes' : 'No' }}
                                             </label>
+
                                         </div>
                                     </div>
 
@@ -153,16 +154,18 @@
 
                                 <div class="form-group my-2">
                                     <select class="form-select shadow-none" disabled v-model="form.role">
-                                        <option value="" selected disabled>user Role</option>
-                                        <option :value="form.role" v-for=" role  in  roles " :key="role">
-                                            {{ role == 1 ? 'Admin' : 'Member' }}</option>
+                                        <option value="null" selected disabled>user Role</option>
+                                        <option :value="role" v-for="role in roles " :key="role">
+                                            {{ role == 1 ? 'Admin' : 'Member' }}
+                                            <!-- {{ role }} -->
+                                        </option>
 
                                     </select>
                                 </div>
 
                                 <!-- ========== Membership Section ========== -->
 
-                                <div class="form-group my-2" v-if="form.role != 1">
+                                <div class="form-group my-2" v-if="form.role !== 1">
                                     <select class="form-select shadow-none" disabled v-model="form.membership">
                                         <option value="null" selected disabled>Membership Level -</option>
 
@@ -207,19 +210,13 @@ export default {
     data() {
         return {
             allergies: false,
+            restrictions: false,
             gender: ['Male', 'Female'],
             roles: [0, 1],
             Membership: [{ id: 1, level: 'Silver' }, { id: 2, level: 'Gold' }, { id: 3, level: 'Diamond' }],
 
             form: '',
-            avatar: [
-                { id: 1, url: 'https://res.cloudinary.com/psn-cloudinary/image/upload/v1686160547/tiger_unbu3z.png' },
-                { id: 2, url: 'https://res.cloudinary.com/psn-cloudinary/image/upload/v1686160546/gorilla_dshomh.png' },
-                { id: 3, url: 'https://res.cloudinary.com/psn-cloudinary/image/upload/v1686160546/bee_jdcfug.png' },
-                { id: 4, url: 'https://res.cloudinary.com/psn-cloudinary/image/upload/v1686160546/fox_xgem35.png' },
-            ],
             avatar_slot: 'https://rb.gy/kanf3',
-
             disabled: true
         }
     },
@@ -237,10 +234,32 @@ export default {
             this.form = { ...this.userData }
         },
 
+        allergiesChange() {
+            this.allergies = !this.allergies
+            if (this.allergies == true) {
+                this.form.allergies = 1
+            } else {
+                this.form.allergies = 0
+            }
+        },
+        restrictionChange() {
 
+            this.restrictions = !this.restrictions
+            if (this.restrictions == true) {
+                this.form.restrictions = 1
+            } else {
+                this.form.restrictions = 0
+            }
+        },
 
         change_status() {
-            this.disabled = !this.disabled
+            if (this.getProfileErr) {
+                this.disabled = false
+            } else {
+
+                this.disabled = !this.disabled;
+            }
+
         },
 
         previewImage() {
@@ -253,6 +272,10 @@ export default {
 
         // --------- 
         update() {
+
+
+
+
             const profile = document.getElementById('profile_pic').files[0];
             const formData = new FormData();
 
@@ -264,6 +287,9 @@ export default {
             // }
 
             Object.entries(this.form).forEach(([key, value]) => {
+                if (value == 'null' || value == null) {
+                    return
+                } // Check this out (important for backend validation)
                 formData.append(key, value);
             });
 
@@ -271,13 +297,10 @@ export default {
             formData.append('image', profile);
 
 
-
             this.$store.dispatch('auth/profileUpdate', formData)
-                .then(() => {
-                    if (!this.getProfileErr) {
-                        this.disabled = true
-                    }
-                })
+
+
+
         },
 
 
@@ -289,15 +312,29 @@ export default {
     watch: {
         userData() {
             this.setData();
+            this.getProfileErr
+        },
 
-        }
+        // getProfileErr()
+
     },
+
+
 
     beforeMount() {
         this.form = this.userData;
         this.$store.dispatch('food/getTags');
+        this.getProfileErr
+    },
 
-    }
+    beforeUpdate() {
+        this.getProfileErr;
+        // this.$store.commit('auth/setProfileErr', '')
+    },
+
+
+
+
 }
 </script>
 

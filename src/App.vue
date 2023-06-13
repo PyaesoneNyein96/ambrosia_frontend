@@ -88,7 +88,8 @@ export default {
         }
 
 
-      } // notify true
+      }
+      // notify true
 
 
 
@@ -106,7 +107,12 @@ export default {
 
 
 </script>
+
 <style>
+/* input::-webkit-inner-spin-button {
+  -webkit-appearance: unset;
+} */
+
 .fade-enter-active,
 .fade-leave-active {
   opacity: 1;
@@ -117,5 +123,14 @@ export default {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(20px);
+}
+
+select {
+  -webkit-appearance: unset;
+  appearance: unset;
+  border: 0.3px solid rgba(3, 46, 139, 0.625);
+  outline: none;
+  padding: 10px;
+  /* padding-left: 1em; */
 }
 </style>

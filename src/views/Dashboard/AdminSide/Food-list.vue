@@ -22,8 +22,8 @@
             <table class="table table-sm table-striped bg-light table-hover" v-if="getAdminFoodList.length !== 0">
                 <thead class="text-center text-muted">
                     <tr>
-                        <th class="num"> . No</th>
-                        <th class="img">Image</th>
+                        <th class="num">.No</th>
+                        <th class="img sticky">Image</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>description</th>
@@ -39,8 +39,8 @@
 
                     <tr v-for="(f, i) in getAdminFoodList" :key="i">
                         <td class="num">{{ i + 1 }}</td>
-                        <td class="img-wrap">
-                            <img :src="f.image" alt="meal" v-if="f.image">
+                        <td class="img-wrap sticky">
+                            <img :src="f.image" alt="meal" v-if="f.image" :title="f.name">
                             <img src="../../../../public/assets/img/GODlogopng.png" alt="meal" v-else>
                         </td>
                         <td>{{ f.name }}</td>
@@ -147,8 +147,7 @@ export default {
         },
 
         // To Edit
-        goToEdit(num) {
-            const id = Number(num);
+        goToEdit(id) {
             this.getFoodBySpecific(id)
         },
 
@@ -161,37 +160,39 @@ export default {
 
     watch: {
         notify(notify) {
-            if (notify[0] == true) {
-                this.$toast.question({
-                    timeout: 20000,
-                    close: false,
-                    overlay: true,
-                    displayMode: 'once',
-                    id: 'question',
-                    zindex: 999,
-                    title: notify[1].name,
-                    message: notify[2],
-                    position: 'center',
-                    buttons: [
-                        ['<button><b>YES</b></button>', function (instance, toast) {
-                            store.dispatch('food/deleteFood', notify[1].id);
+            if (notify[3] == 'question') {
+                if (notify[0] == true) {
+                    this.$toast.question({
+                        timeout: 20000,
+                        close: false,
+                        overlay: true,
+                        displayMode: 'once',
+                        id: 'question',
+                        zindex: 999,
+                        title: notify[1].name,
+                        message: notify[2],
+                        position: 'center',
+                        buttons: [
+                            ['<button><b>YES</b></button>', function (instance, toast) {
+                                store.dispatch('food/deleteFood', notify[1].id);
 
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
-                        }, true],
-                        ['<button>NO</button>', function (instance, toast) {
+                            }, true],
+                            ['<button>NO</button>', function (instance, toast) {
 
-                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
 
-                        }],
-                    ],
-                    onClosing: function (instance, toast, closedBy) {
-                        console.info('Closing | closedBy: ' + closedBy);
-                    },
-                    onClosed: function (instance, toast, closedBy) {
-                        console.info('Closed | closedBy: ' + closedBy);
-                    }
-                });
+                            }],
+                        ],
+                        onClosing: function (instance, toast, closedBy) {
+                            console.info('Closing | closedBy: ' + closedBy);
+                        },
+                        onClosed: function (instance, toast, closedBy) {
+                            console.info('Closed | closedBy: ' + closedBy);
+                        }
+                    });
+                }
             }
         }
     },
@@ -243,14 +244,14 @@ export default {
 
 
 .img-wrap img {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     transition: all 0.5s ease-in-out;
     object-fit: cover;
 }
 
 .img-wrap img:hover {
-    transform: scale(1.5) translateX(5px);
+    transform: scale(1.2) translateX(5px);
 }
 
 table * {
@@ -289,5 +290,12 @@ thead {
 
 thead {
     margin-bottom: 20px;
+}
+
+.sticky {
+    position: sticky;
+    left: -10px;
+    z-index: 20;
+    background-color: rgb(220, 227, 227);
 }
 </style>

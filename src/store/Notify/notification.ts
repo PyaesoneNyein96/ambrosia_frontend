@@ -1,6 +1,6 @@
 
 
-const Notify = {
+const NotifyModule = {
     namespaced: true,
     state() {
         return {
@@ -28,4 +28,4 @@ const Notify = {
 
 }
 
-export default Notify 
+export default NotifyModule 

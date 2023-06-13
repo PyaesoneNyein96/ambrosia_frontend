@@ -118,6 +118,7 @@ export default {
             } else {
                 const info = { name: this.category_name, id: this.category_id }
                 this.updateCategory(info);
+                this.action = true
             }
             this.getCategories;
 

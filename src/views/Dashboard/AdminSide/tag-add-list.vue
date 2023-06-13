@@ -118,10 +118,11 @@ export default {
 
                 const info = { name: this.tag_name, id: this.edit_id };
                 this.updateTag(info);
+                this.action = true
 
             }
             this.getTags;
-            console.log(this.getErr);
+
         },
 
         edit(name, id) {

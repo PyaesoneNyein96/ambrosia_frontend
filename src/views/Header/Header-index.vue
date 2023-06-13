@@ -101,6 +101,9 @@
 
 <script>
 
+/* eslint-disable  */
+
+
 import store from '../../store'
 import { smsInform, smsLogOut } from '../../store/Notify/notify.js'
 import { mapGetters } from 'vuex';
@@ -162,11 +165,7 @@ export default {
         logout() {
             this.isMobile = false
             this.$store.dispatch('auth/logout')
-                .then(() => {
-                    this.$router.push({ name: 'home' })
-                }).then(() => {
-                    smsLogOut(store.commit)
-                })
+
         },
 
         moreDropDown() {

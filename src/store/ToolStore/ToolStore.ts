@@ -1,6 +1,6 @@
 
 
-const ToolStore = {
+const ToolsModule = {
     namespaced: true,
     state() {
         return {
@@ -30,4 +30,4 @@ const ToolStore = {
 
 }
 
-export default ToolStore 
+export default ToolsModule 

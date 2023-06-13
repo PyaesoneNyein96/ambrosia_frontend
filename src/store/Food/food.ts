@@ -206,7 +206,7 @@ const FoodModule = {
                 .then((res) => {
 
                     smsInform(commit, `${res.data.food.name}`, 'Successfully Deleted');
-                    dispatch('getFoodByType', 2)
+                    dispatch('getFoodByType', 2) // 2 is All food
                 }).catch(err => {
                     smsError(commit, 'Delete', err)
                 })
@@ -325,7 +325,7 @@ const FoodModule = {
             axios.post(`http://localhost:8000/api/tag/add`, payload)
                 .then((res) => {
                     dispatch('getTags');
-                    // commit('setTagErr', '');
+                    commit('setTagErr', '')
                     smsSuccess(commit, res.data.tag.name);
 
                 }).catch(err => {
@@ -370,11 +370,12 @@ const FoodModule = {
 
             axios.post(`http://localhost:8000/api/tag/edit`, payload)
                 .then(res => {
+                    commit('setTagErr', '')
                     smsSuccess(commit, res.data.tag.name, `has been successfully Changed`);
                     dispatch('getTags');
                 }).catch(err => {
                     smsError(commit, err.response.data.errors.name)
-                    console.log(err);
+                    commit('setTagErr', err.response.data.errors)
 
                 }).finally(() => {
                     Loader(commit, false)

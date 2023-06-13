@@ -305,17 +305,9 @@ export default {
     padding: 10px;
 }
 
-/* .old-img img {
-    width: 50%;
-    height: 100%;
+input::-webkit-inner-spin-button {
+    -webkit-appearance: unset;
 }
-
-.old-img {
-
-    display: flex;
-    justify-content: center;
-
-} */
 
 .check-label {
     cursor: pointer;

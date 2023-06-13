@@ -2,7 +2,7 @@
 import axios from 'axios'
 import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
-import { smsError, smsSuccess } from '../Notify/notify.js'
+import { smsError, smsSuccess, smsLogOut } from '../Notify/notify.js'
 
 const AuthModule = {
     namespaced: true,
@@ -64,7 +64,7 @@ const AuthModule = {
 
             Loader(commit, true)
 
-            console.log(payload);
+            // console.log(payload);
             axios.post(`http://localhost:8000/api/user/login`, payload)
 
                 .then((res) => {
@@ -121,13 +121,23 @@ const AuthModule = {
 
             Loader(commit, true)
 
-            commit('setUserData', '');
-            commit('setToken', '');
-            commit('setAuth', false);
-            localStorage.setItem('userCredentials', '');
+            try {
+                router.push({ name: 'home' })
+                    .then(() => {
+                        localStorage.setItem('userCredentials', '');
+                        commit('setAuth', false);
+                        commit('setToken', '');
+                        commit('setUserData', '');
+                    })
+
+            } catch (error) {
+                console.log(error);
+
+            }
+            smsLogOut(commit)
+
 
             Loader(commit, false)
-            // router.push({ name: 'login' })
 
 
         }
@@ -144,10 +154,12 @@ const AuthModule = {
                         res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
                     }
                     commit('setUserData', res.data)
+
                 })
                 .catch((err) => {
                     router.push({ name: 'login' });
-                    smsError(commit, 'Auto Login Error', 'Something went wrong, Please Login again.')
+
+                    smsError(commit, 'Auto Login Error', `Something went wrong, Please Login again.${err}`)
                     localStorage.setItem('userCredentials', '')
 
                 })
@@ -156,7 +168,7 @@ const AuthModule = {
         // User Profile Data Update ========================================================================================
 
         profileUpdate: ({ commit }, payload) => {
-
+            // console.log(payload);
 
             axios.post('http://localhost:8000/api/user/profile/update', payload)
                 .then(res => {
@@ -167,11 +179,11 @@ const AuthModule = {
                     commit('setUserData', res.data)
                     commit('setProfileErr', '')
 
-
-
                     smsSuccess(commit, 'Profile Update', "Profile  Successfully Updated. ")
                 }).catch(err => {
                     smsError(commit, 'Profile Update Error', err.response.data.message)
+                    console.log(err.response);
+
                     // if (Array.isArray(err.response.data.errors)) {
                     commit('setProfileErr', err.response.data.errors)
                     // }
