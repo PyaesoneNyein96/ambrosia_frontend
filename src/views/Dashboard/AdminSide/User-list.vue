@@ -43,7 +43,7 @@
 
 
 
-                    <tr v-for="(u, i) in userList" :key="i">
+                    <tr v-for="(u, i) in userList" :key="i" :draggable="true">
                         <td class="num">{{ i + 1 }}</td>
                         <td class="img-wrap">
                             <img :src="u.image" alt="profile" v-if="u.image != null">
@@ -123,7 +123,9 @@
                 </h1>
             </div>
 
-
+            <!-- <div class="p-5 bg-info" :on-drop="true">
+                drop here
+            </div> -->
 
 
 

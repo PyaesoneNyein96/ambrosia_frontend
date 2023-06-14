@@ -41,7 +41,6 @@ app.component('app-Search', Search)
 app
     .use(store)
     .use(router)
-
     .use(VueSweetalert2)
     .mount('#app');
 

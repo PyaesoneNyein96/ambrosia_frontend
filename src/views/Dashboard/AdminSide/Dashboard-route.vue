@@ -49,16 +49,16 @@
                                 </router-link>
                             </li>
                             <li class="admin-nav-list">
-                                <router-link :to="{ name: 'food-Add' }">
+                                <router-link :to="{ name: 'food_Add' }">
                                     <i class="fa-solid fa-circle-plus"></i>
                                     <span class="nav-item d-none d-lg-inline">Food-Add</span>
                                 </router-link>
                             </li>
 
                             <li class="admin-nav-list">
-                                <router-link :to="{ name: 'package' }">
+                                <router-link :to="{ name: 'package_add' }">
                                     <!-- <i class="fa-solid fa-tags"></i> -->
-                                    <i class="fas fa-box-open    "></i>
+                                    <i class="fas fa-box-open"></i>
                                     <span class="nav-item d-none d-lg-inline">Packages</span>
                                 </router-link>
                             </li>

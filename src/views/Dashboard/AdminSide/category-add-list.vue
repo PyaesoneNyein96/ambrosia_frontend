@@ -171,12 +171,7 @@ export default {
 
                         }],
                     ],
-                    // onClosing: function (instance, toast, closedBy) {
-                    //     console.info('Closing | closedBy: ' + closedBy);
-                    // },
-                    // onClosed: function (instance, toast, closedBy) {
-                    //     console.info('Closed | closedBy: ' + closedBy);
-                    // }
+
                 });
             }
         },
@@ -186,12 +181,6 @@ export default {
     },
 
 
-
-    // beforeUpdate() {
-    //     if (this.category_name !== '') {
-    //         this.$store.commit('food/clearCategoryErr');
-    //     }
-    // },
 
 
     mounted() {

@@ -33,11 +33,11 @@
                         <div class="menu-content">
                             <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
                         </div>
-                        <div class="info-wrap mt-2 d-flex justify-content-evenly">
+                        <div class="info-wrap mt-2 d-flex justify-content-between">
                             <div class="img-wrap me-2">
                                 <img :src="menu.image" alt="Food" style="width:70px">
                             </div>
-                            <div class="menu-ingredients">
+                            <div class="menu-ingredients  w-50 ">
                                 {{ menu.description }}
                             </div>
                         </div>

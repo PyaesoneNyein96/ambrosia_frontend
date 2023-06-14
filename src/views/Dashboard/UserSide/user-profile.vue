@@ -358,12 +358,4 @@ legend.scheduler-border {
     /* To give a bit of padding on the left and right */
     border-bottom: none;
 }
-
-.avatars {
-    transition: all 0.3s ease-in-out;
-}
-
-.avatars:hover {
-    transform: translateY(-5px) scale(1.08);
-}
 </style>

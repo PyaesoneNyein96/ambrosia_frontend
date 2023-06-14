@@ -60,7 +60,7 @@
                             <div class="tag-wrap row m-0 p-0">
                                 <span class=" tag-field col-6 mb-1" v-for="tag in f.tag" :key="tag.id">
                                     <span class="rounded-2 me-1 text-light px-1 bg-secondary"
-                                        :class="{ 'bg-danger': tag.id == 1, 'bg-success': tag.id == 2, 'bg-warning': tag.id == 4 }">
+                                        :class="{ 'bg-danger': tag.name == 'Special', 'bg-info': tag.name == 'Economica', 'bg-warning': tag.name == 'Popular' }">
                                         {{ tag.name }}
                                     </span>
                                 </span>

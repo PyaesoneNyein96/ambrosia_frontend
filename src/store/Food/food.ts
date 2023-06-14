@@ -24,7 +24,9 @@ const FoodModule = {
             errors: [],
             categoryErr: '',
             tagErr: '',
-            specFood: ''
+            specFood: '',
+
+            SpecialMenu: ''
         }
     },
 
@@ -45,6 +47,8 @@ const FoodModule = {
 
         getTagErr: state => state.tagErr,
 
+        getSpecialMenu: state => state.SpecialMenu,
+
     },
 
     mutations: {
@@ -63,6 +67,8 @@ const FoodModule = {
         setCategoryErr: (state, payload) => state.categoryErr = payload, //category err
 
         setTagErr: (state, payload) => state.tagErr = payload, // tag err
+
+        setSpecialMenu: (state, payload) => state.SpecialMenu = payload // Special Menu
 
 
 
@@ -401,6 +407,25 @@ const FoodModule = {
                     Loader(commit, false)
                 })
 
+        },
+
+        //==================================================================================
+        // Special Menu For user (Special Menu)
+        //==================================================================================
+
+        specialMenu: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.get('http://localhost:8000/api/user/special/menu')
+                .then(res => {
+                    commit('setSpecialMenu', res.data)
+                })
+                .catch(err => {
+                    smsError(commit, "Internal Server Error", err)
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
         }
 
 

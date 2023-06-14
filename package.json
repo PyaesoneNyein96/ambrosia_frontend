@@ -12,6 +12,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "izitoast": "^1.4.0",
+    "scrollreveal": "^4.0.9",
     "swiper": "^9.3.2",
     "vee-validate": "^4.9.5",
     "vue": "^3.2.13",

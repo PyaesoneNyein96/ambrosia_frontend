@@ -250,12 +250,12 @@ export default {
 
         },
 
-        trigger() {
-            this.$toast.success({
-                title: 'Okay par',
-                message: 'Operation completed successfully',
-            });
-        }
+        // trigger() {
+        //     this.$toast.success({
+        //         title: 'Okay par',
+        //         message: 'Operation completed successfully',
+        //     });
+        // }
 
 
     },
@@ -281,15 +281,6 @@ export default {
         }
 
         this.$store.dispatch('food/getFoodBySpecific', this.id);
-
-
-
-        // console.log(this.oldTags);
-        // console.log(this.tags);
-
-
-
-
 
 
 

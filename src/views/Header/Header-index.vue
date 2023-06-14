@@ -1,6 +1,6 @@
 <template>
     <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top d-flex align-items-center">
+    <header id="header" class="fixed-top d-flex align-items-center ">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
             <div class="logo me-auto">
@@ -23,19 +23,21 @@
 
             <nav id="navbar" class="navbar order-last order-lg-0" :class="{ 'navbar-mobile': isMobile }">
                 <ul>
-                    <li><router-link class="nav-link scrollto dropdown-active " :to="{ name: 'home' }">Home</router-link>
+                    <li>
+                        <router-link class="nav-link scrollto dropdown-active  " :to="{ name: 'home' }">
+                            Home
+                        </router-link>
                     </li>
+
+                    <li><router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link></li>
                     <li><router-link class="nav-link scrollto " :to="{ name: 'menu' }">Menu</router-link></li>
+                    <li><router-link class="nav-link scrollto " :to="{ name: 'chef' }">Our Chefs</router-link></li>
 
 
-
-                    <li><a class="nav-link scrollto" href="#specials">Specials</a></li>
-
-
-
-                    <li class="dropdown ">
-                        <a class="text-warning">
-                            <span @click="moreDropDown"> More . .
+                    <li class="dropdown">
+                        <a class="">
+                            <span @click="moreDropDown">
+                                More
 
                             </span>
                             <i class="bi bi-chevron-down"></i></a>
@@ -48,21 +50,26 @@
                                 <ul :class="{ 'dropdown-active': deepDrop }">
                                     <li><a href="#">Event</a></li>
                                     <li><a href=""> Free Chef Class </a></li>
-                                    <li><a href="#">Deep Drop Down 3</a></li>
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Contact Us</a></li>
+                                    <li><a href="#">Something</a></li>
+
                                 </ul>
                             </li>
-                            <li><a href="#">Gallery</a></li>
-                            <li><a href="#">Our Chefs</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link></li>
+
+                            <li><router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About Us</router-link>
+                            </li>
+                            <li><router-link class="nav-link scrollto " :to="{ name: 'contact' }">Contact Us</router-link>
+                            </li>
+                            <li>
+                                <router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">
+                                    Login & Register
+                                </router-link>
+                            </li>
+                            <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
                         </ul>
                     </li>
 
-                    <li><router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">Login</router-link>
-                    </li>
-                    <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
+
 
                     <li v-if="!navLinkToHide">
                         <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth">
@@ -77,9 +84,6 @@
                         <div ref="bar_2" class="bar"></div>
                         <div ref="bar_3" class="bar"></div>
                     </div>
-
-
-                    <!-- <span class="d-block d-md-none" @click="isMobile = !isMobile">X</span> -->
                 </i>
 
 
@@ -87,9 +91,16 @@
             </nav>
 
             <span>
-                <button class=" book-a-table-btn scrollto" @click="show">Reservation</button>
+                <button class=" book-a-table-btn scrollto py-2" @click="show">Reservation
+                    <span v-if="auth">
+                        <span class=" bg-gradient small rounded-pill active-btn py-0 p-1">a
+                        </span>
+                    </span>
+                </button>
                 <!-- {{ this.authCheck }} -->
             </span>
+
+
 
 
 
@@ -124,7 +135,7 @@ export default {
         ...mapGetters({
             userData: 'auth/getUserData',
             auth: 'auth/getAuth',
-            // authCheck: 'auth/getAuth'
+            userBadge: 'auth/getUserData'
         }),
 
 
@@ -238,7 +249,7 @@ nav * {
 
 .router-link-active {
     color: rgb(210, 131, 53) !important;
-    font-size: 17px !important;
+    /* font-size: 15px !important; */
     font-weight: bolder !important;
 }
 
@@ -294,5 +305,11 @@ span .router-link-exact-active {
 .bot-change {
     transform: rotate(-45deg) translate(5px, 5px);
     background-color: rgb(144, 123, 8);
+}
+
+.active-btn {
+    box-shadow: 1px 1px 30px 2px rgb(0, 255, 60);
+    background-color: rgb(30, 125, 30);
+    color: rgb(30, 125, 30);
 }
 </style>

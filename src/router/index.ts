@@ -5,13 +5,20 @@
 import { createRouter, createWebHistory, RouteRecordRaw, START_LOCATION } from 'vue-router'
 import store from '../store'
 
+import Page404 from '../page-404.vue'
+
 import Home from '../views/Home/Home-index.vue'
 import Booking from '../views/booking/Booking-index.vue'
 import Booking_Phone from '../views/booking/Booking-phone.vue'
 import Menu from '../views/Menu/Menu-index.vue'
-import Why_us from '../views/WhyChoose/why-us.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
-import Page404 from '../page-404.vue'
+import Special from '../views/Home/Special-index.vue'
+import Gallery from '../views/Home/Gallery-index.vue'
+import Chef from '../views/Home/Chef-index.vue'
+import Contact from '../views/Home/Contact-index.vue'
+import About from '../views/Home/About-Us.vue'
+
+
 
 import Dashboard from '../views/Dashboard/AdminSide/Dashboard-route.vue'
 import MainDashboard from '../views/Dashboard/AdminSide/Main-Dashboard.vue'
@@ -25,12 +32,12 @@ import UserList from '../views/Dashboard/AdminSide/User-list.vue'
 import Category from '../views/Dashboard/AdminSide/category-add-list.vue'
 import Tag from '../views/Dashboard/AdminSide/tag-add-list.vue'
 
-import Package from '../views/Dashboard/AdminSide/Package-add.vue'
+import Package_Add from '../views/Dashboard/AdminSide/Package-add.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
 
-
+import { smsInform } from '../store/Notify/notify.js'
 
 
 
@@ -48,14 +55,17 @@ const router = createRouter({
   routes: [
 
     { path: '/', component: Home, name: 'home' },
+    { path: '/login', component: Login, name: 'login', meta: { login: true } },
     { path: '/menu', component: Menu, name: 'menu' },
     { path: '/book', component: Booking, name: 'booking', meta: { book: true } },
     { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
-    { path: '/why_us', component: Why_us, name: 'why_us' },
+    { path: '/special', component: Special, name: 'special' },
+    { path: '/gallery', component: Gallery, name: 'gallery' },
+    { path: '/chef', component: Chef, name: 'chef' },
+    { path: '/about_us', component: About, name: 'about_us' },
+    { path: '/Contact', component: Contact, name: 'contact' },
 
 
-
-    { path: '/login', component: Login, name: 'login', meta: { login: true } },
 
 
     {
@@ -65,13 +75,14 @@ const router = createRouter({
         { path: 'user_check', component: UserCheck, name: 'user_Check' },
 
         { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
-        { path: 'food_add', component: Food_Add, name: 'food-Add', meta: { food_add: true } },
+        { path: 'food_add', component: Food_Add, name: 'food_Add', meta: { food_add: true } },
         { path: 'food_edit/:id', component: Food_Edit, name: 'food_Edit', meta: { food_edit: true } },
         { path: 'food_list', component: Food_List, name: 'food_List', meta: { food_list: true } },
         { path: 'categories', component: Category, name: 'category', meta: { categories: true } },
         { path: 'tags', component: Tag, name: 'tag', meta: { tags: true } },
-        { path: 'package', component: Package, name: 'package', meta: { package: true } },
+        { path: 'package_add', component: Package_Add, name: 'package_add', meta: { package_add: true } },
         { path: 'user_list', component: UserList, name: 'user_list', meta: { user_list: true } },
+
 
 
       ]
@@ -104,12 +115,13 @@ const validation = (to, from, next) => {
   }
   else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
     router.push({ name: 'booking' })
+    smsInform(store.commit, 'If you are already a member', ' Register as a user.')
   }
 
   else if (((to.meta.food_add) || (to.meta.edit) ||
     (to.meta.food_list) || (to.meta.categories) ||
     (to.meta.user_list) ||
-    (to.meta.tags) || (to.meta.package)) && store.getters['auth/isAdmin'] == 0) {
+    (to.meta.tags) || (to.meta.package_add)) && store.getters['auth/isAdmin'] == 0) {
     router.push({ name: 'main_dashboard' })
   }
   else {

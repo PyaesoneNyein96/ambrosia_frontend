@@ -23,7 +23,9 @@ import info from '../public/assets/audio/info.mp3'
 import warning from '../public/assets/audio/warning.mp3'
 
 
+
 export default {
+
   name: 'App',
   data() {
     return {
@@ -98,7 +100,6 @@ export default {
 
 
   }, //end of watch
-
 
 
 

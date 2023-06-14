@@ -1,20 +1,18 @@
 <template>
-    <div class="bg-dark bg-gradient">
-        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="10000" :transition="2500" v-if="slides">
-            <Slide v-for="slide in slides" :key="slide">
+    <div class="bg-transparent bg-gradient" style="height: 100vh;">
+
+        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="3000" :transition="4500" v-if="slides">
+            <Slide v-for="slide in slides" :key="slide.id">
                 <Transition name="carousel" appear>
                     <div class="slide-img" :style="{ background: `url(${slide.url})` }">
-                        <div class="slide-text-wrap">
-                            <h2>Ambrosia</h2>
+                        <div class=" slide-up">
+                            <h2 class="title">Ambrosia</h2>
                             <h4 class="slide-text">{{ slide.description }}</h4>
                         </div>
                     </div>
                 </Transition>
             </Slide>
 
-            <template #addons>
-                <Pagination />
-            </template>
         </Carousel>
     </div>
 </template>
@@ -24,8 +22,9 @@
 /* eslint-disable */
 
 import 'vue3-carousel/dist/carousel.css'
-import { Carousel, Slide, Pagination } from 'vue3-carousel'
-// import '../../../public/CustomStyle/style.css';
+import { Carousel, Slide } from 'vue3-carousel'
+
+
 
 
 export default {
@@ -33,10 +32,11 @@ export default {
     components: {
         Carousel,
         Slide,
-        Pagination
+        // Pagination
     },
     data() {
         return {
+            sr: null,
 
             slides: [
                 {
@@ -44,7 +44,6 @@ export default {
                     title: 'Ambrosia',
                     description: `A world of mouthwatering creations. From hors d'oeuvres to desserts, our restaurant carousel presents
                     artful dishes that will leave you longing for more.`,
-                    // url: 'https://images.wallpaperscraft.com/image/single/restaurant_table_interior_39288_1920x1080.jpg',
                     url: 'https://london.danslenoir.com/templates/yootheme/cache/a3/SHOOTING_WEBSITE_13-a3055975.jpeg',
                 },
                 {
@@ -52,19 +51,20 @@ export default {
                     title: 'Ambrosia',
                     description: `An enchanting dining adventure with rotating dishes. Succulent steaks, fresh seafood, and delightful
                         surprises await.`,
-                    url: 'https://primalhfx.ca/wp-content/uploads/2017/12/Char5-1920x1080.jpg',
+                    url: 'https://images.unsplash.com/photo-1534470397273-a1c104354754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1331&q=80',
                 },
                 {
                     id: 3,
                     title: 'Ambrosia',
                     description: `Where culinary fantasies come alive. Imaginative dishes with seasonal ingredients. Farm-to-table freshness and modern twists on classics.`,
-                    url: 'https://images8.alphacoders.com/104/1046601.jpg',
+                    url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
                 },
             ]
 
 
         }
     },
+
 
 
 
@@ -80,12 +80,14 @@ export default {
     height: 100vh;
     background-position-y: center !important;
     object-fit: cover !important;
+    background-repeat: no-repeat;
 }
 
-.slide-text-wrap {
+
+.slide-up {
+    bottom: 4.7%;
     min-height: 8em;
     position: absolute;
-    bottom: 6.5%;
     left: 8%;
     right: 10%;
     z-index: 999;
@@ -95,7 +97,8 @@ export default {
     border-radius: 0.7em;
     color: rgb(255, 255, 255);
     box-shadow: 1px 0px 5px rgba(76, 62, 62, 0.422);
-    opacity: 1;
+    opacity: 1 !important;
+    transition: all 2.3s ease-in-out;
 }
 
 h1,
