@@ -50,7 +50,7 @@ export default {
                 duration: 700,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
 
@@ -60,7 +60,7 @@ export default {
                 duration: 1000,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
 
@@ -70,7 +70,7 @@ export default {
                 duration: 1300,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
         }

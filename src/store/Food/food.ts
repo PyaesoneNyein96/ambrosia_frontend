@@ -413,7 +413,7 @@ const FoodModule = {
         // Special Menu For user (Special Menu)
         //==================================================================================
 
-        specialMenu: ({ commit }, payload) => {
+        specialMenu: ({ commit }) => {
             Loader(commit, true)
 
             axios.get('http://localhost:8000/api/user/special/menu')
