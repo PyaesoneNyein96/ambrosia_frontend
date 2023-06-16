@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-block">
         <footer id="footer">
             <div class="container">
                 <h3>Ambrosia</h3>

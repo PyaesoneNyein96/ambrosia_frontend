@@ -58,9 +58,9 @@
 
                         <td>
                             <div class="tag-wrap row m-0 p-0">
-                                <span class=" tag-field col-6 mb-1" v-for="tag in f.tag" :key="tag.id">
+                                <span class=" tag-field col mb-1" v-for="tag in f.tag" :key="tag.id">
                                     <span class="rounded-2 me-1 text-light px-1 bg-secondary"
-                                        :class="{ 'bg-danger': tag.name == 'Special', 'bg-info': tag.name == 'Economica', 'bg-warning': tag.name == 'Popular' }">
+                                        :class="{ 'bg-danger': tag.name.includes('Special'), 'bg-info': tag.name == 'Economica', 'bg-warning': tag.name == 'Popular' }">
                                         {{ tag.name }}
                                     </span>
                                 </span>
@@ -91,7 +91,7 @@
             <div class=" text-center" v-if="getAdminFoodList.length == 0">
                 <h1 class="mt-5">
                     There is No Data !!! <span class="text-warning" style="cursor: pointer;"
-                        @click="this.$router.push({ name: 'food-Add' })">Add New</span>
+                        @click="this.$router.push({ name: 'food_Add' })">Add New</span>
                 </h1>
             </div>
 
@@ -283,7 +283,8 @@ thead {
 
 
 .tag-wrap {
-    width: 150px !important;
+    min-width: 100px !important;
+    max-width: 160px;
     height: max-content;
 
 }

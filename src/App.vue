@@ -8,7 +8,6 @@
     </Transition>
   </router-view>
 
-
   <app-Footer />
 </template>
 

@@ -426,7 +426,31 @@ const FoodModule = {
                 .finally(() => {
                     Loader(commit, false)
                 })
+        },
+
+        //==================================================================================
+        // Package Add (Add)
+        //==================================================================================
+
+        addPackage: ({ commit }, payload) => {
+
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/package/add', payload)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
         }
+
+
+
 
 
 

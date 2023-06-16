@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <section id="why-us" class="why-us mb-4">
-            <div class="container">
+    <div class="main-wrap">
+        <section id="why-us" class="why-us">
+            <div class="container" :class="scroll">
 
-                <div class="section-title" :class="scroll">
+                <div class="section-title">
                     <h2>Why choose <span>Our Restaurant</span></h2>
                     <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas
                         atque
@@ -11,7 +11,7 @@
                         autem.</p>
                 </div>
 
-                <div class="row p-3 shadow" :class="scroll">
+                <div class="row p-3 shadow">
 
                     <div class="col-lg-4" :class="scroll">
                         <div class="box">
@@ -50,6 +50,7 @@
 
                 </div>
 
+
             </div>
         </section>
         <!-- End Whu Us Section -->
@@ -68,7 +69,8 @@ export default {
 <style scoped>
 .why-us {
     background-color: whitesmoke;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     /* padding-top: 70px; */
 }
 </style>

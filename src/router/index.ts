@@ -17,6 +17,7 @@ import Gallery from '../views/Home/Gallery-index.vue'
 import Chef from '../views/Home/Chef-index.vue'
 import Contact from '../views/Home/Contact-index.vue'
 import About from '../views/Home/About-Us.vue'
+import Coming_soon from '../views/Home/Coming_soon.vue'
 
 
 
@@ -64,6 +65,7 @@ const router = createRouter({
     { path: '/chef', component: Chef, name: 'chef' },
     { path: '/about_us', component: About, name: 'about_us' },
     { path: '/Contact', component: Contact, name: 'contact' },
+    { path: '/coming_soon', component: Coming_soon, name: 'coming_soon' },
 
 
 

@@ -9,14 +9,18 @@
 
             <div class="main">
 
-
                 <Special class="special" scroll="scroll" scroll2="scroll-2" scroll3="scroll-3" />
 
                 <Customize scroll="scroll" scroll2="scroll-2" scroll3="scroll-3" />
 
+                <Why scroll="scroll" scroll2="scroll-2" scroll3="scroll-3" />
+
                 <About scroll="scroll" scroll2="scroll-2" scroll3="scroll-3" />
 
-                <Why scroll="scroll" scroll2="scroll-2" scroll3="scroll-3" />
+
+
+
+
 
             </div>
         </div>

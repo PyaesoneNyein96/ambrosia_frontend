@@ -11,7 +11,7 @@
                         adds depth and intrigue to the menu offerings.</p>
                 </div>
 
-                <div class="row" v-if="specialList">
+                <div class="row" v-if="specialList.length !== 0">
                     <div class="col-lg-3" :class="scroll">
                         <ul class="nav nav-tabs flex-column" v-for="s in specialList" :key="s.id">
                             <li class="nav-item">
@@ -79,11 +79,10 @@ export default {
             const val = this.List.find(s => {
                 return s.id === idx
             });
+            this.special = val;
             // this.special = val.map(s => {
             //     return { value: s }
             // })
-            this.special = val
-            console.log(this.special);
         }
     },
 
@@ -114,5 +113,25 @@ export default {
 .fade-leave-to {
     opacity: 0;
     transform: translateY(-40%);
+}
+
+::-webkit-scrollbar {
+    width: 3px !important;
+    /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+    /* Color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8e8704 !important;
+    /* Color of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #55555500 !important;
+    /* Color of the scrollbar thumb on hover */
 }
 </style>

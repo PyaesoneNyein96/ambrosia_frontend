@@ -42,23 +42,35 @@
                             </span>
                             <i class="bi bi-chevron-down"></i></a>
                         <ul :class="{ 'dropdown-active': moreDrop }">
-                            <li><a href="#">Our Chain-Store</a></li>
 
                             <li class="dropdown">
                                 <a><span class="fw-bold" @click="deepDropDown">For Member Customers . .</span>
                                     <i class="bi bi-chevron-right"></i></a>
                                 <ul :class="{ 'dropdown-active': deepDrop }">
-                                    <li><a href="#">Event</a></li>
-                                    <li><a href=""> Free Chef Class </a></li>
-                                    <li><a href="#">Something</a></li>
+                                    <li>
+                                        <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
+                                            Event for Members
+                                        </router-link>
+
+                                    </li>
+                                    <li>
+                                        <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
+                                            Free Chef Class
+                                        </router-link>
+                                    </li>
+
 
                                 </ul>
                             </li>
-                            <li><router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link></li>
-
-                            <li><router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About Us</router-link>
+                            <li>
+                                <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
                             </li>
-                            <li><router-link class="nav-link scrollto " :to="{ name: 'contact' }">Contact Us</router-link>
+
+                            <li>
+                                <router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About Us</router-link>
+                            </li>
+                            <li>
+                                <router-link class="nav-link scrollto " :to="{ name: 'contact' }">Contact Us</router-link>
                             </li>
                             <li>
                                 <router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">
@@ -152,11 +164,17 @@ export default {
     methods: {
         show() {
             this.$swal({
-                title: 'Order with Phone Number or As member ?',
+                title: "Order with Phone Number or As member ?",
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: 'With Phone',
-                denyButtonText: 'As Member'
+                denyButtonText: 'As Member',
+                cancelButtonText: 'Cancel',
+                color: 'white',
+                confirmButtonColor: '#a78f06ec',
+                denyButtonColor: 'green',
+                cancelButtonColor: '#gray',
+                background: '#dbbd1049',
             }).
                 then((result) => {
                     if (result.isConfirmed) {
@@ -254,7 +272,7 @@ nav * {
 }
 
 span .router-link-exact-active {
-    color: rgb(131, 65, 35)
+    color: rgb(131, 123, 35)
 }
 
 .toggle-ul {

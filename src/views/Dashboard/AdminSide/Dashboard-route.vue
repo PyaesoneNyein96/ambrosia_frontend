@@ -57,8 +57,7 @@
 
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'package_add' }">
-                                    <!-- <i class="fa-solid fa-tags"></i> -->
-                                    <i class="fas fa-box-open"></i>
+                                    <i class="fa-solid fa-gift"></i>
                                     <span class="nav-item d-none d-lg-inline">Packages</span>
                                 </router-link>
                             </li>

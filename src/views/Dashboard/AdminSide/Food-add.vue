@@ -46,8 +46,8 @@
                     </div>
                     <!-- ========== Price Section ========== -->
                     <div class="mb-4">
-                        <input v-model="form.price" class="w-100 form-control shadow-none" type="number" placeholder="price"
-                            min="1" :class="{ 'is-invalid': getError.price }">
+                        <input v-model="form.price" class="w-100 form-control shadow-none" step="any" type="number"
+                            placeholder="price" min="1" :class="{ 'is-invalid': getError.price }">
                         <p class="text-danger px-2 small" v-for="err in getError.price" :key="err">
                             {{ err }}
                         </p>
