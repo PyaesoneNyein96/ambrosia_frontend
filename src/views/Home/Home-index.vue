@@ -22,6 +22,7 @@
 
 
 
+
             </div>
         </div>
     </div>
@@ -60,7 +61,7 @@ export default {
 
             ScrollReveal().reveal('.scroll-2', {
                 distance: '100px',
-                delay: 200,
+                delay: 300,
                 duration: 1000,
                 easing: 'ease-in',
                 origin: 'bottom',
@@ -70,7 +71,7 @@ export default {
 
             ScrollReveal().reveal('.scroll-3', {
                 distance: '100px',
-                delay: 300,
+                delay: 500,
                 duration: 1300,
                 easing: 'ease-in',
                 origin: 'bottom',

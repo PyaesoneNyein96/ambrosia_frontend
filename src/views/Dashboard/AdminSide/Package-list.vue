@@ -6,7 +6,7 @@
 
             <div class="row p-1">
 
-                <div class="col-lg-4 col-md-6 p-1 shadow-sm" v-for="pack in list" :key="pack.id">
+                <div class="col-lg-4 col-md-6 p-1 shadow-sm" v-for="pack in packageList" :key="pack.id">
 
                     <div class="body-wrap p-2 rounded-1">
                         <div class="body-wrap-2">
@@ -66,7 +66,9 @@
 <script>
 
 import { mapGetters } from 'vuex'
-// import { smsQuestion } from '../../../store/Notify/notify.js'
+import { smsQuestion } from '../../../store/Notify/notify.js'
+
+import store from '../../../store'
 
 
 export default {
@@ -79,14 +81,11 @@ export default {
 
     computed: {
         ...mapGetters({
-            packageList: 'package/getAdminPackage'
+            packageList: 'package/getAdminPackage',
+            notify: 'notify/getAlertNotify'
         }),
     },
-    watch: {
-        packageList() {
-            this.list = this.packageList;
-        }
-    },
+
     methods: {
 
         edit(x) {
@@ -95,13 +94,58 @@ export default {
 
         del(p) {
             const info = { name: p.name, id: p.id };
-            console.log(info);
+            smsQuestion(store.commit, info, 'Are your sure to delete this package!!!');
+
         }
 
     },
     beforeMount() {
         this.$store.dispatch('package/getAllPackage');
-    }
+    },
+
+    watch: {
+        // packageList() {
+        //     this.list = this.packageList;
+        // },
+
+
+        notify(notify) {
+            if (notify[3] == 'question') {
+                if (notify[0] == true) {
+                    this.$toast.question({
+                        timeout: 20000,
+                        close: false,
+                        overlay: true,
+                        displayMode: 'once',
+                        id: 'question',
+                        zindex: 999,
+                        title: notify[1].name,
+                        message: notify[2],
+                        position: 'center',
+                        buttons: [
+                            ['<button><b>YES</b></button>', function (instance, toast) {
+                                store.dispatch('package/deletePackage', notify[1].id);
+
+                                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                            }, true],
+                            ['<button>NO</button>', function (instance, toast) {
+
+                                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                            }],
+                        ],
+                        onClosing: function (instance, toast, closedBy) {
+                            console.info('Closing | closedBy: ' + closedBy);
+                        },
+                        onClosed: function (instance, toast, closedBy) {
+                            console.info('Closed | closedBy: ' + closedBy);
+                        }
+                    });
+                }
+            }
+        }
+    },
 
 
 }

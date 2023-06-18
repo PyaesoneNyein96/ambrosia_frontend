@@ -28,11 +28,13 @@
                             Home
                         </router-link>
                     </li>
-                    <li><router-link class="nav-link scrollto " :to="{ name: 'menu' }">Menu</router-link></li>
-                    <li><router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link></li>
+                    <li>
+                        <router-link class="nav-link scrollto " :to="{ name: 'menu' }">Menu</router-link>
+                    </li>
+                    <li>
+                        <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
+                    </li>
 
-                    <li><router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link></li>
-                    <li><router-link class="nav-link scrollto " :to="{ name: 'chef' }">Our Chefs</router-link></li>
 
 
                     <li class="dropdown">
@@ -64,7 +66,14 @@
                                 </ul>
                             </li>
                             <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
+                                <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
+                            </li>
+
+                            <li>
+                                <router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link>
+                            </li>
+                            <li>
+                                <router-link class="nav-link scrollto " :to="{ name: 'chef' }">Our Chefs</router-link>
                             </li>
 
                             <li>

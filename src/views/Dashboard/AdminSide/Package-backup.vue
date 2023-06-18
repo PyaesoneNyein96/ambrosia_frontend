@@ -232,7 +232,7 @@ export default {
             this.form.sub_total = this.subtotal;
             this.form.net_total = Number(this.overAll);
             this.form.percentage = this.discountPercentage;
-            console.log(this.form);
+
 
             if (this.form.selected && this.form.net_total && this.form.sub_total &&
                 this.form.percentage && this.form.name !== '') {

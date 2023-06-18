@@ -2,13 +2,14 @@
     <div class="shell">
         <div class="loader-wrap">
             <div class="loader">
-                <span class="l">L</span>
-                <span class="o">o</span>
-                <span class="a">a</span>
-                <span class="d">d</span>
-                <span class="i">i</span>
-                <span class="n">n</span>
-                <span class="g">g</span>
+                <span class="l">A</span>
+                <span class="o">M</span>
+                <span class="a">B</span>
+                <span class="d">R</span>
+                <span class="i">O</span>
+                <span class="n">S</span>
+                <span class="g">I</span>
+                <span class="g">A</span>
                 <span class="d1">.</span>
                 <span class="d2">.</span>
                 <span class="d3">.</span>
@@ -30,7 +31,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #37727c00;
+    background-color: #757c3700;
     cursor: pointer;
     z-index: 1000;
 }
@@ -52,7 +53,7 @@ export default {
 }
 
 .l {
-    color: black;
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 0.2s;
@@ -61,7 +62,8 @@ export default {
 }
 
 .o {
-    color: black;
+    /* color: black; */
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 0.4s;
@@ -70,7 +72,8 @@ export default {
 }
 
 .a {
-    color: black;
+    /* color: black; */
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 0.6s;
@@ -79,7 +82,8 @@ export default {
 }
 
 .d {
-    color: black;
+    /* color: black; */
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 0.8s;
@@ -88,7 +92,8 @@ export default {
 }
 
 .i {
-    color: black;
+    /* color: black; */
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 1s;
@@ -97,7 +102,8 @@ export default {
 }
 
 .n {
-    color: black;
+    color: rgb(167, 167, 13);
+    /* color: black; */
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 1.2s;
@@ -106,7 +112,8 @@ export default {
 }
 
 .g {
-    color: black;
+    /* color: black;     */
+    color: rgb(167, 167, 13);
     opacity: 0;
     animation: pass 2s ease-in-out infinite;
     animation-delay: 1.4s;
@@ -115,7 +122,7 @@ export default {
 }
 
 .d1 {
-    color: rgb(255, 244, 42);
+    color: rgb(167, 167, 13);
     opacity: 0;
     font-size: 60px;
     animation: pass1 2s ease-in-out infinite;

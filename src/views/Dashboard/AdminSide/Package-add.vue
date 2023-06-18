@@ -135,7 +135,7 @@ export default {
     methods: {
         pickItem(id) {
             if (this.form.selected.length >= 12) {
-                return smsInform(this.$store.commit, 'Not Allowed', "You Can't add more then 8 dishes in total !")
+                return smsInform(this.$store.commit, 'Not Allowed', "You Can't add more then 12 dishes in total !")
             }
 
             if (this.validation(id)) {
@@ -184,8 +184,6 @@ export default {
             if (this.form.percentage >= 0) {
                 this.form.percentage++
                 this.totalCheck();
-                console.log(this.form.percentage);
-
             }
         },
         minus() {
@@ -201,7 +199,7 @@ export default {
         },
 
         add() {
-            // console.log(this.form.selected);
+
             if (this.addValid() && this.form.selected.length >= 3) {
                 this.$store.dispatch('package/addPackage', this.form);
             }

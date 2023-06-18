@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
 import { smsSuccess, smsError } from '../Notify/notify.js'
-import { dispatch } from './../../../../restaurant_api/vendor/livewire/livewire/js/util/dispatch';
+
 
 
 const PackageModule = {
@@ -95,7 +95,7 @@ const PackageModule = {
 
                 }
             } catch (err) {
-                console.log(err);
+                smsError(commit, err)
 
             }
             Loader(commit, false)
@@ -119,12 +119,30 @@ const PackageModule = {
                         })
                 })
                 .catch(err => {
-                    console.log(err);
-                    smsError(commit, "Package Update Error", err.respones.errors)
+                    smsError(commit, "Package Update Error", err.response.errors)
                 })
                 .finally(() => {
                     Loader(commit, false)
                 })
+        },
+
+
+        deletePackage: ({ commit, dispatch }, payload) => {
+
+            Loader(commit, true)
+
+            axios.post(`http://localhost:8000/api/package/delete/${payload}`)
+                .then(res => {
+                    smsSuccess(commit, res.data.name)
+                    dispatch('getAllPackage');
+                })
+                .catch(err => {
+                    smsError(commit, err.response.errors)
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
         }
 
 
