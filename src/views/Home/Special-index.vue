@@ -90,7 +90,6 @@ export default {
         specialList() {
             this.List = this.specialList;
             this.special = this.specialList[0]
-            console.log(this.List);
         }
     },
 

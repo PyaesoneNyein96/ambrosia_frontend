@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <h1 class="p-3 fw-bold my-0">Package List</h1>
+        <h1 class="p-3 fw-bold my-0">Package Edit</h1>
 
         <div class="container bg-info mt-0">
             <div class="row bg-light bg-gradient shadow-sm p-2">
@@ -9,7 +9,7 @@
                     <div class="h4 mt-3">Food List
                         <hr>
                     </div>
-                    <div class="row shadow-sm">
+                    <div class="row shadow-sm left-box">
                         <div class="col-lg-3 col-md-4 col-sm-4 p-1 col-6" v-for="f in this.foodList" :key="f.id">
 
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
@@ -35,6 +35,7 @@
 
                 <div class="col-md-5 offset-md-1 bg-light">
                     <div class="h4 mt-3 ">Selected Food List
+
                         <hr>
                     </div>
 
@@ -74,7 +75,7 @@
                         </div>
 
                         <div class="bg-light shadow-sm py-1">
-                            SubTotal: {{ subtotal }} $
+                            SubTotal : {{ subtotal }} $
                         </div>
                         <div class="bg-light shadow-sm py-1">
                             Total(with Discount %): <span class="overall">{{ overAll }}</span> $ </div>
@@ -85,9 +86,8 @@
                             <input type="text" class="form-control shadow-none" v-model="form.name"
                                 placeholder="Package Name">
 
-                            <button :disabled="!form.name" type="button"
-                                class="btn btn-primary text-light w-100 mt-3 shadow-sm" @click="add">
-                                Add Package
+                            <button type="button" class="btn btn-success text-light w-100 mt-3 shadow-sm" @click="add">
+                                Update Package
                             </button>
 
                         </div>
@@ -106,10 +106,9 @@ import { smsInform } from '../../../store/Notify/notify.js'
 
 
 export default {
-    name: 'package-add',
+    name: 'package-edit',
     data() {
         return {
-            originalList: '',
             selected: [],
             collection: [],
             subtotal: 0,
@@ -119,17 +118,20 @@ export default {
             form: {
                 name: '',
                 selected: '',
-                sub_total: '',
-                net_total: '',
+                total: '',
                 percentage: ''
-            }
+            },
+            oldVal: []
+
+
 
         }
     },
 
     computed: {
         ...mapGetters({
-            foodList: 'food/getAdminFoodList'
+            foodList: 'food/getAdminFoodList',
+            editPackage: 'package/getEditPackage'
         })
     },
 
@@ -138,9 +140,7 @@ export default {
             if (this.collection.length >= 12) {
                 return smsInform(this.$store.commit, 'Not Allowed', "You Can't add more then 8 dishes in total !")
             }
-            // const singleItemForShow = this.collection.find(i => {
-            //     return i.id == id
-            // });
+
 
             if (this.validation(id)) {
 
@@ -158,11 +158,11 @@ export default {
 
         validation(x) {
 
-            const singleItem = this.collection.filter(i => {
+            const singleItemCount = this.collection.filter(i => {
                 return i.id === x
             });
 
-            if (singleItem.length < 3) {
+            if (singleItemCount.length < 3) {
                 return true
             } else {
                 smsInform(this.$store.commit, 'Not Allowed', "You cannot add more than 3 per dish. !")
@@ -171,12 +171,6 @@ export default {
 
         },
 
-        // counterFun() {
-        //     let els = {};
-        //     const vv = this.collection.forEach(val => els[val.id] = (els[val.id] || 0) + 1);
-        //     this.counter = els
-        //     console.log(els);
-        // },
 
 
 
@@ -204,7 +198,9 @@ export default {
         minus() {
             if (this.discountPercentage > 1) {
                 this.discountPercentage--
+
                 this.totalCheck()
+
 
             }
         },
@@ -216,31 +212,54 @@ export default {
 
         add() {
 
-            if (this.addValid() && this.selected.length >= 3) {
+            if (this.finalValidate() && this.selected.length >= 4) {
                 this.$store.dispatch('package/addPackage', this.form);
             }
-            else if (this.addValid() && this.selected.length <= 3) {
+            else if (this.finalValidate() && this.selected.length < 4) {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Number of food dish should more than 3.');
             } else {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Complete the Package adding process.');
             }
 
         },
-        addValid() {
+        finalValidate() {
 
             this.form.selected = this.selected;
-            this.form.sub_total = this.subtotal;
-            this.form.net_total = Number(this.overAll);
-            this.form.percentage = this.discountPercentage;
-            console.log(this.form);
+            this.form.total = Number(this.overAll);
+            this.form.percentage = this.discountPercentage
 
-            if (this.form.selected && this.form.net_total && this.form.sub_total &&
-                this.form.percentage && this.form.name !== '') {
+            if (this.form.selected && this.form.total && this.form.percentage && this.form.name !== '') {
                 return true
             } else {
                 return false
             }
+        },
+
+
+        setOldVal() {
+            for (const i of this.editPackage.food) {
+                this.collection.push(i);
+            }
+
+            for (const i of this.editPackage.food) {
+                this.selected.push(i.id)
+                // this.subtotal += Number(i.price)
+            }
+
+            this.form = this.editPackage;
+
+            this.overAll = this.editPackage.net_total;
+            this.subtotal = (this.editPackage.net_total * 100) / (100 - this.editPackage.percentage);
+            this.subtotal = this.subtotal.toFixed(2)
+            this.discountPercentage = this.editPackage.percentage;
+
+
+            // this.totalCheck();
+
+
         }
+
+
 
 
 
@@ -249,7 +268,12 @@ export default {
     },
 
 
+    mounted() {
 
+        this.setOldVal();
+
+
+    },
 
 
     beforeMount() {
@@ -259,6 +283,11 @@ export default {
 </script>
 
 <style  scoped>
+.left-box {
+    height: 490px;
+    overflow-y: scroll;
+}
+
 .package-img {
     width: 100%;
     height: 100px;

@@ -18,6 +18,7 @@ import Chef from '../views/Home/Chef-index.vue'
 import Contact from '../views/Home/Contact-index.vue'
 import About from '../views/Home/About-Us.vue'
 import Coming_soon from '../views/Home/Coming_soon.vue'
+import Packages from '../views/Home/Package-index.vue'
 
 
 
@@ -28,12 +29,13 @@ import Food_Edit from '../views/Dashboard/AdminSide/Food-edit.vue'
 import Food_List from '../views/Dashboard/AdminSide/Food-list.vue'
 
 import UserList from '../views/Dashboard/AdminSide/User-list.vue'
-// import UserEdit from '../views/Dashboard/AdminSide/User-edit.vue'
 
 import Category from '../views/Dashboard/AdminSide/category-add-list.vue'
 import Tag from '../views/Dashboard/AdminSide/tag-add-list.vue'
 
 import Package_Add from '../views/Dashboard/AdminSide/Package-add.vue'
+import Package_List from '../views/Dashboard/AdminSide/Package-list.vue'
+import Package_Edit from '../views/Dashboard/AdminSide/Package-edit.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
@@ -66,6 +68,7 @@ const router = createRouter({
     { path: '/about_us', component: About, name: 'about_us' },
     { path: '/Contact', component: Contact, name: 'contact' },
     { path: '/coming_soon', component: Coming_soon, name: 'coming_soon' },
+    { path: '/packages', component: Packages, name: 'packages' },
 
 
 
@@ -82,9 +85,10 @@ const router = createRouter({
         { path: 'food_list', component: Food_List, name: 'food_List', meta: { food_list: true } },
         { path: 'categories', component: Category, name: 'category', meta: { categories: true } },
         { path: 'tags', component: Tag, name: 'tag', meta: { tags: true } },
-        { path: 'package_add', component: Package_Add, name: 'package_add', meta: { package_add: true } },
         { path: 'user_list', component: UserList, name: 'user_list', meta: { user_list: true } },
-
+        { path: 'package_add', component: Package_Add, name: 'package_add', meta: { package_add: true } },
+        { path: 'package_list', component: Package_List, name: 'package_list', meta: { package_list: true } },
+        { path: 'package_edit/:id', component: Package_Edit, name: 'package_edit', meta: { package_edit: true } },
 
 
       ]
@@ -115,6 +119,10 @@ const validation = (to, from, next) => {
   else if ((to.meta.food_edit) && store.getters['food/getSpecific'].id != to.params.id) {
     router.push({ name: 'food_List' })
   }
+  else if ((to.meta.package_edit) && store.getters['package/getEditPackage'].id != to.params.id) {
+    router.push({ name: 'package_list' })
+
+  }
   else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
     router.push({ name: 'booking' })
     smsInform(store.commit, 'If you are already a member', ' Register as a user.')
@@ -122,8 +130,13 @@ const validation = (to, from, next) => {
 
   else if (((to.meta.food_add) || (to.meta.edit) ||
     (to.meta.food_list) || (to.meta.categories) ||
-    (to.meta.user_list) ||
-    (to.meta.tags) || (to.meta.package_add)) && store.getters['auth/isAdmin'] == 0) {
+    (to.meta.user_list) || (to.meta.tags) ||
+    (to.meta.package_add) || (to.meta.package_list))
+
+
+
+
+    && store.getters['auth/isAdmin'] == 0) {
     router.push({ name: 'main_dashboard' })
   }
   else {

@@ -8,10 +8,6 @@ import { smsSuccess, smsError, smsInform } from '../Notify/notify.js'
 
 
 
-
-
-
-
 const FoodModule = {
     namespaced: true,
     state() {
@@ -428,26 +424,24 @@ const FoodModule = {
                 })
         },
 
-        //==================================================================================
-        // Package Add (Add)
-        //==================================================================================
 
-        addPackage: ({ commit }, payload) => {
 
-            Loader(commit, true)
+        // addPackage: ({ commit }, payload) => {
 
-            axios.post('http://localhost:8000/api/package/add', payload)
-                .then(res => {
-                    console.log(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-                .finally(() => {
-                    Loader(commit, false)
-                })
+        //     Loader(commit, true)
 
-        }
+        //     axios.post('http://localhost:8000/api/package/add', payload)
+        //         .then(res => {
+        //             console.log(res.data);
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         })
+        //         .finally(() => {
+        //             Loader(commit, false)
+        //         })
+
+        // }
 
 
 

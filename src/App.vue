@@ -8,7 +8,7 @@
     </Transition>
   </router-view>
 
-  <app-Footer />
+  <app-Footer v-if="!footer" />
 </template>
 
 <script>
@@ -36,7 +36,13 @@ export default {
     ...mapGetters({
       isLoading: 'tool/getLoading',
       notify: 'notify/getAlertNotify',
-    })
+    }),
+
+    footer() {
+      return this.$route.matched.some(r => r.name === 'dashboard')
+      // return this.$route.path.startsWith('/dashboard');
+      // return this.$route.path.startsWith('/dashboard/');
+    }
 
 
 
