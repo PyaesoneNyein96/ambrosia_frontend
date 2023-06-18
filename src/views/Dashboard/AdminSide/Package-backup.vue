@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <h1 class="p-3 fw-bold my-0">Package Edit</h1>
+        <h1 class="p-3 fw-bold my-0">Package List</h1>
 
         <div class="container bg-info mt-0">
             <div class="row bg-light bg-gradient shadow-sm p-2">
@@ -9,7 +9,7 @@
                     <div class="h4 mt-3">Food List
                         <hr>
                     </div>
-                    <div class="row shadow-sm left-box">
+                    <div class="row shadow-sm">
                         <div class="col-lg-3 col-md-4 col-sm-4 p-1 col-6" v-for="f in this.foodList" :key="f.id">
 
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
@@ -35,12 +35,11 @@
 
                 <div class="col-md-5 offset-md-1 bg-light">
                     <div class="h4 mt-3 ">Selected Food List
-
                         <hr>
                     </div>
 
                     <div class="row bg-light bg-gradient p-2 shadow-sm selected-box">
-                        <div class="col-md-3 col-4 p-1 rounded-1" v-for="s in form.selected" :key="s.id">
+                        <div class="col-md-3 col-4 p-1 rounded-1" v-for="s in collection" :key="s.id">
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
                                 @click="removeItem(s.id)">
                                 <div class="img-wrap">
@@ -59,30 +58,26 @@
 
                     <div class="row mt-3 bg-light text-center">
 
-                        <div class="wrap  px-5 text-start">
-                            <div class="bg-light  py-1 ">
-                                <div class="d-flex text-start">
-                                    <div style="width:130px">
-                                        <span> Discount : {{ form.percentage }} % </span>
-                                    </div>
-                                    <div class="">
-                                        <button class="btn mx-1 small btn-sm py-0 btn-secondary" @click="minus">
-                                            -
-                                        </button>
-                                        <button class="btn ms-1 small btn-sm py-0 btn-warning   " @click="plus">
-                                            +
-                                        </button>
-                                    </div>
+                        <div class="bg-light shadow-sm py-1 ">
+                            <span> <input type="number" hidden v-model="discountPercentage"></span>
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <span> Discount : {{ discountPercentage }} % </span>
                                 </div>
-                            </div>
-
-                            <div class=" py-1">
-                                SubTotal : {{ this.form.sub_total }} $
-                            </div>
-                            <div class=" py-1">
-                                Net Amount : <span class="overall">{{ form.net_total }}</span> $
+                                <button class="btn mx-1 small btn-sm py-0 btn-secondary" @click="minus">
+                                    -
+                                </button>
+                                <button class="btn ms-1 small btn-sm py-0 btn-warning   " @click="plus">
+                                    +
+                                </button>
                             </div>
                         </div>
+
+                        <div class="bg-light shadow-sm py-1">
+                            SubTotal: {{ subtotal }} $
+                        </div>
+                        <div class="bg-light shadow-sm py-1">
+                            Total(with Discount %): <span class="overall">{{ overAll }}</span> $ </div>
                     </div>
                     <div class="row my-3 rounded-2 shadow-sm">
                         <div class="col p-2">
@@ -90,8 +85,9 @@
                             <input type="text" class="form-control shadow-none" v-model="form.name"
                                 placeholder="Package Name">
 
-                            <button type="button" class="btn btn-success text-light w-100 mt-3 shadow-sm" @click="add">
-                                Update Package
+                            <button :disabled="!form.name" type="button"
+                                class="btn btn-primary text-light w-100 mt-3 shadow-sm" @click="add">
+                                Add Package
                             </button>
 
                         </div>
@@ -110,40 +106,49 @@ import { smsInform } from '../../../store/Notify/notify.js'
 
 
 export default {
-    name: 'package-edit',
+    name: 'package-add',
     data() {
         return {
+            originalList: '',
+            selected: [],
+            collection: [],
+            subtotal: 0,
+            discountPercentage: 1,
+            overAll: 0,
 
             form: {
                 name: '',
-                selected: [],
-                sub_total: 0,
-                net_total: 0,
-                percentage: 0
+                selected: '',
+                sub_total: '',
+                net_total: '',
+                percentage: ''
             }
+
         }
     },
 
     computed: {
         ...mapGetters({
-            foodList: 'food/getAdminFoodList',
-            editPackage: 'package/getEditPackage'
+            foodList: 'food/getAdminFoodList'
         })
     },
 
     methods: {
         pickItem(id) {
-            if (this.form.selected.length >= 12) {
+            if (this.collection.length >= 12) {
                 return smsInform(this.$store.commit, 'Not Allowed', "You Can't add more then 8 dishes in total !")
             }
-
+            // const singleItemForShow = this.collection.find(i => {
+            //     return i.id == id
+            // });
 
             if (this.validation(id)) {
 
                 this.foodList.find(i => {
                     if (i.id == id) {
-                        this.form.selected.push(i);
-                        this.form.sub_total += Number(i.price)
+                        this.collection.push(i);
+                        this.selected.push(i.id);
+                        this.subtotal += Number(i.price)
                     }
                 });
                 this.totalCheck()
@@ -153,11 +158,11 @@ export default {
 
         validation(x) {
 
-            const singleItemCount = this.form.selected.filter(i => {
+            const singleItem = this.collection.filter(i => {
                 return i.id === x
             });
 
-            if (singleItemCount.length < 3) {
+            if (singleItem.length < 3) {
                 return true
             } else {
                 smsInform(this.$store.commit, 'Not Allowed', "You cannot add more than 3 per dish. !")
@@ -166,16 +171,22 @@ export default {
 
         },
 
+        // counterFun() {
+        //     let els = {};
+        //     const vv = this.collection.forEach(val => els[val.id] = (els[val.id] || 0) + 1);
+        //     this.counter = els
+        //     console.log(els);
+        // },
 
 
 
         removeItem(x) {
-            const i = this.form.selected.findIndex(o => o.id === x);
+            const i = this.collection.findIndex(o => o.id === x);
 
-            const p = this.form.selected.find(i => i.id === x)
+            const p = this.collection.find(i => i.id === x)
 
-            this.form.sub_total = this.form.sub_total - p.price;
-            this.form.selected.splice(i, 1);
+            this.subtotal = this.subtotal - p.price;
+            this.collection.splice(i, 1);
 
             this.totalCheck()
 
@@ -183,85 +194,63 @@ export default {
         },
 
         plus() {
-            if (this.form.percentage >= 0) {
-                this.form.percentage++
+            if (this.discountPercentage > 0) {
+                this.discountPercentage++
 
                 this.totalCheck()
 
             }
         },
         minus() {
-            if (this.form.percentage > 0) {
-                this.form.percentage--
-
+            if (this.discountPercentage > 1) {
+                this.discountPercentage--
                 this.totalCheck()
-
 
             }
         },
         totalCheck() {
-            this.form.net_total = this.form.sub_total - (this.form.sub_total * this.form.percentage / 100);
-            this.form.net_total = Number(this.form.net_total.toFixed(2));
+            this.overAll = this.subtotal - (this.discountPercentage * this.subtotal / 100);
+            this.overAll = this.overAll.toFixed(2);
 
         },
 
         add() {
 
-            if (this.finalValidate() && this.form.selected.length >= 3) {
-                this.$store.dispatch('package/updatePackage', this.form);
-
+            if (this.addValid() && this.selected.length >= 3) {
+                this.$store.dispatch('package/addPackage', this.form);
             }
-            else if (this.finalValidate() && this.form.selected.length <= 3) {
+            else if (this.addValid() && this.selected.length <= 3) {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Number of food dish should more than 3.');
             } else {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Complete the Package adding process.');
             }
 
         },
-        finalValidate() {
+        addValid() {
 
+            this.form.selected = this.selected;
+            this.form.sub_total = this.subtotal;
+            this.form.net_total = Number(this.overAll);
+            this.form.percentage = this.discountPercentage;
+            console.log(this.form);
 
-            if (this.form.selected && this.form.sub_total && this.form.net_total
-                && this.form.percentage && this.form.name !== '') {
-
-                this.form.id = this.editPackage.id;
+            if (this.form.selected && this.form.net_total && this.form.sub_total &&
+                this.form.percentage && this.form.name !== '') {
                 return true
             } else {
                 return false
             }
-        },
-
-
-        setOldVal() {
-
-            for (const i of this.editPackage.food) {
-                this.form.selected.push(i);
-            }
-            this.form.name = this.editPackage.name
-            this.form.sub_total = this.editPackage.sub_total
-            this.form.percentage = this.editPackage.percentage
-            this.form.net_total = this.editPackage.net_total;
-
         }
 
 
 
 
 
-
-
     },
 
 
-    mounted() {
 
-        this.setOldVal();
 
-    },
-
-    beforeUpdate() {
-        // console.log(this.editPackage);
-    },
 
     beforeMount() {
         this.$store.dispatch('food/getFoodByType', 2)
@@ -270,11 +259,6 @@ export default {
 </script>
 
 <style  scoped>
-.left-box {
-    height: 490px;
-    overflow-y: scroll;
-}
-
 .package-img {
     width: 100%;
     height: 100px;
@@ -308,7 +292,6 @@ export default {
     background-color: #8e87041e;
     border-radius: 10px;
     border: #8e8704 solid 1px;
-    text-align: center;
 }
 
 

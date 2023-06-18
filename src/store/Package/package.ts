@@ -3,6 +3,7 @@ import axios from 'axios'
 import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
 import { smsSuccess, smsError } from '../Notify/notify.js'
+import { dispatch } from './../../../../restaurant_api/vendor/livewire/livewire/js/util/dispatch';
 
 
 const PackageModule = {
@@ -106,20 +107,20 @@ const PackageModule = {
         //  Update Package  ((Admin))
         //==================================================================================
 
-        updatePackage: ({ commit }, payload) => {
+        updatePackage: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
-
-            console.log(payload);
-
 
             axios.post('http://localhost:8000/api/package/update', payload)
                 .then(res => {
-                    console.log(res.data);
-
+                    smsSuccess(commit, res.data.package.name, 'Successfully Updated');
+                    dispatch('getAllPackage')
+                        .then(() => {
+                            router.push({ name: 'package_list' })
+                        })
                 })
                 .catch(err => {
                     console.log(err);
-
+                    smsError(commit, "Package Update Error", err.respones.errors)
                 })
                 .finally(() => {
                     Loader(commit, false)

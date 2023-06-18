@@ -96,7 +96,7 @@ const UserModule = {
 
         updateUser: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
-            console.log(payload);
+            // console.log(payload);
 
             axios.post(`http://localhost:8000/api/user/update`, payload)
                 .then((res) => {

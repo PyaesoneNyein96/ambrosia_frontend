@@ -44,7 +44,7 @@
                             <img src="../../../../public/assets/img/GODlogopng.png" alt="meal" v-else>
                         </td>
                         <td>{{ f.name }}</td>
-                        <td>{{ f.price }}</td>
+                        <td class="text-success fw-bolder">{{ f.price }} $</td>
                         <td class="description">
                             {{ f.description }}
                         </td>
@@ -58,8 +58,8 @@
 
                         <td>
                             <div class="tag-wrap row m-0 p-0">
-                                <span class=" tag-field col mb-1" v-for="tag in f.tag" :key="tag.id">
-                                    <span class="rounded-2 me-1 text-light px-1 bg-secondary"
+                                <span class=" tag-field col  mb-1" v-for="tag in f.tag" :key="tag.id">
+                                    <span class="rounded-2  me-1 text-light px-1 bg-secondary"
                                         :class="{ 'bg-danger': tag.name.includes('Special'), 'bg-info': tag.name == 'Economica', 'bg-warning': tag.name == 'Popular' }">
                                         {{ tag.name }}
                                     </span>

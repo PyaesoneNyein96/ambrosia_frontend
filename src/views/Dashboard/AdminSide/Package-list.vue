@@ -6,7 +6,7 @@
 
             <div class="row p-1">
 
-                <div class=" col-md-4 p-1 shadow-sm" v-for="pack in list" :key="pack.id">
+                <div class="col-lg-4 col-md-6 p-1 shadow-sm" v-for="pack in list" :key="pack.id">
 
                     <div class="body-wrap p-2 rounded-1">
                         <div class="body-wrap-2">
@@ -35,15 +35,16 @@
                                     </li>
                                     <li class="list-group-item">
                                         Total Dish: <span class="text-primary"> {{ pack.food.length }} </span>
+
                                     </li>
-                                    <li class="list-group-item  m-0">
+                                    <li class="list-group-item  mt-2">
 
                                         <span class="pe-4">
-                                            <button class="btn  btn-sm bg-success me-1" @click="edit(pack.id)">
-                                                <i class="fa fa-edit fa-sm text-light"></i>
+                                            <button class="btn btn-sm text-light bg-success me-1" @click="edit(pack.id)">
+                                                Edit <i class="fa fa-edit fa-sm text-light"></i>
                                             </button>
-                                            <button class="btn  btn-sm bg-danger" @click="del(pack)">
-                                                <i class="fa fa-trash fa-sm text-light"></i>
+                                            <button class="btn btn-sm text-light bg-danger" @click="del(pack)">
+                                                Delete <i class="fa fa-trash fa-sm text-light"></i>
                                             </button>
                                         </span>
                                     </li>
@@ -142,7 +143,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(249, 238, 238, 0.056);
+    background-color: rgba(249, 238, 238, 0.219);
     z-index: 9;
 }
 

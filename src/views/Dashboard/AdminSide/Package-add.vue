@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="row bg-light bg-gradient p-2 shadow-sm selected-box">
-                        <div class="col-md-3 col-4 p-1 rounded-1" v-for="s in collection" :key="s.id">
+                        <div class="col-md-3 col-4 p-1 rounded-1" v-for="s in form.selected" :key="s.id">
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
                                 @click="removeItem(s.id)">
                                 <div class="img-wrap">
@@ -58,27 +58,33 @@
 
                     <div class="row mt-3 bg-light text-center">
 
-                        <div class="bg-light shadow-sm py-1 ">
-                            <span> <input type="number" hidden v-model="discountPercentage"></span>
-                            <div class="d-flex justify-content-center">
-                                <div>
-                                    <span> Discount : {{ discountPercentage }} % </span>
+                        <div class="wrap  px-5 text-start">
+                            <div class="bg-light  py-1 ">
+                                <div class="d-flex text-start">
+                                    <div style="width:130px">
+                                        <span> Discount : {{ form.percentage }} % </span>
+                                    </div>
+                                    <div class="">
+                                        <button class="btn mx-1 small btn-sm py-0 btn-secondary" @click="minus">
+                                            -
+                                        </button>
+                                        <button class="btn ms-1 small btn-sm py-0 btn-warning   " @click="plus">
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
-                                <button class="btn mx-1 small btn-sm py-0 btn-secondary" @click="minus">
-                                    -
-                                </button>
-                                <button class="btn ms-1 small btn-sm py-0 btn-warning   " @click="plus">
-                                    +
-                                </button>
+                            </div>
+
+                            <div class=" py-1">
+                                SubTotal : {{ this.form.sub_total }} $
+                            </div>
+                            <div class=" py-1">
+                                Net Amount : <span class="overall">{{ form.net_total }}</span> $
                             </div>
                         </div>
 
-                        <div class="bg-light shadow-sm py-1">
-                            SubTotal: {{ subtotal }} $
-                        </div>
-                        <div class="bg-light shadow-sm py-1">
-                            Total(with Discount %): <span class="overall">{{ overAll }}</span> $ </div>
                     </div>
+
                     <div class="row my-3 rounded-2 shadow-sm">
                         <div class="col p-2">
 
@@ -109,19 +115,12 @@ export default {
     name: 'package-add',
     data() {
         return {
-            originalList: '',
-            selected: [],
-            collection: [],
-            subtotal: 0,
-            discountPercentage: 1,
-            overAll: 0,
-
             form: {
                 name: '',
-                selected: '',
-                sub_total: '',
-                net_total: '',
-                percentage: ''
+                selected: [],
+                sub_total: 0,
+                net_total: 0,
+                percentage: 0
             }
 
         }
@@ -135,20 +134,16 @@ export default {
 
     methods: {
         pickItem(id) {
-            if (this.collection.length >= 12) {
+            if (this.form.selected.length >= 12) {
                 return smsInform(this.$store.commit, 'Not Allowed', "You Can't add more then 8 dishes in total !")
             }
-            // const singleItemForShow = this.collection.find(i => {
-            //     return i.id == id
-            // });
 
             if (this.validation(id)) {
 
                 this.foodList.find(i => {
                     if (i.id == id) {
-                        this.collection.push(i);
-                        this.selected.push(i.id);
-                        this.subtotal += Number(i.price)
+                        this.form.selected.push(i);
+                        this.form.sub_total += Number(i.price);
                     }
                 });
                 this.totalCheck()
@@ -158,7 +153,7 @@ export default {
 
         validation(x) {
 
-            const singleItem = this.collection.filter(i => {
+            const singleItem = this.form.selected.filter(i => {
                 return i.id === x
             });
 
@@ -171,22 +166,14 @@ export default {
 
         },
 
-        // counterFun() {
-        //     let els = {};
-        //     const vv = this.collection.forEach(val => els[val.id] = (els[val.id] || 0) + 1);
-        //     this.counter = els
-        //     console.log(els);
-        // },
-
-
 
         removeItem(x) {
-            const i = this.collection.findIndex(o => o.id === x);
+            const index = this.form.selected.findIndex(o => o.id === x);
 
-            const p = this.collection.find(i => i.id === x)
+            const p = this.form.selected.find(i => i.id === x);
 
-            this.subtotal = this.subtotal - p.price;
-            this.collection.splice(i, 1);
+            this.form.sub_total = this.form.sub_total - Number(p.price);
+            this.form.selected.splice(index, 1);
 
             this.totalCheck()
 
@@ -194,32 +181,31 @@ export default {
         },
 
         plus() {
-            if (this.discountPercentage > 0) {
-                this.discountPercentage++
-
-                this.totalCheck()
+            if (this.form.percentage >= 0) {
+                this.form.percentage++
+                this.totalCheck();
+                console.log(this.form.percentage);
 
             }
         },
         minus() {
-            if (this.discountPercentage > 1) {
-                this.discountPercentage--
+            if (this.form.percentage > 0) {
+                this.form.percentage--
                 this.totalCheck()
 
             }
         },
         totalCheck() {
-            this.overAll = this.subtotal - (this.discountPercentage * this.subtotal / 100);
-            this.overAll = this.overAll.toFixed(2);
-
+            this.form.net_total = this.form.sub_total - (this.form.sub_total * this.form.percentage / 100);
+            this.form.net_total = Number(this.form.net_total.toFixed(2))
         },
 
         add() {
-
-            if (this.addValid() && this.selected.length >= 3) {
+            // console.log(this.form.selected);
+            if (this.addValid() && this.form.selected.length >= 3) {
                 this.$store.dispatch('package/addPackage', this.form);
             }
-            else if (this.addValid() && this.selected.length <= 3) {
+            else if (this.addValid() && this.form.selected.length <= 3) {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Number of food dish should more than 3.');
             } else {
                 smsInform(this.$store.commit, 'Incomplete Process', 'Complete the Package adding process.');
@@ -227,12 +213,6 @@ export default {
 
         },
         addValid() {
-
-            this.form.selected = this.selected;
-            this.form.sub_total = this.subtotal;
-            this.form.net_total = Number(this.overAll);
-            this.form.percentage = this.discountPercentage;
-            console.log(this.form);
 
             if (this.form.selected && this.form.net_total && this.form.sub_total &&
                 this.form.percentage && this.form.name !== '') {
@@ -288,10 +268,11 @@ export default {
 
 .overall {
     display: inline-block;
-    width: 60px;
+    width: 70px;
     background-color: #8e87041e;
     border-radius: 10px;
     border: #8e8704 solid 1px;
+    text-align: center;
 }
 
 

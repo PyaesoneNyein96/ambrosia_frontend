@@ -290,6 +290,7 @@ export default {
                 if (value == 'null' || value == null) {
                     return
                 } // Check this out (important for backend validation)
+
                 formData.append(key, value);
             });
 
