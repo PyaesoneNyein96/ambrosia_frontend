@@ -31,7 +31,7 @@
 
                                     <div class="col-lg-7 details order-2 order-lg-1">
 
-                                        <h3>{{ special.name }}</h3>
+                                        <h3 class="my-2">{{ special.name }}</h3>
                                         <p class="fst-italic">{{ special.description }}</p>
                                         <p>
                                             {{ special.excerpt }}
@@ -45,11 +45,11 @@
                                 </div>
                                 <div class="row order p-3" :class="scroll3">
                                     <div class="col-6 offset-6 d-flex justify-content-end">
-                                        <div class="btn-wrap">
-                                            <button class="btn detail-btn  btn-secondary me-1 rounded-0">
+                                        <div class="btn-wrap text-end">
+                                            <button class="btn detail-btn mb-2  btn-secondary me-1 rounded-0">
                                                 Detail
                                             </button>
-                                            <button class="btn order-btn  btn-warning rounded-0" @click="order">
+                                            <button class="btn order-btn  mb-2 btn-warning rounded-0" @click="order">
                                                 Order now
                                             </button>
                                         </div>

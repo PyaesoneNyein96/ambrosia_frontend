@@ -6,47 +6,55 @@
 
                 <div class="section-title">
                     <h2>Book a <span>Table</span></h2>
-                    <h1>Phone Booking</h1>
-                    <p>Ut possimus qui ut temporibus culpa velit eveniet modi omnis est adipisci expedita at voluptas atque
-                        vitae
-                        autem.</p>
+                    <h1>With Phone Number</h1>
+                    <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, ut.</p> -->
                 </div>
 
-                <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
+                <form action="" class="php-email-form mb-5">
                     <div class="row">
+
                         <div class="col-lg-4 col-md-6 form-group">
                             <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
                                 data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                             <div class="validate"></div>
                         </div>
-                        <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                                data-rule="email" data-msg="Please enter a valid email">
-                            <div class="validate"></div>
-                        </div>
+
                         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
                             <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone"
                                 data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                             <div class="validate"></div>
                         </div>
-                        <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="text" name="date" class="form-control" id="date" placeholder="Date"
+
+                        <div class="col-lg-4 col-md-6 form-group mt-3  mt-md-0">
+                            <input type="date" name="date" class="form-control" id="date" placeholder="Date"
                                 data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                             <div class="validate"></div>
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="text" class="form-control" name="time" id="time" placeholder="Time"
+                            <input type="time" class="form-control" name="time" id="time" placeholder="Time"
                                 data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                             <div class="validate"></div>
                         </div>
+
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="number" class="form-control" name="people" id="people" placeholder="# of people"
-                                data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                            <input type="number" min="1" class="form-control" name="people" id="people"
+                                placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                             <div class="validate"></div>
                         </div>
+
+                        <div class="col-lg-4 col-md-6 form-group mt-3 ">
+                            <input type="text" class="form-control border-danger"
+                                placeholder="Food allergic or dietary restrictions . . ." data-rule="minlen:1"
+                                data-msg="Please enter at least 1 chars">
+                            <div class="validate"></div>
+                        </div>
+
+
+
+
                     </div>
-                    <div class="form-group mt-3">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
+                    <div class="form-group my-4">
+                        <textarea class="form-control" rows="4" placeholder="Message"></textarea>
                         <div class="validate"></div>
                     </div>
                     <div class="mb-3">
@@ -56,7 +64,7 @@
                             confirm your
                             reservation. Thank you!</div>
                     </div>
-                    <div class="text-center"><button type="submit">Send Message</button></div>
+                    <div class="text-center"><button type="submit">Send Order</button></div>
                 </form>
 
             </div>

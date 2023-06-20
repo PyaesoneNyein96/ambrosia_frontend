@@ -19,6 +19,7 @@ import Contact from '../views/Home/Contact-index.vue'
 import About from '../views/Home/About-Us.vue'
 import Coming_soon from '../views/Home/Coming_soon.vue'
 import Packages from '../views/Home/Package-index.vue'
+import Cart from '../views/booking/Cart-index.vue'
 
 
 
@@ -69,6 +70,7 @@ const router = createRouter({
     { path: '/Contact', component: Contact, name: 'contact' },
     { path: '/coming_soon', component: Coming_soon, name: 'coming_soon' },
     { path: '/packages', component: Packages, name: 'packages' },
+    { path: '/cart', component: Cart, name: 'cart' },
 
 
 
@@ -152,6 +154,7 @@ router.beforeEach((to, from, next) => {
   store.commit('tool/setLoading', true)
 
   if (from === START_LOCATION) {
+
 
 
     if (!localStorage.getItem('userCredentials')) {

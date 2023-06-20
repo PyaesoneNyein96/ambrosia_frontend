@@ -1,13 +1,12 @@
 <template>
     <div class="carousel-wrap">
-        <Carousel v-bind="settings" :breakpoints="breakpoints" class="mt-4 p-0" :autoplay="3000" :transition="500"
-            :pauseAutoplayOnHover="true" :wrap-around='true'>
-            <Slide v-for="slide in pack" class="mx-2 shadow-sm" :key="slide">
+        <Carousel v-bind="settings" class="p-0" :autoplay="1000" :transition="1000" :pauseAutoplayOnHover="true"
+            :wrap-around='true'>
+            <Slide v-for="slide in pack" class="m-0 shadow-sm" :key="slide">
                 <div class="img-wrap">
                     <img :src="slide.image" class="img card-img">
                     <div class="hidden-hover">
                         <div class="inner-hidden">
-                            <h5 class="h5 title text-light  fw-bold">{{ slide.name }}</h5>
                             <div class="title text-light">Price:{{ slide.price }} $</div>
                         </div>
                     </div>
@@ -62,10 +61,10 @@ export default defineComponent({
 <style scoped>
 .img {
     position: relative;
-    height: 220px;
-    min-width: 280px;
+    width: 100%;
+    height: 60px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 2px;
     box-shadow: 0px 10px 10px rgba(3, 26, 3, 0.734);
     transition: all 0.3s ease-in-out;
 }
@@ -77,38 +76,45 @@ export default defineComponent({
 
 .img-wrap {
     position: relative;
+    padding: 0;
 }
 
 .hidden-hover {
-    transition: all 0.8s ease-in-out;
+    transition: all 0.4s ease-in-out;
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 400px;
-    bottom: -200px;
-    padding-top: 150px;
+    height: 200px;
+    bottom: -100px;
+    padding-top: 70px;
     cursor: pointer;
     user-select: none;
 }
 
 .hidden-hover:hover.hidden-hover {
-    bottom: -70px;
+    bottom: -50px;
 }
 
 .inner-hidden {
     background-color: rgba(0, 107, 128, 0.466);
-    width: 100%;
-    padding: 10px;
+    width: 80%;
+    /* padding: 10px; */
+}
+
+h5,
+.title {
+    font-size: 12px;
 }
 
 
 .carousel-wrap {
-    padding: 10px;
+    padding: 10px 0;
+    width: 100%;
     background-color: rgba(255, 0, 0, 0.004);
-    box-shadow: inset 0px 0px 150px rgb(0, 0, 0);
-    border-radius: 15px;
+    box-shadow: inset 0px 0px 150px rgba(0, 0, 0, 0.04);
+    /* border-radius: 15px; */
 }
 </style>
   

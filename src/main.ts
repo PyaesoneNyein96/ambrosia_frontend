@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// import uuid from './components/Tools/uuid'
+import { v4 as uuidv4 } from 'uuid'
+
 
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.css';
@@ -31,6 +34,8 @@ import '../public/assets/css/style.css'
 const app = createApp(App);
 
 app.config.globalProperties.$toast = iziToast;
+app.config.globalProperties.$uuid = uuidv4;
+
 app.component('app-Header', Header);
 app.component('app-Footer', Footer);
 app.component('app-Loader', Loader);

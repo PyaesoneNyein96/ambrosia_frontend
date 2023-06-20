@@ -6,6 +6,7 @@ import NotifyModule from './Notify/notification'
 import ToolsModule from './ToolStore/ToolStore'
 import UserModule from './Users/Users';
 import PackageModule from './Package/package';
+import CartModule from './Cart/cart'
 
 
 const store = createStore({
@@ -16,6 +17,7 @@ const store = createStore({
         tool: ToolsModule,
         users: UserModule,
         package: PackageModule,
+        cart: CartModule
     }
 });
 

@@ -34,7 +34,20 @@
                     <li>
                         <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
                     </li>
+                    <li>
+                        <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
+                    </li>
 
+                    <li>
+                        <router-link class="nav-link scrollto pe-2 " :to="{ name: 'cart' }">
+                            Cart
+                            <span v-if="count > 0"
+                                class="position-absolute cart-badge start-100  position-relative translate-middle badge rounded-pill bg-danger">
+                                {{ count }}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </router-link>
+                    </li>
 
 
                     <li class="dropdown">
@@ -46,9 +59,13 @@
                             <i class="bi bi-chevron-down"></i></a>
                         <ul :class="{ 'dropdown-active': moreDrop }">
 
+
+
                             <li class="dropdown">
-                                <a><span class="fw-bold" @click="deepDropDown">For Member Customers . .</span>
-                                    <i class="bi bi-chevron-right"></i></a>
+                                <a>
+                                    <span class="fw-bold" @click="deepDropDown"> For Member Customers . .</span>
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
                                 <ul :class="{ 'dropdown-active': deepDrop }">
                                     <li>
                                         <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
@@ -65,9 +82,7 @@
 
                                 </ul>
                             </li>
-                            <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
-                            </li>
+
 
                             <li>
                                 <router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link>
@@ -95,7 +110,10 @@
 
                     <li v-if="!navLinkToHide">
                         <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth">
-                            Dashboard
+                            Dashboard <span v-if="auth">
+                                <span class="mx-2 bg-gradient small rounded-pill active-btn py-0 p-1">a
+                                </span>
+                            </span>
                         </router-link>
                     </li>
 
@@ -114,10 +132,6 @@
 
             <span>
                 <button class=" book-a-table-btn scrollto py-2" @click="show">Reservation
-                    <span v-if="auth">
-                        <span class=" bg-gradient small rounded-pill active-btn py-0 p-1">a
-                        </span>
-                    </span>
                 </button>
                 <!-- {{ this.authCheck }} -->
             </span>
@@ -150,14 +164,16 @@ export default {
         return {
             isMobile: false,
             deepDrop: false,
-            moreDrop: false
+            moreDrop: false,
+            count: 0
         }
     },
     computed: {
         ...mapGetters({
             userData: 'auth/getUserData',
             auth: 'auth/getAuth',
-            userBadge: 'auth/getUserData'
+            userBadge: 'auth/getUserData',
+            cartListAndLength: 'cart/getCartListByUser'
         }),
 
 
@@ -177,12 +193,12 @@ export default {
                 title: "Order with Phone Number or As member ?",
                 showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: 'With Phone',
-                denyButtonText: 'As Member',
+                confirmButtonText: 'Guest',
+                denyButtonText: 'Member',
                 cancelButtonText: 'Cancel',
                 color: 'white',
-                confirmButtonColor: '#a78f06ec',
-                denyButtonColor: 'green',
+                confirmButtonColor: 'green',
+                denyButtonColor: '#a78f06ec',
                 cancelButtonColor: '#gray',
                 background: '#dbbd1049',
             }).
@@ -240,6 +256,13 @@ export default {
             this.$refs.bar_2.style.opacity = 1;
             this.$refs.bar_3.classList.remove('bot-change');
 
+        },
+
+        cartCount() {
+            this.count = 0
+            for (const i of this.cartListAndLength) {
+                this.count += i.count
+            }
         }
 
 
@@ -250,8 +273,17 @@ export default {
             this.isMobile = false;
             this.back(); //Important ***
 
+            this.cartCount()
         },
+
     },
+
+    created() {
+        this.$store.dispatch('cart/getCartListByUser')
+    },
+
+
+
 
 
 
@@ -339,5 +371,10 @@ span .router-link-exact-active {
     box-shadow: 1px 1px 30px 2px rgb(0, 255, 60);
     background-color: rgb(30, 125, 30);
     color: rgb(30, 125, 30);
+}
+
+.cart-badge {
+    top: 6px;
+    left: 100px;
 }
 </style>

@@ -29,20 +29,26 @@
                 <div class="row menu-container" v-if="MenuList != 0">
 
 
-                    <div class="col-lg-6 menu-item filter-starters " v-for="menu in MenuList" :key="menu">
-                        <div class="menu-content">
-                            <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
-                        </div>
-                        <div class="info-wrap mt-2 d-flex justify-content-between">
-                            <div class="img-wrap me-2">
-                                <img :src="menu.image" alt="Food" style="width:70px">
-                            </div>
-                            <div class="menu-ingredients  w-50 ">
-                                {{ menu.description }}
-                            </div>
-                        </div>
+                    <TransitionGroup name="item" appear>
 
-                    </div>
+                        <div class="col-lg-6 menu-item filter-starters scroll" v-for="menu in MenuList" :key="menu">
+                            <div class="menu-content">
+                                <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
+                            </div>
+                            <div class="info-wrap mt-2 d-flex justify-content-between">
+                                <div class="img-wrap me-2">
+                                    <img :src="menu.image" alt="Food" class="img">
+                                </div>
+                                <div class="menu-ingredients  w-50 ">
+                                    {{ menu.description }}
+                                </div>
+                                <div class="btn-wrap">
+                                    <button class="btx btn-eff" @click="cartFood(menu.id)">Order</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </TransitionGroup>
 
                 </div>
 
@@ -66,28 +72,29 @@
 <script>
 
 import { mapGetters } from 'vuex'
-
+import { smsInform } from '../../store/Notify/notify.js'
 
 export default {
     name: 'Menu-index',
     data() {
         return {
             isActive: '',
-            classForAll: ''
+            classForAll: '',
         }
     },
     computed: {
         ...mapGetters({
             MenuList: 'food/getFoodList',
-            Categories: 'food/getCategories'
+            Categories: 'food/getCategories',
+            auth: 'auth/getAuth',
+            // user_id: 'auth/getUserId',
+            temp_id: 'cart/getTemp_id'
         })
     },
+
     methods: {
         GetSpecific(i) {
             this.$store.dispatch('food/GetSpecific_All', i);
-
-
-
 
             // play with active class
             if (i == 'All') {
@@ -106,6 +113,23 @@ export default {
             this.isActive = i;
             this.classForAll = null
         },
+        // =========================================
+
+
+
+        cartFood(id) {
+
+            if (this.auth) {
+                this.$store.dispatch('cart/setCartFood', { food_id: id })
+            } else {
+                this.$router.push({ name: 'login' })
+                    .then(() => {
+                        smsInform(this.$store.commit, 'To make order', 'Please login or register first')
+                    })
+            }
+        },
+
+
 
 
 
@@ -113,20 +137,64 @@ export default {
 
 
     mounted() {
-        this.$store.dispatch('food/GetSpecific_All', 'All');
-
-
         this.$store.dispatch('food/getCategories');
-
     },
-    // beforeUpdate() {
-    //     console.log(this.MenuList);
-    // }
+    beforeCreate() {
+
+        this.$store.dispatch('food/GetSpecific_All', 'All');
+    },
+
 }
 </script>
 
 <style scoped>
 #menu {
-    min-height: 70vh;
+    min-height: 100vh;
+}
+
+.img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    transition: all 0.4s ease-in-out;
+}
+
+.img:hover {
+
+    transform: translateX(5px) scale(1.05);
+    border-radius: 8px;
+    box-shadow: 2px 10px 20px gray;
+
+}
+
+
+/* Transition  */
+
+.item-enter-from,
+.item-leave-to {
+    opacity: 0;
+    /* transition: all 0.3s ease-in-out; */
+}
+
+.item-enter-active {
+    /* transition: all 0.3s ease-in-out; */
+    /* transform: translateY(50%); */
+}
+
+.item-leave-active {
+    position: absolute;
+    /* width: 20%; */
+    transition: all 0.3s ease-in;
+    transform: translateX(50%);
+}
+
+.item-enter-to,
+.item-leave-from {
+    opacity: 1;
+    transition: all 1s ease-in-out;
+}
+
+.item-move {
+    transition: transform 1s ease-in-out;
 }
 </style>

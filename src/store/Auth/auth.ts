@@ -29,7 +29,9 @@ const AuthModule = {
 
         getAuthErr: state => state.authErr,
 
-        getProfileErr: state => state.profileErr
+        getProfileErr: state => state.profileErr,
+
+        // getUserId: state => state.userData.id
 
 
 
@@ -109,6 +111,8 @@ const AuthModule = {
                     }
                     smsSuccess(commit, "Register", 'Register Successfully Done')
                     router.push('/')
+
+
 
                 }).catch((err) => {
                     smsError(commit, 'Register Error', err)

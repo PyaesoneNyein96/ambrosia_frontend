@@ -179,7 +179,7 @@ li a {
 
 .main-wrap {
     background-color: white;
-    min-height: 86vh;
+    min-height: 90vh;
     /* min-height: 100vh; */
     margin-top: 75px;
 }

@@ -37,6 +37,9 @@ import About from '../Home/About-Us'
 import Customize from '../Home/customize-index'
 import Why from '../Home/why-us'
 
+
+// import { v4 as uuidv4 } from 'uuid'
+
 export default {
     name: 'Home-index',
     components: {
@@ -47,6 +50,7 @@ export default {
         Why
     },
 
+
     methods: {
         scrollEff() {
             ScrollReveal().reveal('.scroll', {
@@ -55,7 +59,7 @@ export default {
                 duration: 700,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: false,
+                reset: true,
                 viewFactor: 0.2
             });
 
@@ -65,7 +69,7 @@ export default {
                 duration: 1000,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: false,
+                reset: true,
                 viewFactor: 0.2
             });
 
@@ -75,14 +79,20 @@ export default {
                 duration: 1300,
                 easing: 'ease-in',
                 origin: 'bottom',
-                reset: false,
+                reset: true,
                 viewFactor: 0.2
             });
-        }
+        },
+
+
+
     },
 
     mounted() {
-        this.scrollEff()
+        this.scrollEff();
+
+
+
     }
 
 

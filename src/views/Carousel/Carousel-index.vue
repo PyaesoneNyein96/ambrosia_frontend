@@ -7,7 +7,7 @@
                     <div class="slide-img" :style="{ background: `url(${slide.url})` }">
                         <div class=" slide-up">
                             <h2 class="title">Ambrosia</h2>
-                            <h4 class="slide-text">{{ slide.description }}</h4>
+                            <div class="slide-text">{{ slide.description }}</div>
                         </div>
                     </div>
                 </Transition>
@@ -108,7 +108,7 @@ h2 {
 
 .slide-text {
     color: rgb(148, 151, 250);
-    font-size: 1.5em !important;
+    font-size: 1.2em !important;
     text-shadow: 1px 1px 40px lightblue;
 }
 

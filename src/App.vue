@@ -36,7 +36,10 @@ export default {
     ...mapGetters({
       isLoading: 'tool/getLoading',
       notify: 'notify/getAlertNotify',
+      auth: 'auth/getAuth',
     }),
+
+
 
     footer() {
       return this.$route.matched.some(r => r.name === 'dashboard')
@@ -66,7 +69,9 @@ export default {
       let audio = new Audio(x);
       audio.play();
       audio.volume = 0.5
-    }
+    },
+
+
 
 
   }, //end of Methods
@@ -106,6 +111,9 @@ export default {
 
   }, //end of watch
 
+  // beforeUpdate() {
+
+  // }
 
 
 

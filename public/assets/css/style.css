@@ -1191,6 +1191,7 @@ section {
 --------------------------------------------------------------*/
 .gallery {
   padding-bottom: 0;
+  min-height: 90vh;
 }
 .gallery {
   /* background: url("../img/chefs-bg.jpg") center center no-repeat; */
@@ -1247,6 +1248,7 @@ section {
   background-size: cover;
   padding: 60px 0;
   position: relative;
+  min-height: 90vh;
 }
 
 .chefs::before {
@@ -1645,3 +1647,55 @@ section {
 #footer .credits {
   font-size: 13px;
 }
+
+/* ------------------------------------ */
+/*  Customize Btn EFF */
+/* ------------------------------------ */
+
+.btx {
+  position: relative;
+  z-index: 0;
+  cursor: pointer;
+  color: #f1f1f1;
+  border: none;
+  background-color: rgb(79, 58, 5);
+}
+
+.btx::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-eff:hover.btn-eff::after {
+  width: 100%;
+}
+
+.btn-eff::after {
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(
+    to left,
+    rgba(148, 147, 147, 0.953),
+    #ffc107b4,
+    rgba(255, 217, 0, 0.804),
+    rgb(214, 214, 1)
+  );
+}
+
+/* -------------------------------- */
+
+/* .some-enter-active,
+.some-leave-active {
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.some-enter-from,
+.some-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+} */
