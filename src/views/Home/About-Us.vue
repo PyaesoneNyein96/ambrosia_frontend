@@ -59,7 +59,7 @@ export default {
 <style  scoped>
 .about {
     opacity: 0.9;
-    background-color: rgba(255, 255, 253, 0.975);
+    background-color: rgba(255, 255, 253, 0.511);
     /* height: 120vh; */
 
 }

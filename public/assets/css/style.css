@@ -922,6 +922,7 @@ section {
   z-index: 3;
   font-weight: 700;
   color: #ff9b08;
+  padding: 2px 5px;
 }
 
 .menu .menu-content span {
@@ -934,9 +935,10 @@ section {
 
 .menu .menu-ingredients {
   font-style: italic;
-  font-size: 14px;
+  font-size: 16px;
   font-family: "Comic Neue", sans-serif;
-  color: #948c81;
+  /* color: #948c81; */
+  color: #4f2606;
 }
 
 /*--------------------------------------------------------------
@@ -1699,3 +1701,39 @@ section {
   opacity: 0;
   transform: translateY(20px);
 } */
+
+.btx2 {
+  position: relative;
+  z-index: 0;
+  cursor: pointer;
+  color: #f1f1f1;
+  border: none;
+  background-color: rgb(241, 181, 29);
+}
+
+.btx2::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-eff2:hover.btn-eff2::after {
+  width: 100%;
+}
+
+.btn-eff2::after {
+  left: 0;
+  width: 0;
+  height: 100%;
+  border-radius: 8px;
+  background-color: rgba(128, 128, 128, 0.373);
+  /* background: linear-gradient(
+    to right,
+    rgba(20, 26, 199, 0.953),
+    #076562b4,
+    rgba(24, 8, 73, 0.804),
+    rgb(63, 3, 66)
+  ); */
+}

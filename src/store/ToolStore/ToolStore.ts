@@ -6,6 +6,7 @@ const ToolsModule = {
         return {
             loading: false,
             toggleNav: true,
+            count: false,
 
         }
     },
@@ -13,6 +14,7 @@ const ToolsModule = {
 
         getLoading: (state) => state.loading,
         getToggleNav: state => state.toggleNav,
+        getCartCount: state => state.Count,
 
 
     },
@@ -23,7 +25,9 @@ const ToolsModule = {
 
 
         // NavHide
-        toggleNav: (state, payload) => state.toggleNav = payload
+        toggleNav: (state, payload) => state.toggleNav = payload,
+
+        setCount: (state, payload) => state.count = payload,
 
 
     },

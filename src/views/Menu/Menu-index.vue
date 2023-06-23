@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-wrap">
         <section id="menu" class="menu mt-3">
             <div class="container">
 
@@ -43,7 +43,9 @@
                                     {{ menu.description }}
                                 </div>
                                 <div class="btn-wrap">
-                                    <button class="btx btn-eff" @click="cartFood(menu.id)">Order</button>
+                                    <button class="btx me-1 mb-1 btn-eff" @click="detail(menu.id)">Detail</button>
+                                    <button class="btx btn-eff mb-1" @click="cartFood(menu.id)"
+                                        :disabled="isDisabled">Order</button>
                                 </div>
                             </div>
 
@@ -80,6 +82,7 @@ export default {
         return {
             isActive: '',
             classForAll: '',
+            isDisabled: false
         }
     },
     computed: {
@@ -87,8 +90,6 @@ export default {
             MenuList: 'food/getFoodList',
             Categories: 'food/getCategories',
             auth: 'auth/getAuth',
-            // user_id: 'auth/getUserId',
-            temp_id: 'cart/getTemp_id'
         })
     },
 
@@ -98,13 +99,13 @@ export default {
 
             // play with active class
             if (i == 'All') {
-                this.x()
+                this.all()
             } else {
                 this.activeClass(i)
             }
         },
 
-        x() {
+        all() {
             this.classForAll = 'All';
             this.isActive = null
         },
@@ -120,7 +121,11 @@ export default {
         cartFood(id) {
 
             if (this.auth) {
-                this.$store.dispatch('cart/setCartFood', { food_id: id })
+                this.disabled = true
+
+                this.$store.dispatch('cart/setCartFood', { food_id: id }).then(() => {
+                    this.disabled = false
+                })
             } else {
                 this.$router.push({ name: 'login' })
                     .then(() => {
@@ -128,6 +133,11 @@ export default {
                     })
             }
         },
+
+
+        detail(i) {
+            this.$store.dispatch('food/detailFood', i)
+        }
 
 
 
@@ -138,18 +148,43 @@ export default {
 
     mounted() {
         this.$store.dispatch('food/getCategories');
+        if (!this.MenuList) {
+            this.$store.dispatch('food/GetSpecific_All', 'All');
+        }
     },
-    beforeCreate() {
 
-        this.$store.dispatch('food/GetSpecific_All', 'All');
-    },
 
 }
 </script>
 
 <style scoped>
 #menu {
+    /* min-height: 100vh; */
+}
+
+.bg-wrap {
     min-height: 100vh;
+    top: 0;
+    background: url('../../../public/assets/img/logo/menu.jpg') top no-repeat;
+    position: relative;
+    background-size: cover;
+    padding-top: 0px;
+}
+
+.bg-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background-color: rgba(255, 255, 255, 0.821);
+}
+
+.container {
+    position: relative;
+    z-index: 10;
 }
 
 .img {

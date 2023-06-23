@@ -23,19 +23,31 @@
                             </Field>
 
 
-                            <Field name="password" v-slot="{ field, errors, errorMessage }" v-model="password">
+                            <Field name="password" v-slot="{ field, errors, errorMessage }" v-model="password"
+                                class="pass-field">
+
+                                <div class="eye-wrap">
+                                    <i class="fa-solid fa-eye-slash text-muted small eye" v-if="show" @click="showHide"></i>
+                                    <i class="fa-solid fa-eye eye text-muted small" v-else @click="showHide"></i>
+                                </div>
+
                                 <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
-                                    type="password" placeholder="Password . . ." />
+                                    :type="showHideType" placeholder="Password . . ." />
+
                             </Field>
+
+
+
 
                             <Field name="confirm_password" v-slot="{ field, errors, errorMessage }" v-if="!type"
                                 v-model="confirm">
                                 <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
-                                    type="password" placeholder="Confirm Password . . ." />
+                                    :type="showHideType" placeholder="Confirm Password . . ." />
                                 <p class="small text-danger py-0" v-if="err">
                                     Passwords must match !!
                                 </p>
                             </Field>
+
 
 
 
@@ -80,7 +92,9 @@ export default {
             type: true,
             password: '',
             confirm: '',
-            err: false
+            err: false,
+            show: false,
+            showHideType: 'password'
 
         }
     },
@@ -116,9 +130,19 @@ export default {
                     resetForm()
                 }
 
+            }
+        },
 
+
+        showHide() {
+            this.show = !this.show;
+            if (this.show) {
+                this.showHideType = "text"
+            } else {
+                this.showHideType = 'password'
             }
         }
+
     }
 }
 </script>
@@ -222,5 +246,32 @@ export default {
 .form .btn:active {
     transform: translateX(0.1em) translateY(0.1em);
     box-shadow: none;
+}
+
+/* show hide */
+
+.pass-field {
+    position: relative !important;
+}
+
+.eye-wrap {
+    position: relative !important;
+    background-color: red;
+    /* display: none; */
+    width: 80%;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+}
+
+.eye {
+    cursor: pointer;
+    /* background-color: #bf8859; */
+    padding: 5px;
+    position: absolute !important;
+    right: 12px;
+    top: 2em;
+    color: rgb(4, 63, 4);
 }
 </style>

@@ -20,6 +20,8 @@ import err from '../public/assets/audio/wrong-answer-129254.mp3'
 import info from '../public/assets/audio/info.mp3'
 // import BigSuccess from '../public/assets/audio/order_success.mp3'
 import warning from '../public/assets/audio/warning.mp3'
+import cartSuccess from '../public/assets/audio/order_bell.mp3'
+import orderSuccess from '../public/assets/audio/order_success.mp3'
 
 
 
@@ -28,7 +30,7 @@ export default {
   name: 'App',
   data() {
     return {
-      // success: '../public/assets/audio/success.wav'
+      count: false
 
     }
   },
@@ -58,7 +60,8 @@ export default {
         title: notify[1],
         message: notify[2],
         animateInside: true,
-        position: 'topRight',
+        // position: 'topRight',
+        position: 'bottomRight',
         iconUrl: 'https://rb.gy/9lw00',
         resetOnHover: true,
       });
@@ -98,14 +101,18 @@ export default {
           this.toast(notify, 'info');
           this.audioEff(info);
         }
+        else if (notify[3] == 'cartSuccess') {
+          this.toast(notify, 'success')
+          this.audioEff(cartSuccess);
+        }
+        else if (notify[3] == 'OrderSuccess') {
+          this.toast(notify, 'success')
+          this.audioEff(orderSuccess)
+        }
 
-
-      }
-      // notify true
-
-
-
+      }// notify true
     }, // notify function end
+
 
 
 
@@ -146,5 +153,10 @@ select {
   outline: none;
   padding: 10px;
   /* padding-left: 1em; */
+}
+
+* {
+  /* text-align: justify;
+  text-justify: inter-word; */
 }
 </style>

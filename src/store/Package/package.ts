@@ -133,7 +133,9 @@ const PackageModule = {
 
             axios.post(`http://localhost:8000/api/package/delete/${payload}`)
                 .then(res => {
-                    smsSuccess(commit, res.data.name)
+                    smsSuccess(commit, res.data.name, 'was Successfully Deleted ');
+                    console.log(res.data);
+
                     dispatch('getAllPackage');
                 })
                 .catch(err => {

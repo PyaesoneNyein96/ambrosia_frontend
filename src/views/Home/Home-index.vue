@@ -90,8 +90,7 @@ export default {
 
     mounted() {
         this.scrollEff();
-
-
+        this.$store.dispatch('food/GetSpecific_All', 'All')
 
     }
 
@@ -101,23 +100,23 @@ export default {
 
 <style scoped>
 .special {
-    opacity: 0.8;
-    background-color: aliceblue;
+    opacity: 1;
+    background-color: rgba(240, 248, 255, 0.386);
 }
 
 .main {
-    background-color: rgba(245, 222, 179, 0.395);
+    background-color: rgba(255, 255, 255, 0.432);
 }
 
 .wrap {
     /* background: url("../img/chefs-bg.jpg") center center no-repeat; */
-    background: url("https://w0.peakpx.com/wallpaper/204/885/HD-wallpaper-custom-food-store-wood-pattern-coffee-3d-retro-mural-for-the-restaurant-cafe-hotel-background-wall-pvc-fabric-textile-wallcoverings-food-vintage.jpg") center center no-repeat;
+    background: url("../../../public/assets/img/gallery/gallery-1.jpg") center no-repeat;
     background-size: cover;
     /* padding: 60px 0; */
     position: relative;
 }
 
 .custom {
-    background-color: rgba(237, 237, 212, 0.87);
+    background-color: rgba(237, 237, 212, 0.404);
 }
 </style>

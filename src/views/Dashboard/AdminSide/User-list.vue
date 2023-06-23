@@ -103,7 +103,7 @@
 
                                 <button class="btn btn-danger ms-1 btn-sm py-1" @click="del(u.name, u.email, u.id)">
                                     <i class="fa fa-trash " aria-hidden="true"></i>
-                                    <span class="d-none mx-1 d-xl-inline">Delete</span>
+                                    <!-- <span class="d-none mx-1 d-xl-inline">Delete</span> -->
                                 </button>
                             </div>
                         </td>

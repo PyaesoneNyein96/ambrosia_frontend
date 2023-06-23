@@ -11,6 +11,7 @@ import Home from '../views/Home/Home-index.vue'
 import Booking from '../views/booking/Booking-index.vue'
 import Booking_Phone from '../views/booking/Booking-phone.vue'
 import Menu from '../views/Menu/Menu-index.vue'
+import Detail from '../views/Menu/Detail-index.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
 import Special from '../views/Home/Special-index.vue'
 import Gallery from '../views/Home/Gallery-index.vue'
@@ -61,6 +62,7 @@ const router = createRouter({
     { path: '/', component: Home, name: 'home' },
     { path: '/login', component: Login, name: 'login', meta: { login: true } },
     { path: '/menu', component: Menu, name: 'menu' },
+    { path: '/detail/:id', component: Detail, name: 'detail', meta: { detail: true } },
     { path: '/book', component: Booking, name: 'booking', meta: { book: true } },
     { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
     { path: '/special', component: Special, name: 'special' },
@@ -70,7 +72,7 @@ const router = createRouter({
     { path: '/Contact', component: Contact, name: 'contact' },
     { path: '/coming_soon', component: Coming_soon, name: 'coming_soon' },
     { path: '/packages', component: Packages, name: 'packages' },
-    { path: '/cart', component: Cart, name: 'cart' },
+    { path: '/cart', component: Cart, name: 'cart', meta: { cart: true } },
 
 
 
@@ -128,6 +130,13 @@ const validation = (to, from, next) => {
   else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
     router.push({ name: 'booking' })
     smsInform(store.commit, 'If you are already a member', ' Register as a user.')
+  }
+  else if ((to.meta.cart) && !store.getters['auth/getUserData']) {
+    router.push({ name: 'home' })
+  }
+
+  else if ((to.meta.detail) && store.getters['food/getDetailFood'].id !== Number(to.params.id)) {
+    router.push({ name: 'menu' })
   }
 
   else if (((to.meta.food_add) || (to.meta.edit) ||

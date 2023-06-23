@@ -12,8 +12,8 @@
             <div class="col-lg-3 col-md-4 ">
                 <div class="detail-wrap">
                     <div class="detail scroll">
-                        <div class="text-muted">
-                            Sub Total: <span class="text-decoration-line-through"> {{ pack.sub_total }} $</span>
+                        <div class="">
+                            Sub Total: <span class="text-muted text-decoration-line-through"> {{ pack.sub_total }} $</span>
                         </div>
                         <div class="">
                             Percentage: <span class="text-danger">- {{ pack.percentage }}</span> %

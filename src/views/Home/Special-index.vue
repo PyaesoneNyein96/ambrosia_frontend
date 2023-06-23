@@ -46,10 +46,13 @@
                                 <div class="row order p-3" :class="scroll3">
                                     <div class="col-6 offset-6 d-flex justify-content-end">
                                         <div class="btn-wrap text-end">
-                                            <button class="btn detail-btn mb-2  btn-secondary me-1 rounded-0">
+                                            <button class="btn btx btn-eff rounded-0 bg-secondary bg-gradient"
+                                                @click="detail(special.id)">
                                                 Detail
                                             </button>
-                                            <button class="btn order-btn  mb-2 btn-warning rounded-0" @click="order">
+                                            <button :disabled="disabled"
+                                                class="btn btx btn-eff ms-1 rounded-0 bg-danger bg-gradient"
+                                                @click="addToCart(special.id)">
                                                 Order now
                                             </button>
                                         </div>
@@ -71,19 +74,22 @@
 
 
 import { mapGetters } from 'vuex'
+import { smsInform } from '../../store/Notify/notify.js'
 
 export default {
     props: ['scroll', 'scroll2', 'scroll3'],
     data() {
         return {
             List: '',
-            special: ''
+            special: '',
+            disabled: false
         }
     },
 
     computed: {
         ...mapGetters({
-            specialList: 'food/getSpecialMenu'
+            specialList: 'food/getSpecialMenu',
+            auth: 'auth/getAuth',
         })
     },
 
@@ -93,9 +99,27 @@ export default {
                 return s.id === idx
             });
             this.special = val;
-            // this.special = val.map(s => {
-            //     return { value: s }
-            // })
+
+        },
+
+        addToCart(id) {
+
+            if (this.auth) {
+                this.disabled = true
+
+                this.$store.dispatch('cart/setCartFood', { food_id: id }).then(() => {
+                    this.disabled = false
+                })
+            } else {
+                this.$router.push({ name: 'login' })
+                    .then(() => {
+                        smsInform(this.$store.commit, 'To make order', 'Please login or register first')
+                    })
+            }
+        },
+
+        detail(i) {
+            this.$store.dispatch('food/detailFood', i)
         }
     },
 
@@ -174,51 +198,29 @@ export default {
 }
 
 /* Button Effect */
-
-.btn {
-    position: relative;
-    z-index: 0;
-    cursor: pointer;
-    color: #f1f1f1;
-    border: none;
-}
-
-.btn::after {
+/* EFF  */
+.btx::after {
     content: "";
     position: absolute;
     top: 0;
     z-index: -1;
-    transition: all .3s ease-in-out;
+    transition: all 0.8s ease-in-out;
+    /* background-color: green !important; */
 }
 
-.detail-btn:hover.detail-btn::after {
-    width: 100%;
+.btx-eff:hover.btx-eff::after {
+    width: 0%;
 }
 
-.order-btn:hover.order-btn::after {
-    width: 100%;
-}
-
-.detail-btn:hover,
-.order-btn:hover {
-    color: rgb(255, 255, 255);
-}
-
-.detail-btn::after {
-    left: 0;
-    width: 0;
-    height: 100%;
-    /* background-color: #ffc107; */
-    /* background: linear-gradient(to left, yellow, #ffc107, gold, rgb(225, 191, 0)); */
-    background: linear-gradient(to left, rgba(148, 147, 147, 0.953), #ffc107b4, rgba(255, 217, 0, 0.804), rgb(214, 214, 1));
-}
-
-.order-btn::after {
+.btx-eff::after {
     right: 0;
-    width: 0;
+    width: 100%;
     height: 100%;
-    /* background-color: aqua; */
-    /* background: linear-gradient(to right, green, rgba(4, 160, 4, 0.792), rgba(2, 164, 2, 0.616), rgba(121, 251, 121, 0.642)); */
-    background: linear-gradient(to right, rgba(128, 128, 128, 0.81), rgba(128, 128, 128, 0.399), rgba(128, 128, 128, 0.355), rgba(128, 128, 128, 0.229));
+    background-color: rgba(255, 236, 236, 0.127);
+    /* background: linear-gradient(to left,
+            rgba(136, 102, 8, 0.953),
+            #ffc107b4,
+            rgba(255, 217, 0, 0.896),
+            rgba(109, 109, 2, 0.736)); */
 }
 </style>

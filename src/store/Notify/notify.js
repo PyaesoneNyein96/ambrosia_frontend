@@ -19,4 +19,13 @@ const smsQuestion = (commit, title = 'Are you sure !!', sms = 'If u sure, hit YE
     return commit('notify/setNotification', { title: title, sms: sms, type: 'question' }, { root: true })
 }
 
-export { smsError, smsSuccess, smsLogOut, smsInform, smsQuestion }
+const cartSuccess = (commit, title = 'Cart.', sms = 'Successfully added to your Cart.') => {
+    return commit('notify/setNotification', { title: title, sms: sms, type: 'cartSuccess' }, { root: true })
+}
+
+const orderSuccess = (commit, title = 'Order', sms = 'Your Order is successfully Done.') => {
+    return commit('notify/setNotification', { title: title, sms: sms, type: 'OrderSuccess' }, { root: true })
+}
+
+
+export { smsError, smsSuccess, smsLogOut, smsInform, smsQuestion, cartSuccess, orderSuccess }

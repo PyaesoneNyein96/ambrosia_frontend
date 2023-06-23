@@ -22,7 +22,9 @@ const FoodModule = {
             tagErr: '',
             specFood: '',
 
-            SpecialMenu: ''
+            SpecialMenu: '',
+
+            detailFood: ''
         }
     },
 
@@ -45,6 +47,8 @@ const FoodModule = {
 
         getSpecialMenu: state => state.SpecialMenu,
 
+        getDetailFood: state => state.detailFood,
+
     },
 
     mutations: {
@@ -64,7 +68,9 @@ const FoodModule = {
 
         setTagErr: (state, payload) => state.tagErr = payload, // tag err
 
-        setSpecialMenu: (state, payload) => state.SpecialMenu = payload // Special Menu
+        setSpecialMenu: (state, payload) => state.SpecialMenu = payload, // Special Menu
+
+        setDetailFood: (state, payload) => state.detailFood = payload
 
 
 
@@ -424,24 +430,34 @@ const FoodModule = {
                 })
         },
 
+        //==================================================================================
+        // FOOD DETAIL (USER)
+        //==================================================================================
+
+        detailFood: ({ commit, getters }, payload) => {
+            Loader(commit, false)
+            try {
+                const foodList = getters['getFoodList'];
+
+                const detail = foodList.find(i => {
+                    return i.id == payload
+                });
+
+                commit('setDetailFood', detail)
+                router.push({ name: 'detail', params: { id: payload } })
+            } catch (error) {
+                smsError(commit, 'Food Error', error)
+            }
+            finally {
+                Loader(commit, false)
+            }
 
 
-        // addPackage: ({ commit }, payload) => {
+        }
 
-        //     Loader(commit, true)
 
-        //     axios.post('http://localhost:8000/api/package/add', payload)
-        //         .then(res => {
-        //             console.log(res.data);
-        //         })
-        //         .catch(err => {
-        //             console.log(err);
-        //         })
-        //         .finally(() => {
-        //             Loader(commit, false)
-        //         })
 
-        // }
+
 
 
 

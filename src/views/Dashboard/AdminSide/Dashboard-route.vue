@@ -18,14 +18,14 @@
                             <router-link :to="{ name: 'user_Profile' }">
 
                                 <i class="fa-regular fa-user"></i>
-                                <span class="nav-item d-none d-lg-inline">User Profile</span>
+                                <span class="nav-item d-none d-lg-inline">Profile</span>
                             </router-link>
                         </li>
 
                         <li>
                             <router-link :to="{ name: 'user_Check' }">
                                 <i class="fa-solid fa-clock-rotate-left"></i>
-                                <span class="nav-item d-none d-lg-inline">User Orders</span>
+                                <span class="nav-item d-none d-lg-inline">Orders</span>
                             </router-link>
                         </li>
 

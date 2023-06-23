@@ -7,7 +7,7 @@
                     gastronomic experiences.</p>
                 <div class="social-links">
                     <a href="#" class="twitter">
-                        <i class="fa-brands fa-twitter" style="color: #1d60d3;"></i>
+                        <i class="fa-brands fa-twitter" style="color: #4380e8;"></i>
                     </a>
                     <a href="#" class="facebook">
                         <i class="fa-brands fa-facebook" style="color: #005eff;"></i>

@@ -5,14 +5,14 @@
 
             <div class="logo me-auto">
                 <h1>
-                    <a href="/">
-                        <!-- <img src="../../assets/logo.png" alt="" class="img-fluid rounded-circle"> -->
+                    <router-link :to="{ name: 'home' }">
+                        <img src="../../../public//assets//img//logo/GODlogopng.png" class="img-fluid rounded-circle">
                         <span class="d-none d-md-inline"> Ambrosia</span>
                         <h1 class="text-light">
 
                         </h1>
-                        <span class="d-inline d-md-none" style="font-size: 20px;"> Ambrosia</span>
-                    </a>
+                        <!-- <span class="d-inline d-md-none" style="font-size: 20px;"> Ambrosia</span> -->
+                    </router-link>
                 </h1>
 
             </div>
@@ -22,102 +22,111 @@
 
 
             <nav id="navbar" class="navbar order-last order-lg-0" :class="{ 'navbar-mobile': isMobile }">
-                <ul>
-                    <li>
-                        <router-link class="nav-link scrollto dropdown-active  " :to="{ name: 'home' }">
-                            Home
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link class="nav-link scrollto " :to="{ name: 'menu' }">Menu</router-link>
-                    </li>
-                    <li>
-                        <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
-                    </li>
-                    <li>
-                        <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
-                    </li>
-
-                    <li>
-                        <router-link class="nav-link scrollto pe-2 " :to="{ name: 'cart' }">
-                            Cart
-                            <span v-if="count > 0"
-                                class="position-absolute cart-badge start-100  position-relative translate-middle badge rounded-pill bg-danger">
-                                {{ count }}
-                                <span class="visually-hidden">unread messages</span>
-                            </span>
-                        </router-link>
-                    </li>
 
 
-                    <li class="dropdown">
-                        <a class="">
-                            <span @click="moreDropDown">
-                                More
+                <TransitionGroup name="item">
+                    <ul :key="elementKey">
+                        <li>
+                            <router-link class="nav-link scrollto dropdown-active  " :to="{ name: 'home' }">
+                                Home
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link class="nav-link scrollto " :to="{ name: 'menu' }">Menu</router-link>
+                        </li>
+                        <li>
+                            <router-link class="nav-link scrollto " :to="{ name: 'special' }">Special</router-link>
+                        </li>
+                        <li>
+                            <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
+                        </li>
 
-                            </span>
-                            <i class="bi bi-chevron-down"></i></a>
-                        <ul :class="{ 'dropdown-active': moreDrop }">
+                        <li v-if="auth">
+                            <router-link class="nav-link scrollto pe-2 " :to="{ name: 'cart' }">
+                                Cart
+                                <span hidden
+                                    class="position-absolute cart-badge start-100  position-relative translate-middle badge rounded-pill bg-danger">
 
-
-
-                            <li class="dropdown">
-                                <a>
-                                    <span class="fw-bold" @click="deepDropDown"> For Member Customers . .</span>
-                                    <i class="bi bi-chevron-right"></i>
-                                </a>
-                                <ul :class="{ 'dropdown-active': deepDrop }">
-                                    <li>
-                                        <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
-                                            Event for Members
-                                        </router-link>
-
-                                    </li>
-                                    <li>
-                                        <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
-                                            Free Chef Class
-                                        </router-link>
-                                    </li>
-
-
-                                </ul>
-                            </li>
-
-
-                            <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'chef' }">Our Chefs</router-link>
-                            </li>
-
-                            <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About Us</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link scrollto " :to="{ name: 'contact' }">Contact Us</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">
-                                    Login & Register
-                                </router-link>
-                            </li>
-                            <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
-                        </ul>
-                    </li>
-
-
-
-                    <li v-if="!navLinkToHide">
-                        <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }" v-if="auth">
-                            Dashboard <span v-if="auth">
-                                <span class="mx-2 bg-gradient small rounded-pill active-btn py-0 p-1">a
+                                    <span class="visually-hidden">unread messages</span>
                                 </span>
-                            </span>
-                        </router-link>
-                    </li>
+                            </router-link>
+                        </li>
 
-                </ul>
+
+                        <li class="dropdown">
+                            <a class="">
+                                <span @click="moreDropDown">
+                                    More
+
+                                </span>
+                                <i class="bi bi-chevron-down"></i></a>
+                            <ul :class="{ 'dropdown-active': moreDrop }">
+
+
+
+                                <li class="dropdown">
+                                    <a>
+                                        <span class="fw-bold" @click="deepDropDown"> For Member Customers . .</span>
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                    <ul :class="{ 'dropdown-active': deepDrop }">
+                                        <li>
+                                            <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
+                                                Event for Members
+                                            </router-link>
+
+                                        </li>
+                                        <li>
+                                            <router-link class="nav-link scrollto " :to="{ name: 'coming_soon' }">
+                                                Free Chef Class
+                                            </router-link>
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+
+
+                                <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'chef' }">Our Chefs</router-link>
+                                </li>
+
+                                <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About
+                                        Us</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'contact' }">Contact
+                                        Us</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link scrollto" :to="{ name: 'login' }" v-if="!auth">
+                                        Login & Register
+                                    </router-link>
+                                </li>
+                                <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
+                            </ul>
+                        </li>
+
+
+
+                        <li>
+
+                            <router-link class="nav-link scrollto" :to="{ name: 'main_dashboard' }"
+                                v-if="auth && !navLinkToHide">
+                                Dashboard <span v-if="auth">
+                                    <span class="mx-2 bg-gradient small rounded-pill active-btn py-0 p-1">a
+                                    </span>
+                                </span>
+                            </router-link>
+                        </li>
+
+                    </ul>
+                </TransitionGroup>
+
                 <i class="bi bi-x mobile-nav-toggle" @click="isMobileChange">
                     <div class="hamburger-menu d-block d-lg-none">
                         <div ref="bar_1" class="bar"></div>
@@ -160,12 +169,17 @@ import { mapGetters } from 'vuex';
 export default {
     name: 'Header-index',
 
+    props: [
+        'count'
+    ]
+    ,
     data() {
         return {
+            elementKey: 'key',
             isMobile: false,
             deepDrop: false,
             moreDrop: false,
-            count: 0
+            cartHide: false,
         }
     },
     computed: {
@@ -173,7 +187,8 @@ export default {
             userData: 'auth/getUserData',
             auth: 'auth/getAuth',
             userBadge: 'auth/getUserData',
-            cartListAndLength: 'cart/getCartListByUser'
+            cartListAndLength: 'cart/getCartListByUser',
+
         }),
 
 
@@ -190,22 +205,20 @@ export default {
     methods: {
         show() {
             this.$swal({
-                title: "Order with Phone Number or As member ?",
-                showDenyButton: true,
+                title: "Order As a member ?",
+                // showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: 'Guest',
-                denyButtonText: 'Member',
+                confirmButtonText: 'Member?',
+                // denyButtonText: 'Member',
                 cancelButtonText: 'Cancel',
                 color: 'white',
-                confirmButtonColor: 'green',
-                denyButtonColor: '#a78f06ec',
+                confirmButtonColor: '#a78f06ec',
+                // denyButtonColor: '#a78f06ec',
                 cancelButtonColor: '#gray',
                 background: '#dbbd1049',
             }).
                 then((result) => {
                     if (result.isConfirmed) {
-                        this.$router.push({ name: 'booking_phone' })
-                    } else if (result.isDenied) {
                         if (!this.auth) {
                             smsInform(store.commit, 'Information', 'Firstly U have to Login for this Process')
                             this.$router.push({ name: 'login' })
@@ -213,9 +226,11 @@ export default {
                             this.$router.push({ name: 'booking' })
 
                         }
+                        // this.$router.push({ name: 'booking_phone' })
                     }
                 })
         },
+
         // LOG OUT
         logout() {
             this.isMobile = false
@@ -258,29 +273,19 @@ export default {
 
         },
 
-        cartCount() {
-            this.count = 0
-            for (const i of this.cartListAndLength) {
-                this.count += i.count
-            }
-        }
-
 
 
     },
     watch: {
+
         $route(to, from) {
             this.isMobile = false;
             this.back(); //Important ***
-
-            this.cartCount()
         },
 
     },
 
-    created() {
-        this.$store.dispatch('cart/getCartListByUser')
-    },
+
 
 
 
@@ -376,5 +381,31 @@ span .router-link-exact-active {
 .cart-badge {
     top: 6px;
     left: 100px;
+}
+
+/* Transition  */
+
+.item-enter-from,
+.item-leave-to {
+    opacity: 0;
+}
+
+.item-enter-active {
+    transition: 1s;
+}
+
+.item-leave-active {
+    width: 100%;
+    transition: all 0.3s;
+    position: absolute;
+}
+
+.item-enter-to,
+.item-leave-from {
+    opacity: 1;
+}
+
+.item-move {
+    transition: transform 0.3s;
 }
 </style>

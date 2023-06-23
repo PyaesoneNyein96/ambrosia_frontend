@@ -1,21 +1,22 @@
 <template>
     <div>
-        <div v-if="element == 'input'">
-            <input class="login form-control-color shadow-none" :type="type" v-bind="field"
-                :class="{ 'is-invalid': errors.length !== 0 }" :placeholder="placeholder">
-            <div class="py-0 text-center">
-                <Transition name="slow" appear>
-                    <p class="small text-danger my-0" v-if="errors.length !== 0">
-                        {{ errorMessage }}
-                    </p>
-                </Transition>
-                <!-- <TransitionGroup -->
+        <Transition name="slow" appear>
+            <div v-if="element == 'input'">
+
+                <input class="login form-control-color shadow-none" :type="type" v-bind="field"
+                    :class="{ 'is-invalid': errors.length !== 0 }" :placeholder="placeholder">
+
+                <div class="py-0 text-center">
+
+                    <Transition name="slow" appear>
+                        <p class="small text-danger my-0" v-if="errors.length !== 0">
+                            {{ errorMessage }}
+                        </p>
+                    </Transition>
+
+                </div>
             </div>
-        </div>
-
-
-
-
+        </Transition>
     </div>
 </template>
 
@@ -31,6 +32,10 @@ export default {
         'element',
 
     ],
+
+
+
+
 
 
 }
