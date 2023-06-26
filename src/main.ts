@@ -2,9 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import uuid from './components/Tools/uuid'
-import { v4 as uuidv4 } from 'uuid'
 
+import { v4 as uuidv4 } from 'uuid'
+import DateFormat from '@voidsolutions/vue-dateformat'
 
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.css';
@@ -40,6 +40,7 @@ app.component('app-Header', Header);
 app.component('app-Footer', Footer);
 app.component('app-Loader', Loader);
 app.component('app-Search', Search)
+// app.component('date-format', DateFormat)
 
 
 
@@ -47,6 +48,7 @@ app
     .use(store)
     .use(router)
     .use(VueSweetalert2)
+    .use(DateFormat)
     .mount('#app');
 
     // createApp(App).use(store).use(router).mount('#app')

@@ -69,9 +69,11 @@ export default {
 
 
     audioEff(x) {
+
       let audio = new Audio(x);
       audio.play();
       audio.volume = 0.5
+
     },
 
 
@@ -118,9 +120,9 @@ export default {
 
   }, //end of watch
 
-  // beforeUpdate() {
-
-  // }
+  beforeCreate() {
+    // let audio = new Audio()
+  },
 
 
 

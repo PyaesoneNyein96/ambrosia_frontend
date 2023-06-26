@@ -1,6 +1,8 @@
 <template>
     <div class="">
-        <h1 class="p-3 fw-bold my-0">Package Edit</h1>
+        <div class="p-3 h3 my-0">Package Edit
+            <hr>
+        </div>
 
         <div class="container bg-info mt-0">
             <div class="row bg-light bg-gradient shadow-sm p-2">
@@ -145,6 +147,7 @@ export default {
                         this.form.selected.push(i);
                         this.form.sub_total += Number(i.price)
                     }
+                    console.log(this.form.sub_total);
                 });
                 this.totalCheck()
             }
@@ -238,7 +241,7 @@ export default {
                 this.form.selected.push(i);
             }
             this.form.name = this.editPackage.name
-            this.form.sub_total = this.editPackage.sub_total
+            this.form.sub_total = Number(this.editPackage.sub_total)
             this.form.percentage = this.editPackage.percentage
             this.form.net_total = this.editPackage.net_total;
 

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-light">
-        <h1 class="p-3 fw-bold my-0">Packages List</h1>
+        <div class="p-3 h3  my-0">Packages List</div>
 
         <div class="container mt-0">
 

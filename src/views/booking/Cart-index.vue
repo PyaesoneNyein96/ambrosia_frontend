@@ -12,33 +12,33 @@
                     <span v-show="authUser.membership == 1" class="text-white-50">
                         Silver Member
                         <i class="fa fa-star" aria-hidden="true"></i>
-                        5 % off
+                        - 5 % off
                     </span>
                     <span v-show="authUser.membership == 2" class="text-warning">
                         Gold Member
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
-                        10 % off
+                        - 10 % off
                     </span>
                     <span v-show="authUser.membership == 3" class="text-info">
                         Diamond Member
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
-                        15 % off
+                        - 15 % off
                     </span>
 
                 </div>
             </div>
 
-            <div class="table-wrap table-responsive px-2 rounded-2 shadow">
-                <table class=" w-100 table-striped bg-light table-hover ">
+            <div class="table-wrap table-responsive  rounded-2 shadow">
+                <table class="w-100 table-striped bg-light table-hover ">
                     <thead class="text-center text-muted">
                         <tr>
                             <th class="num">No</th>
                             <th class="img">Image</th>
                             <th class="img">Type</th>
-                            <th class="sticky">Order Items</th>
+                            <th class="sticky"> <span class="d-none d-md-inline">Order</span> Items</th>
                             <th>Quantity</th>
                             <th>Amount</th>
                             <th>Modify</th>
@@ -57,7 +57,7 @@
                                 <td>{{ i + 1 }}</td>
 
                                 <td class="cart_img_wrap">
-                                    <img :src="cart.food.image" class="cart_img card-img" v-if="cart.food">
+                                    <img :src="cart.food.image" class="cart_img" v-if="cart.food">
                                     <span class="shell-carousel" v-else>
                                         <CartCarousel :pack="cart.package.food" />
                                     </span>
@@ -90,9 +90,7 @@
                                 </td>
 
                                 <td>
-                                    <!-- <button class="btn btn-sm btn-success me-1" title="Confirm this cart row">
-                                        <i class="fa-solid fa-check"></i>
-                                    </button> -->
+
                                     <button class="btn btn-sm btn-danger" title="Remove all items for this row"
                                         @click="remove(cart)">
                                         <i class="fa-solid fa-xmark"></i>
@@ -267,45 +265,45 @@ export default {
             this.disabled = true;
 
             let UID = this.$uuid();
-            UID = UID.slice(0, 15);
+            UID = 'OD_ID-' + UID.slice(0, 10);
 
             for (const i of this.mainList) {
 
-                // this.orderBox.push({
-                //     order_code: UID,
-                //     user_id: this.authUser.id,
-                //     item_id: i.food ? i.food_id : i.package_id,
-                //     type: i.food ? 1 : 2,
-                //     quantity: i.count,
-                //     total: i.food ? i.count * i.food.price : i.count * i.package.net_total
-                // })
+                this.orderBox.push({
+                    order_code: UID,
+                    user_id: this.authUser.id,
+                    item_id: i.food ? i.food_id : i.package_id,
+                    type: i.food ? 1 : 2,
+                    quantity: i.count,
+                    total: i.food ? i.count * i.food.price : i.count * i.package.net_total
+                })
 
 
-                if (i.food) {
-                    this.orderBox.push({
-                        order_code: UID,
-                        user_id: this.authUser.id,
-                        item_id: i.food_id,
-                        type: 1, //food
-                        quantity: i.count,
-                        total: i.count * i.food.price
-                    })
-                } else {
-                    this.orderBox.push({
-                        order_code: UID,
-                        user_id: this.authUser.id,
-                        item_id: i.package_id,
-                        type: 2, //pack
-                        quantity: i.count,
-                        total: i.count * i.package.net_total
-                    })
-                }
+                // if (i.food) {
+                //     this.orderBox.push({
+                //         order_code: UID,
+                //         user_id: this.authUser.id,
+                //         item_id: i.food_id,
+                //         type: 1, //food
+                //         quantity: i.count,
+                //         total: i.count * i.food.price
+                //     })
+                // } else {
+                //     this.orderBox.push({
+                //         order_code: UID,
+                //         user_id: this.authUser.id,
+                //         item_id: i.package_id,
+                //         type: 2, //pack
+                //         quantity: i.count,
+                //         total: i.count * i.package.net_total
+                //     })
+                // }
 
             }
 
 
             // this.orderBox.push({ All_total: net_total }, { order_code: UID })
-            console.log(this.orderBox);
+            // console.log(this.orderBox);
 
             this.$store.dispatch('cart/submitOrder', this.orderBox)
                 .then(() => {
@@ -351,15 +349,23 @@ thead {
     z-index: 100;
 }
 
+table * {
+    font-size: 12px !important;
+}
+
+td {
+    min-width: 65px;
+}
 
 .cart_img_wrap {
-    width: 100px;
-    height: 80px;
+    width: 100px !important;
+    height: 80px !important;
     padding: 0;
 }
 
 .cart_img {
-    width: 100%;
+    min-width: 70px !important;
+    max-width: 100px;
     height: 100%;
     object-fit: cover;
 }
@@ -367,7 +373,6 @@ thead {
 .pack_img_wrap {
     width: 100%;
     height: 100%;
-
 }
 
 .pack_img {
@@ -379,11 +384,10 @@ thead {
 }
 
 td {
-    /* background-color: gray !important; */
     height: 70px !important;
-    /* vertical-align: -webkit-baseline-middle !important; */
-    /* text-align: start; */
+    margin: 0 5px;
 }
+
 
 
 /* Transition  */
@@ -391,6 +395,7 @@ td {
 tr {
     position: relative;
 }
+
 
 .item-enter-from,
 .item-leave-to {

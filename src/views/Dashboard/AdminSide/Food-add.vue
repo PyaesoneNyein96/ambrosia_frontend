@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1 class="p-3 fw-bold">
+        <div class="p-3 h3">
             Add Food
             <hr>
-        </h1>
+        </div>
 
         <div class="col-md-9 mx-auto">
             <form class=" bg-gradient" @submit.prevent="submitForm">

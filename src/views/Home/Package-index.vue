@@ -12,6 +12,10 @@
             <div class="col-lg-3 col-md-4 ">
                 <div class="detail-wrap">
                     <div class="detail scroll">
+
+                        <h3 class="h3 fw-bold mb-2">
+                            {{ pack.name }}
+                        </h3>
                         <div class="">
                             Sub Total: <span class="text-muted text-decoration-line-through"> {{ pack.sub_total }} $</span>
                         </div>
@@ -22,6 +26,13 @@
                             Total Amount:
                             <span class="text-success">
                                 {{ pack.net_total }} $$
+                            </span>
+                        </div>
+
+                        <div class="">
+                            Total Dish :
+                            <span class="text-muted fw-bold">
+                                {{ pack.food.length }}
                             </span>
                         </div>
 
@@ -97,6 +108,7 @@ export default {
             reset: true,
             viewFactor: 0.2
         });
+
     },
 
     beforeMount() {

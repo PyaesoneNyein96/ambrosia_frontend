@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1 class="p-3 fw-bold">
+        <div class="p-3 h3">
             Food List
             <hr>
-        </h1>
+        </div>
         <div class="table-nav d-flex justify-content-between">
 
             <div class="bg-light shadow-sm rounded-3 my-2">

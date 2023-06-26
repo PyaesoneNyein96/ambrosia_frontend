@@ -1,9 +1,9 @@
 <template>
     <div class="category-wrap">
-        <h1 class="p-3 fw-bold">
+        <div class="p-3  h3">
             Food Categories
             <hr>
-        </h1>
+        </div>
 
         <div class="container col-md-10  rounded-3">
             <div class="row  mx-auto">

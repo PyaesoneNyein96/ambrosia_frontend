@@ -8,12 +8,19 @@ import { smsSuccess, smsError, cartSuccess, orderSuccess } from '../Notify/notif
 
 
 
+
 const CartModule = {
     namespaced: true,
     state() {
         return {
             user_CartList: '',
             user_orderList: '',
+            admin_orderList: '',
+
+            // usersInfo: '',
+            orderDetail: '',
+
+            orderCode: ''
         }
     },
 
@@ -21,6 +28,14 @@ const CartModule = {
         getCartListByUser: state => state.user_CartList,
 
         getUserOrderList: state => state.user_orderList,
+
+        getAdmin_orderList: state => state.admin_orderList,
+
+        getOrderDetail: state => state.orderDetail,
+
+        getOrderCode: state => state.orderCode,
+
+        // getUserInfo: state => state.usersInfo
     },
 
     mutations: {
@@ -31,7 +46,23 @@ const CartModule = {
 
         setUserOrderList: (state, payload) => {
             state.user_orderList = payload;
+        },
+
+        setAdminOrderList: (state, payload) => {
+            state.admin_orderList = payload;
+        },
+
+        setOrderDetail: (state, payload) => {
+            state.orderDetail = payload
+        },
+
+        setOrderCode: (state, payload) => {
+            state.orderCode = payload
         }
+
+
+
+
 
     },
 
@@ -112,6 +143,8 @@ const CartModule = {
 
         submitOrder: ({ commit, dispatch }, payload) => {
 
+            console.log(payload);
+
             Loader(commit, true)
 
             axios.post('http://localhost:8000/api/user/cart/order', payload)
@@ -150,7 +183,65 @@ const CartModule = {
                 .finally(() => {
                     Loader(commit, false)
                 })
+        },
 
+
+        getOrderListByAdmin: ({ commit }) => {
+
+            Loader(commit, true)
+
+            axios.get('http://localhost:8000/api/admin/order/list')
+                .then(res => {
+                    commit('setAdminOrderList', res.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
+
+
+        updateAdminOrderList: ({ commit, dispatch }, payload) => {
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/admin/order/update', payload)
+                .then(res => {
+                    if (res.data == 200) {
+                        dispatch('getOrderListByAdmin');
+                        smsSuccess(commit, 'Order Update', 'Done')
+                    }
+                })
+                .catch(err => {
+                    // console.log(err);
+                    smsError(commit, err)
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
+
+
+        orderDetail: ({ commit }, payload) => {
+            Loader(commit, true)
+
+            axios.post(`http://localhost:8000/api/admin/order/detail/${payload}`)
+                .then(res => {
+                    console.log(res.data);
+
+                    commit('setOrderCode', payload)
+                    commit('setOrderDetail', res.data);
+                    router.push({ name: 'order_detail', params: { id: payload } });
+                })
+                .catch(err => {
+
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
 
         }
 

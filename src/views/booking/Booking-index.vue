@@ -63,7 +63,31 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
+
 export default {
+    name: 'Booking-index',
+    data() {
+        return {
+            userData: ''
+        }
+    },
+    computed: {
+        ...mapGetters({
+            auth: 'auth/getUserData'
+        })
+    },
+    methods: {
+
+    },
+
+    mounted() {
+        if (this.auth) {
+            this.userData = this.auth
+        }
+    }
 
 }
 </script>

@@ -28,6 +28,14 @@
                                 <span class="nav-item d-none d-lg-inline">Orders</span>
                             </router-link>
                         </li>
+                        <li v-if="!isAdmin">
+                            <router-link :to="{ name: 'coming_soon' }">
+                                <i class="fa-solid fa-champagne-glasses ms-0 me-3"></i>
+                                <span class="nav-item d-none d-lg-inline">Event</span>
+                            </router-link>
+                        </li>
+
+
 
                     </ul>
                     <hr>
@@ -42,12 +50,6 @@
                                 </span>
                             </li>
 
-
-
-
-
-
-
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'food_List' }">
                                     <i class="fa-solid fa-bowl-rice"></i>
@@ -55,6 +57,7 @@
                                     <span class="nav-item d-none d-lg-inline">Food-List</span>
                                 </router-link>
                             </li>
+
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'food_Add' }">
                                     <i class="fa-solid fa-circle-plus"></i>
@@ -64,7 +67,6 @@
 
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'category' }">
-                                    <!-- <i class="fa-solid fa-table-columns"></i> -->
                                     <i class="fa-solid fa-table-cells"></i>
                                     <span class="nav-item d-none d-lg-inline">Categories</span>
                                 </router-link>
@@ -95,6 +97,13 @@
                                 <router-link :to="{ name: 'package_list' }">
                                     <i class="fa-solid fa-boxes-stacked"></i>
                                     <span class="nav-item d-none d-lg-inline">PackList</span>
+                                </router-link>
+                            </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'order_list' }">
+                                    <i class="fa-solid fa-file-signature"></i>
+                                    <span class="nav-item d-none d-lg-inline">OrderList</span>
                                 </router-link>
                             </li>
 

@@ -8,6 +8,8 @@ const ToolsModule = {
             toggleNav: true,
             count: false,
 
+            reservationPath: false
+
         }
     },
     getters: {
@@ -15,6 +17,8 @@ const ToolsModule = {
         getLoading: (state) => state.loading,
         getToggleNav: state => state.toggleNav,
         getCartCount: state => state.Count,
+
+        getReservationPath: state => state.reservationPath
 
 
     },
@@ -28,6 +32,8 @@ const ToolsModule = {
         toggleNav: (state, payload) => state.toggleNav = payload,
 
         setCount: (state, payload) => state.count = payload,
+
+        setReservationPath: (state, payload) => state.reservationPath = payload
 
 
     },

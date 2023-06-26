@@ -101,7 +101,7 @@ export default {
 
     computed: {
         ...mapGetters({
-            getAuthErr: 'auth/getAuthErr'
+            getAuthErr: 'auth/getAuthErr',
         })
     },
 
@@ -143,7 +143,10 @@ export default {
             }
         }
 
-    }
+    },
+
+
+
 }
 </script>
 

@@ -1,6 +1,8 @@
 <template>
     <div class="">
-        <h1 class="p-3 fw-bold my-0">Package List</h1>
+        <div class="p-3 h3 my-0">Package List
+            <hr>
+        </div>
 
         <div class="container bg-info mt-0">
             <div class="row bg-light bg-gradient shadow-sm p-2">

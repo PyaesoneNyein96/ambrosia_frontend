@@ -1,7 +1,6 @@
 
 /* eslint-disable  */
 
-
 import { createRouter, createWebHistory, RouteRecordRaw, START_LOCATION } from 'vue-router'
 import store from '../store'
 
@@ -9,7 +8,7 @@ import Page404 from '../page-404.vue'
 
 import Home from '../views/Home/Home-index.vue'
 import Booking from '../views/booking/Booking-index.vue'
-import Booking_Phone from '../views/booking/Booking-phone.vue'
+// import Booking_Phone from '../views/booking/Booking-phone.vue'
 import Menu from '../views/Menu/Menu-index.vue'
 import Detail from '../views/Menu/Detail-index.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
@@ -22,7 +21,12 @@ import Coming_soon from '../views/Home/Coming_soon.vue'
 import Packages from '../views/Home/Package-index.vue'
 import Cart from '../views/booking/Cart-index.vue'
 
+import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
+import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
 
+
+
+// Admin Side
 
 import Dashboard from '../views/Dashboard/AdminSide/Dashboard-route.vue'
 import MainDashboard from '../views/Dashboard/AdminSide/Main-Dashboard.vue'
@@ -38,9 +42,10 @@ import Tag from '../views/Dashboard/AdminSide/tag-add-list.vue'
 import Package_Add from '../views/Dashboard/AdminSide/Package-add.vue'
 import Package_List from '../views/Dashboard/AdminSide/Package-list.vue'
 import Package_Edit from '../views/Dashboard/AdminSide/Package-edit.vue'
+import Order_List from '../views/Dashboard/AdminSide/Order-list.vue'
+import Order_Detail from '../views/Dashboard/AdminSide/Order-detail.vue'
 
-import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
-import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
+
 
 import { smsInform } from '../store/Notify/notify.js'
 
@@ -64,7 +69,7 @@ const router = createRouter({
     { path: '/menu', component: Menu, name: 'menu' },
     { path: '/detail/:id', component: Detail, name: 'detail', meta: { detail: true } },
     { path: '/book', component: Booking, name: 'booking', meta: { book: true } },
-    { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
+    // { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
     { path: '/special', component: Special, name: 'special' },
     { path: '/gallery', component: Gallery, name: 'gallery' },
     { path: '/chef', component: Chef, name: 'chef' },
@@ -93,6 +98,8 @@ const router = createRouter({
         { path: 'package_add', component: Package_Add, name: 'package_add', meta: { package_add: true } },
         { path: 'package_list', component: Package_List, name: 'package_list', meta: { package_list: true } },
         { path: 'package_edit/:id', component: Package_Edit, name: 'package_edit', meta: { package_edit: true } },
+        { path: 'order_list', component: Order_List, name: 'order_list', meta: { order_list: true } },
+        { path: 'order_detail/:id', component: Order_Detail, name: 'order_detail', meta: { order_detail: true } },
 
 
       ]
@@ -107,15 +114,20 @@ const router = createRouter({
 
 
 
-
-
 // VALIDATION
 
 const validation = (to, from, next) => {
 
 
+  if (((to.meta.dashboard) && localStorage.getItem('userCredentials')) && store.getters['tool/getReservationPath'] == true) {
+    router.push({ name: 'booking' }).then(() => {
+      store.commit('tool/setReservationPath', false)
+    })
+  }
   if ((to.meta.dashboard) && !localStorage.getItem('userCredentials')) {
-    router.push({ name: 'login' })
+    router.push({ name: 'login' }).then(() => {
+      smsInform(store.commit, 'Hey Dude', "Don't try something like this :/")
+    })
   }
   else if ((to.meta.login) && localStorage.getItem('userCredentials')) {
     router.push({ name: 'home' })
@@ -127,10 +139,10 @@ const validation = (to, from, next) => {
     router.push({ name: 'package_list' })
 
   }
-  else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
-    router.push({ name: 'booking' })
-    smsInform(store.commit, 'If you are already a member', ' Register as a user.')
-  }
+  // else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
+  //   router.push({ name: 'booking' })
+  //   smsInform(store.commit, 'If you are already a member', ' Register as a user.')
+  // }
   else if ((to.meta.cart) && !store.getters['auth/getUserData']) {
     router.push({ name: 'home' })
   }
@@ -138,16 +150,23 @@ const validation = (to, from, next) => {
   else if ((to.meta.detail) && store.getters['food/getDetailFood'].id !== Number(to.params.id)) {
     router.push({ name: 'menu' })
   }
+  else if ((to.meta.order_detail) && store.getters['cart/getOrderCode'] !== to.params.id) {
+    router.push({ name: 'order_list' })
+
+  }
 
   else if (((to.meta.food_add) || (to.meta.edit) ||
     (to.meta.food_list) || (to.meta.categories) ||
     (to.meta.user_list) || (to.meta.tags) ||
-    (to.meta.package_add) || (to.meta.package_list))
+    (to.meta.package_add) || (to.meta.package_list)
+    || (to.meta.order_list)
 
-
-
+  )
 
     && store.getters['auth/isAdmin'] == 0) {
+
+
+
     router.push({ name: 'main_dashboard' })
   }
   else {

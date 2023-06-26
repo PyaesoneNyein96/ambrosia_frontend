@@ -1,5 +1,5 @@
 <template>
-    <div class="py-5">
+    <div class="py-5 over-wrap">
         <!-- ======= Specials Section ======= -->
         <section id="specials" class="specials">
             <div class="container" :class="scroll">
@@ -139,6 +139,10 @@ export default {
 </script>
 
 <style scoped>
+.over-wrap {
+    box-shadow: inset 30px 30px 300px 55px rgba(53, 52, 52, 0.389);
+}
+
 .left-menu {
     background: linear-gradient(rgba(255, 0, 0, 0.052), rgba(0, 128, 0, 0.058), rgba(255, 255, 0, 0.058));
     border-radius: 10px;

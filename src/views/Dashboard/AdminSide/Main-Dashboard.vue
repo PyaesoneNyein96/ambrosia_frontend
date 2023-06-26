@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h1 class="mt-5 text-dark">
+        <div class="mt-5 text-dark h2 px-3">
             Main Dashboard (Over All)
-        </h1>
+        </div>
 
         <p>
             <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur a ipsa non nesciunt blanditiis

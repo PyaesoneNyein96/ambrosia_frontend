@@ -142,7 +142,7 @@
             <span>
                 <button class=" book-a-table-btn scrollto py-2" @click="show">Reservation
                 </button>
-                <!-- {{ this.authCheck }} -->
+
             </span>
 
 
@@ -204,6 +204,11 @@ export default {
 
     methods: {
         show() {
+
+            if (!this.auth) {
+                this.$store.commit('tool/setReservationPath', true)
+            }
+
             this.$swal({
                 title: "Order As a member ?",
                 // showDenyButton: true,
@@ -221,7 +226,7 @@ export default {
                     if (result.isConfirmed) {
                         if (!this.auth) {
                             smsInform(store.commit, 'Information', 'Firstly U have to Login for this Process')
-                            this.$router.push({ name: 'login' })
+                            this.$router.push({ name: 'login' });
                         } else {
                             this.$router.push({ name: 'booking' })
 
@@ -280,7 +285,7 @@ export default {
 
         $route(to, from) {
             this.isMobile = false;
-            this.back(); //Important ***
+            this.back(); //Important ***;
         },
 
     },

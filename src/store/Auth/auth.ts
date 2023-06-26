@@ -13,6 +13,7 @@ const AuthModule = {
             auth: false,
             isAdmin: '',
             profileErr: '',
+
         }
     },
 
@@ -31,7 +32,7 @@ const AuthModule = {
 
         getProfileErr: state => state.profileErr,
 
-        // getUserId: state => state.userData.id
+
 
 
 
@@ -52,7 +53,7 @@ const AuthModule = {
                 state.isAdmin = payload.userInfo ? payload.userInfo.role : 0
         },
 
-        setProfileErr: (state, payload) => state.profileErr = payload
+        setProfileErr: (state, payload) => state.profileErr = payload,
 
     },
 
@@ -80,7 +81,9 @@ const AuthModule = {
                         localStorage.setItem('userCredentials', getters.getUserToken);
                     }
 
+
                     smsSuccess(commit, 'Login', 'Welcome to our Ambrosia');
+
                     router.push({ name: 'dashboard' })
 
                 })
@@ -126,6 +129,7 @@ const AuthModule = {
             Loader(commit, true)
 
             try {
+                smsLogOut(commit);
                 router.push({ name: 'home' })
                     .then(() => {
                         localStorage.setItem('userCredentials', '');
@@ -138,7 +142,6 @@ const AuthModule = {
                 console.log(error);
 
             }
-            smsLogOut(commit)
 
 
             Loader(commit, false)
@@ -161,11 +164,10 @@ const AuthModule = {
 
                 })
                 .catch((err) => {
-                    router.push({ name: 'login' });
 
-                    smsError(commit, 'Auto Login Error', `Something went wrong, Please Login again.${err}`)
                     localStorage.setItem('userCredentials', '')
-
+                    router.push({ name: 'login' });
+                    smsError(commit, 'Auto Login Error', `Something went wrong, Please Login again.${err}`)
                 })
         },
 
