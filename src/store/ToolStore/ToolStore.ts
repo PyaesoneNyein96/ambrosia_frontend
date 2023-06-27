@@ -8,7 +8,9 @@ const ToolsModule = {
             toggleNav: true,
             count: false,
 
-            reservationPath: false
+            reservationPath: false,
+
+
 
         }
     },

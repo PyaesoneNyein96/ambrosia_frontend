@@ -6,10 +6,11 @@
         </div>
         <div class="table-nav d-flex justify-content-between mb-3">
 
-            <div class="bg-light shadow-sm rounded-3 my-2">
-                <!-- <button class="btn-info text-light nav-btn btn btn-sm" @click="drink">Drink</button>
-                <button class="btn-success btn ms-1 btn-sm nav-btn" @click="food">Food</button>
-                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button> -->
+            <div class="bg-light shadow-sm rounded-3 my-2 ms-2">
+                <button class="btn-warning text-light nav-btn btn btn-sm" @click="pending">Pending</button>
+                <button class="btn-success btn ms-1 btn-sm nav-btn" @click="confirm">Confirm</button>
+                <button class="btn-danger btn ms-1 btn-sm nav-btn" @click="reject">Reject</button>
+                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button>
             </div>
             <div class="search">
                 <app-Search class="search-btn" />
@@ -62,10 +63,8 @@
                         <td>
                             <date-format :date="o.created_at" />
                         </td>
-                        <!-- {{ o.created_at }} -->
+
                     </tr>
-
-
 
                 </tbody>
 
@@ -125,7 +124,8 @@ export default {
         ...mapActions({
             getOrderList: 'cart/getOrderListByAdmin',
             updateOrderList: 'cart/updateAdminOrderList',
-            orderDetail: 'cart/orderDetail'
+            orderDetail: 'cart/orderDetail',
+            filterByType: 'cart/filterOrderByStatus'
         }),
 
 
@@ -137,20 +137,24 @@ export default {
 
         detail(code) {
             this.orderDetail(code);
-        }
+        },
 
         // Type Filter by click
-        // drink() {
-        //     this.getFoodByType([0])
-        // },
-        // food() {
-        //     this.getFoodByType([1])
-        // },
-        // all() {
-        //     this.getFoodByType([2])
-        // },
+        pending() {
+            this.filterByType([1])
+        },
+        confirm() {
+            this.filterByType([2])
+        },
+        reject() {
+            this.filterByType([3])
+        },
+        all() {
+            this.filterByType([0])
+        },
 
     },
+
 
 
     beforeMount() {

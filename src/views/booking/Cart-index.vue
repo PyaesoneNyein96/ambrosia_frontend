@@ -96,14 +96,18 @@
                                         <i class="fa-solid fa-xmark"></i>
                                     </button>
                                 </td>
-
-
                             </tr>
+
+
                         </TransitionGroup>
                     </tbody>
-
-
                 </table>
+                <div class=" text-center" v-if="!mainList">
+                    <h1 class="mt-5">
+                        There is No Data !!! <span class="text-warning" style="cursor: pointer;"
+                            @click="this.$router.push({ name: 'main_dashboard' })">Add New</span>
+                    </h1>
+                </div>
             </div>
         </div>
 
@@ -256,7 +260,10 @@ export default {
 
 
             this.checkTotal();
-            console.log(this.mainList);
+            if (this.mainList.length == 0) {
+                this.$router.push({ name: 'menu' })
+            }
+            // console.log(this.mainList.length);
 
         },
 
@@ -278,32 +285,7 @@ export default {
                     total: i.food ? i.count * i.food.price : i.count * i.package.net_total
                 })
 
-
-                // if (i.food) {
-                //     this.orderBox.push({
-                //         order_code: UID,
-                //         user_id: this.authUser.id,
-                //         item_id: i.food_id,
-                //         type: 1, //food
-                //         quantity: i.count,
-                //         total: i.count * i.food.price
-                //     })
-                // } else {
-                //     this.orderBox.push({
-                //         order_code: UID,
-                //         user_id: this.authUser.id,
-                //         item_id: i.package_id,
-                //         type: 2, //pack
-                //         quantity: i.count,
-                //         total: i.count * i.package.net_total
-                //     })
-                // }
-
             }
-
-
-            // this.orderBox.push({ All_total: net_total }, { order_code: UID })
-            // console.log(this.orderBox);
 
             this.$store.dispatch('cart/submitOrder', this.orderBox)
                 .then(() => {

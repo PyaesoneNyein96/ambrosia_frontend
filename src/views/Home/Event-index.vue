@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="m-0 p-0">
         <!-- ======= Events Section ======= -->
         <section id="events" class="events">
             <div class="container">

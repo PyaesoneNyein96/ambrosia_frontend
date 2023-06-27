@@ -114,11 +114,9 @@
 
             </nav>
 
-            <main class="col-lg-10 col-10 first-wrap p-2">
-                <div class="main-wrap shadow rounded rounded-3  p-1 bg-gradient ">
-
+            <main class="col-lg-10 col-10 first-wrap ">
+                <div class="main-wrap shadow rounded rounded-3 bg-gradient ">
                     <router-view />
-
                 </div>
             </main>
 

@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1 class="p-3 fw-bold">
+        <div class="p-3 h3 fw-bold">
             User Profile
             <hr>
-        </h1>
+        </div>
         <div class="top-wrap container">
             <div class="col-md-10 mx-auto">
                 <div class="card bg-light shadow">
@@ -14,7 +14,8 @@
 
                             <div class="col-md-5 p-4 shadow">
                                 <div class="profile-wrap p-3">
-                                    <img :src="avatar_slot" class="bg-warning card-img" id="profile" v-if="!form.image">
+                                    <img src="../../../../public/assets/img/GODlogopng.png"
+                                        class="bg-warning card-img opacity-75" id="profile" v-if="!form.image">
                                     <img :src="form.image" class="bg-warning card-img" id="profile" v-else>
                                 </div>
 
@@ -216,7 +217,8 @@ export default {
             Membership: [{ id: 1, level: 'Silver' }, { id: 2, level: 'Gold' }, { id: 3, level: 'Diamond' }],
 
             form: '',
-            avatar_slot: 'https://rb.gy/kanf3',
+            // avatar_slot: 'https://rb.gy/kanf3',
+            // avatar_slot: '../../../../public/assets/img/chefs/chefs-1.jpg',
             disabled: true
         }
     },

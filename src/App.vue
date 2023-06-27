@@ -39,6 +39,7 @@ export default {
       isLoading: 'tool/getLoading',
       notify: 'notify/getAlertNotify',
       auth: 'auth/getAuth',
+      getUserCarts: 'cart/getCartListByUser',
     }),
 
 
@@ -116,13 +117,11 @@ export default {
     }, // notify function end
 
 
-
-
   }, //end of watch
 
-  beforeCreate() {
-    // let audio = new Audio()
-  },
+  // mounted() {
+  //   this.$store.dispatch('cart/getCartListByUser')
+  // }
 
 
 

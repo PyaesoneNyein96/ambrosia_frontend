@@ -16,8 +16,8 @@
                                     <h4>Category: {{ detailFood.category.name }}</h4>
                                 </div>
                                 <div class="category">
-                                    <h4>Price: <span class="text-success">
-                                            {{ detailFood.category.name }}
+                                    <h4>Price: <span class="text-success fw-bold">
+                                            {{ detailFood.price }}
                                         </span>
                                     </h4>
                                 </div>
@@ -110,7 +110,8 @@ export default {
                     })
             }
         },
-    }
+    },
+
 
 
 }

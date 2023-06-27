@@ -40,7 +40,7 @@
                         <hr>
                     </div>
 
-                    <div class="row bg-light bg-gradient p-2 shadow-sm selected-box">
+                    <div class="row bg-light bg-gradient p-2 shadow-sm selected-box" v-if="form.selected.length !== 0">
                         <div class="col-md-3 col-4 p-1 rounded-1" v-for="s in form.selected" :key="s.id">
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
                                 @click="removeItem(s.id)">
@@ -54,6 +54,12 @@
                                 </span>
 
                             </div>
+                        </div>
+                    </div>
+                    <div class="row  p-2 shadow-sm selected-box" v-else>
+                        <div class=" d-flex d-flex align-items-center justify-content-center"
+                            style="flex-direction: column; opacity:0.5">
+                            <div class="h3">Click Food to Add Here !</div>
                         </div>
                     </div>
 

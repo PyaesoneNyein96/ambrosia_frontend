@@ -41,12 +41,12 @@
                             <router-link class="nav-link scrollto " :to="{ name: 'packages' }">Packages</router-link>
                         </li>
 
-                        <li v-if="auth">
-                            <router-link class="nav-link scrollto pe-2 " :to="{ name: 'cart' }">
+                        <li v-if="auth && (cartCounts > 0)">
+                            <router-link class="nav-link scrollto  cart-link-wrap" :to="{ name: 'cart' }">
                                 Cart
-                                <span hidden
+                                <span
                                     class="position-absolute cart-badge start-100  position-relative translate-middle badge rounded-pill bg-danger">
-
+                                    {{ cartCounts }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </router-link>
@@ -57,14 +57,13 @@
                             <a class="">
                                 <span @click="moreDropDown">
                                     More
-
                                 </span>
                                 <i class="bi bi-chevron-down"></i></a>
                             <ul :class="{ 'dropdown-active': moreDrop }">
 
 
 
-                                <li class="dropdown">
+                                <li class="dropdown" v-if="auth">
                                     <a>
                                         <span class="fw-bold" @click="deepDropDown"> For Member Customers . .</span>
                                         <i class="bi bi-chevron-right"></i>
@@ -88,6 +87,9 @@
 
 
                                 <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'event' }">Event</router-link>
+                                </li>
+                                <li>
                                     <router-link class="nav-link scrollto " :to="{ name: 'gallery' }">Gallery</router-link>
                                 </li>
                                 <li>
@@ -110,8 +112,6 @@
                                 <li><a class="nav-link scrollto logout" v-if="auth" @click="logout">Logout</a></li>
                             </ul>
                         </li>
-
-
 
                         <li>
 
@@ -180,6 +180,8 @@ export default {
             deepDrop: false,
             moreDrop: false,
             cartHide: false,
+
+            cartCounts: 0,
         }
     },
     computed: {
@@ -187,7 +189,7 @@ export default {
             userData: 'auth/getUserData',
             auth: 'auth/getAuth',
             userBadge: 'auth/getUserData',
-            cartListAndLength: 'cart/getCartListByUser',
+            cartCount: 'cart/getCartListByUser',
 
         }),
 
@@ -278,6 +280,16 @@ export default {
 
         },
 
+        countMath() {
+            this.cartCounts = 0;
+            if (this.cartCount) {
+                this.cartCount.filter(i => {
+                    this.cartCounts += i.count
+                })
+            };
+            // console.log(this.cartCounts);
+        }
+
 
 
     },
@@ -286,9 +298,25 @@ export default {
         $route(to, from) {
             this.isMobile = false;
             this.back(); //Important ***;
+            this.countMath();
         },
 
+        cartCount() {
+            this.countMath();
+        },
+
+        auth() {
+            if (this.auth) {
+                this.$store.dispatch('cart/getCartListByUser');
+            }
+            this.countMath();
+        }
     },
+
+
+
+
+
 
 
 
@@ -387,6 +415,17 @@ span .router-link-exact-active {
     top: 6px;
     left: 100px;
 }
+
+@media (max-width: 1200px) {
+
+    .cart-badge {
+        position: absolute;
+        left: 70px !important;
+        background-color: gray !important;
+    }
+
+}
+
 
 /* Transition  */
 

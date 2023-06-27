@@ -63,6 +63,13 @@ export default {
                     url: 'https://cdn.shopify.com/s/files/1/1657/0407/files/fody-header-11-06.jpg?v=1667839737&width=2000',
                     class: 'text-one'
                 },
+                {
+                    id: 3,
+                    title: 'Ambrosia',
+                    description: `Discover the perfect harmony of tradition and innovation as our skilled chefs present their culinary masterpieces.`,
+                    url: 'https://www.kaaskamer.nl/wp-content/uploads/2020/04/kaaskamer_van_amsterdam_taggiasche.jpg',
+                    class: 'text-one'
+                },
 
             ]
 
@@ -87,7 +94,6 @@ export default {
     object-fit: cover !important;
     background-repeat: no-repeat;
     box-shadow: inset 0px 0px 100px 50px rgba(38, 38, 36, 0.863);
-    /* box-shadow: 0 8px 6px -6px black; */
 }
 
 
@@ -96,9 +102,8 @@ export default {
     min-height: 8em;
     width: 40%;
     position: absolute;
-    /* left: 10%; */
     z-index: 999;
-    /* background-color: rgba(39, 38, 41, 0.648); */
+    font-size: 40px;
     text-align: start;
     padding: 1em;
     border-radius: 0.7em;
@@ -124,11 +129,10 @@ export default {
     min-height: 8em;
     width: 40%;
     position: absolute;
-    /* left: 8%; */
-    right: 8% !important;
+    right: 5% !important;
     z-index: 999;
-    /* font-size: 30px; */
-    color: rgb(8, 51, 1);
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 1px rgb(152, 4, 4);
 }
 
 
@@ -146,11 +150,24 @@ h2 {
 }
 
 @media (max-width:500px) {
-    .slide-text {
+    .slide-up {
+        top: 60%;
+        width: 90%;
         color: rgb(148, 151, 250);
-        font-size: 1.2em !important;
+        font-size: 1.5em !important;
         text-shadow: 1px 1px 40px lightblue;
     }
+
+    /* .slide-img {
+        margin-top: 0px;
+        width: 100vw;
+        height: 100vh;
+        background-position-y: center !important;
+        background-position: right !important;
+        object-fit: cover !important;
+        background-repeat: no-repeat;
+        box-shadow: inset 0px 0px 100px 50px rgba(38, 38, 36, 0.863);
+    } */
 
 }
 
@@ -178,6 +195,8 @@ h2 {
     background-size: cover;
     padding-top: 0px;
 }
+
+
 
 
 

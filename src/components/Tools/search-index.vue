@@ -38,6 +38,9 @@ export default {
             } else if (this.route_name == 'user_list') {
                 this.$store.dispatch('users/searchUserByAdmin', value)
             }
+            else if (this.route_name == 'order_list') {
+                this.$store.dispatch('cart/searchOrderByAdmin', value)
+            }
         },
 
 
@@ -48,7 +51,7 @@ export default {
 
     created() {
         this.route_name = this.$route.name;
-
+        // console.log(this.route_name);
     },
 
 }

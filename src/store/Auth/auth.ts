@@ -74,17 +74,16 @@ const AuthModule = {
                     if (res.data.userInfo.image !== null) {
                         res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
                     }
+
                     commit('setUserData', res.data);
 
                     const Token = getters.getUserToken;
                     if (Token) {
                         localStorage.setItem('userCredentials', getters.getUserToken);
                     }
-
-
                     smsSuccess(commit, 'Login', 'Welcome to our Ambrosia');
 
-                    router.push({ name: 'dashboard' })
+                    router.push({ name: 'main_dashboard' })
 
                 })
                 .catch((err) => {

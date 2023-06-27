@@ -8,7 +8,7 @@ import Page404 from '../page-404.vue'
 
 import Home from '../views/Home/Home-index.vue'
 import Booking from '../views/booking/Booking-index.vue'
-// import Booking_Phone from '../views/booking/Booking-phone.vue'
+import Event from '../views/Home/Event-index.vue'
 import Menu from '../views/Menu/Menu-index.vue'
 import Detail from '../views/Menu/Detail-index.vue'
 import Login from '../views/Login&Register/Login_Register.vue'
@@ -69,7 +69,7 @@ const router = createRouter({
     { path: '/menu', component: Menu, name: 'menu' },
     { path: '/detail/:id', component: Detail, name: 'detail', meta: { detail: true } },
     { path: '/book', component: Booking, name: 'booking', meta: { book: true } },
-    // { path: '/book_phone', component: Booking_Phone, name: 'booking_phone', meta: { book_phone: true } },
+    { path: '/event', component: Event, name: 'event', meta: { event: true } },
     { path: '/special', component: Special, name: 'special' },
     { path: '/gallery', component: Gallery, name: 'gallery' },
     { path: '/chef', component: Chef, name: 'chef' },
@@ -85,10 +85,10 @@ const router = createRouter({
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { dashboard: true },
       children: [
+        { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
         { path: 'user_profile', component: UserProfile, name: 'user_Profile' },
         { path: 'user_check', component: UserCheck, name: 'user_Check' },
 
-        { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
         { path: 'food_add', component: Food_Add, name: 'food_Add', meta: { food_add: true } },
         { path: 'food_edit/:id', component: Food_Edit, name: 'food_Edit', meta: { food_edit: true } },
         { path: 'food_list', component: Food_List, name: 'food_List', meta: { food_list: true } },

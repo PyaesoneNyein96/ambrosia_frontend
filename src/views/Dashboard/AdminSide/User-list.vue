@@ -6,7 +6,7 @@
         </div>
         <div class="table-nav d-flex justify-content-between">
 
-            <div class="bg-light shadow-sm rounded-3 my-2">
+            <div class="bg-light shadow-sm rounded-3 my-2 ms-2">
                 <button class="btn-danger text-light nav-btn btn btn-sm" @click="admin">Admin</button>
                 <button class="btn-primary btn ms-1 btn-sm nav-btn" @click="member">Member</button>
                 <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button>

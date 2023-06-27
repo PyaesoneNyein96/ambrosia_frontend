@@ -57,9 +57,9 @@ export default {
                 distance: '100px',
                 delay: 100,
                 duration: 700,
-                easing: 'ease-in',
+                easing: 'ease-in-out',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
 
@@ -67,9 +67,9 @@ export default {
                 distance: '100px',
                 delay: 300,
                 duration: 1000,
-                easing: 'ease-in',
+                easing: 'ease-in-out',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
 
@@ -77,9 +77,9 @@ export default {
                 distance: '100px',
                 delay: 500,
                 duration: 1300,
-                easing: 'ease-in',
+                easing: 'ease-in-out',
                 origin: 'bottom',
-                reset: true,
+                reset: false,
                 viewFactor: 0.2
             });
         },
