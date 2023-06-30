@@ -1,7 +1,9 @@
 
 import axios from "axios"
 import { Loader } from '../ToolStore/loader.js'
+import router from "../../router"
 import { smsError, smsSuccess, smsInform } from '../Notify/notify.js'
+
 
 
 
@@ -17,6 +19,7 @@ const UserModule = {
         return {
             userList: '',
             editUser: '',
+            reviewList: '',
         }
     },
 
@@ -26,6 +29,8 @@ const UserModule = {
 
         getEditUser: state => state.editUser,
 
+        getReviewList: state => state.reviewList,
+
     },
 
 
@@ -33,6 +38,8 @@ const UserModule = {
         setUserList: (state, payload) => state.userList = payload,
 
         setEditUser: (state, payload) => state.editUser = payload,
+
+        setReviewList: (state, payload) => state.reviewList = payload,
     },
 
 
@@ -163,8 +170,67 @@ const UserModule = {
                     Loader(commit, false)
                 })
 
-        }
+        },
 
+
+
+        // ==================================
+        // Submit Review By (user)
+        // ==================================
+
+        submitReview: ({ commit, dispatch }, payload) => {
+            Loader(commit, true)
+            console.log(payload);
+
+            axios.post('http://localhost:8000/api/user/review/submit', payload)
+                .then(res => {
+                    console.log(res.data);
+                    dispatch('getReviews').then(() => {
+
+                        router.push({ name: 'review' })
+                            .then(() => {
+                                smsInform(commit, 'Review', 'Thanks so much for sharing your experience with us.')
+                            })
+                    })
+
+                }).catch(err => {
+                    smsError(commit, err)
+                }).finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
+
+        // ==================================
+        // Review List (for All)
+        // ==================================
+
+
+
+        getReviews: ({ commit }) => {
+
+            Loader(commit, true)
+
+            axios.get('http://localhost:8000/api/user/review/list')
+                .then(res => {
+                    for (const u of res.data) {
+                        if (u.user.image !== null) {
+                            u.user.image = `http://localhost:8000/storage/profile/` + u.user.image
+                        }
+                        // else {
+                        //     u.user.image = '../../../public/assets/img/logo/GODlogopng.png'
+                        // }
+
+                    }
+                    commit('setReviewList', res.data)
+
+                }).catch(err => {
+                    smsError(commit, err.response)
+                }).finally(() => {
+                    Loader(commit, false)
+                })
+
+        },
 
 
     }

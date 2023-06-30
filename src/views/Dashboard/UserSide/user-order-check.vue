@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3 h3 fw-semibold">
+    <div class="p-3 h3 ">
         Your Orders
         <hr>
     </div>

@@ -4,16 +4,17 @@
         <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="5000" :transition="1500" v-if="slides">
             <Slide v-for="slide in slides" :key="slide.id" class="slide">
                 <Transition name="carousel" appear>
-                    <div class="slide-img" :style="{ background: `url(${slide.url})` }">
-                        <h2 class=" slide-up fw-bold" :class="slide.class">
+                    <div class="slide-img" :style="{ background: `url(${slide.image})` }">
+                        <h2 class=" slide-up " :class="slide.position" :style="{ 'color': slide.color }">
+                            <div class="title fw-bold mb-3" :style="{ 'color': slide.color }">
+                                {{ slide.title }}
+                            </div>
                             {{ slide.description }}
 
                         </h2>
                     </div>
                 </Transition>
             </Slide>
-
-
         </Carousel>
     </div>
 </template>
@@ -25,7 +26,7 @@
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
 
-
+import { mapGetters } from 'vuex'
 
 
 export default {
@@ -37,45 +38,31 @@ export default {
     },
     data() {
         return {
-            sr: null,
 
-            slides: [
-                {
-                    id: 3,
-                    title: 'Ambrosia',
-                    description: `Where culinary fantasies come alive. Imaginative dishes with seasonal ingredients. Farm-to-table freshness and modern twists on classics.`,
-                    url: 'https://irp-cdn.multiscreensite.com/b0e4701c/dms3rep/multi/bigstock-Table-Of-Italian-Meals-On-Plat-368417779.jpg',
-                    class: 'text-two'
-                },
-                {
-                    id: 1,
-                    title: 'Ambrosia',
-                    description: `A world of mouthwatering creations. From hors d'oeuvres to desserts, our restaurant carousel presents
-                    artful dishes that will leave you longing for more.`,
-                    url: 'https://mekhalaliving.com/wp-content/uploads/2023/02/Website-Banner-Indian-Range-Teaser-1920-x-1080.png',
-                    class: 'text-one'
-                },
-                {
-                    id: 2,
-                    title: 'Ambrosia',
-                    description: `An enchanting dining adventure with rotating dishes. Succulent steaks, fresh seafood, and delightful
-                        surprises await.`,
-                    url: 'https://cdn.shopify.com/s/files/1/1657/0407/files/fody-header-11-06.jpg?v=1667839737&width=2000',
-                    class: 'text-one'
-                },
-                {
-                    id: 3,
-                    title: 'Ambrosia',
-                    description: `Discover the perfect harmony of tradition and innovation as our skilled chefs present their culinary masterpieces.`,
-                    url: 'https://www.kaaskamer.nl/wp-content/uploads/2020/04/kaaskamer_van_amsterdam_taggiasche.jpg',
-                    class: 'text-one'
-                },
-
-            ]
-
+            slides: '',
 
         }
     },
+
+    computed: {
+        ...mapGetters({
+            carousels: 'tool/getAllCarousel'
+        })
+    },
+
+    watch: {
+        carousels() {
+            this.slides = this.carousels;
+            console.log(this.slides);
+
+        }
+    },
+
+
+    mounted() {
+        this.$store.dispatch('tool/getAllCarousel')
+    }
+
 
 
 
@@ -89,58 +76,66 @@ export default {
 .slide-img {
     margin-top: 0px;
     width: 100vw;
-    height: 100vh;
-    background-position-y: center !important;
-    object-fit: cover !important;
-    background-repeat: no-repeat;
+    height: 100%;
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
     box-shadow: inset 0px 0px 100px 50px rgba(38, 38, 36, 0.863);
 }
 
+.title {
+    font-size: 50px;
+    color: #960a0a !important;
+    text-shadow: 1px 1px 0.5px rgb(135, 141, 133) !important
+}
 
 .slide-up {
-    bottom: 34.7%;
-    min-height: 8em;
-    width: 40%;
+    bottom: 24.7%;
+    min-height: auto;
+    width: 45%;
     position: absolute;
     z-index: 999;
-    font-size: 40px;
+    font-size: 30px;
     text-align: start;
     padding: 1em;
     border-radius: 0.7em;
-    color: rgb(122, 193, 201);
+    color: rgba(251, 6, 6, 0.699);
     box-shadow: 1px 0px 5px rgba(76, 62, 62, 0.06);
     opacity: 1 !important;
     transition: all 2.3s ease-in-out;
+    background-color: rgba(159, 214, 243, 0.09);
 }
 
-.text-one {
-    bottom: 30.7%;
-    min-height: 8em;
-    width: 40%;
-    position: absolute;
-    left: 8% !important;
-    right: 10% !important;
+.slide-left {
+    bottom: 10.7%;
+    left: 5% !important;
     z-index: 999;
-    color: rgb(128, 20, 20);
 }
 
-.text-two {
-    bottom: 30.7%;
-    min-height: 8em;
-    width: 40%;
-    position: absolute;
+.slide-right {
+    text-align: end;
+    bottom: 10.7%;
     right: 5% !important;
     z-index: 999;
-    color: rgb(255, 255, 255);
-    text-shadow: 2px 2px 1px rgb(152, 4, 4);
 }
 
+.slide-center {
+    text-align: center;
+    bottom: 20.7%;
+    left: 30% !important;
+    z-index: 999;
+}
+
+.color {
+    /* color: #daa520 !important; */
+    color: white !important;
+}
 
 
 
 h1,
 h2 {
-    color: goldenrod;
+    color: #daa520;
 }
 
 .slide-up * {
@@ -151,23 +146,18 @@ h2 {
 
 @media (max-width:500px) {
     .slide-up {
-        top: 60%;
-        width: 90%;
-        color: rgb(148, 151, 250);
+        bottom: 0%;
+        width: 100% !important;
+        left: 1% !important;
+        right: 1% !important;
+        height: fit-content;
+        color: rgb(255, 255, 255);
         font-size: 1.5em !important;
         text-shadow: 1px 1px 40px lightblue;
+        font-weight: 500;
+        background-color: rgba(0, 115, 255, 0.248);
+        border-radius: 5px;
     }
-
-    /* .slide-img {
-        margin-top: 0px;
-        width: 100vw;
-        height: 100vh;
-        background-position-y: center !important;
-        background-position: right !important;
-        object-fit: cover !important;
-        background-repeat: no-repeat;
-        box-shadow: inset 0px 0px 100px 50px rgba(38, 38, 36, 0.863);
-    } */
 
 }
 
@@ -195,10 +185,6 @@ h2 {
     background-size: cover;
     padding-top: 0px;
 }
-
-
-
-
 
 
 .slide-img {

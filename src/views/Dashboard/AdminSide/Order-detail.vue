@@ -1,28 +1,45 @@
 <template>
     <div class="container-fluid mt-5 p-3">
         <div class="row">
-            <div class="col-md-12 col-auto mb-5">
+            <div class="col-md-4 col-auto mb-5">
                 <div class="h3">User Information</div>
                 <div class="shadow-sm">
                     <ul class="list-group">
-                        <li class="list-group-item"> Order Code : <div class="d-inline-block text-success">{{
-                            order.order_code }}</div>
+                        <li class="li"> Order Code : <div class="d-inline-block text-success">{{
+                            order_user.order_code }}</div>
                         </li>
-                        <li class="list-group-item">user Name : {{ user.name }}</li>
-                        <li class="list-group-item">User Email : {{ user.email }}</li>
-                        <li class="list-group-item">
-                            Total : {{ order.total }} $
+                        <li class="li">Name : {{ order_user.name }}</li>
+                        <li class="li">Email : {{ order_user.email }}</li>
+                        <li class="li">Phone : {{ order_user.phone }}</li>
+                        <li class="li">
+                            Total : {{ order_user.order_total }} $
                             <span class="text-muted small">(including Member Discount)</span>
                         </li>
-                        <li class="list-group-item">Order Date : <date-format :date="order.created_at" /></li>
-
-                        <li class="list-group-item  ps-2 px-0">
+                        <li class="li">Order Date : <date-format :has-time="true" :date="order_user.created_at" /></li>
+                        <li class="li">preferred Cuisine :
+                            <span class="text-warning">
+                                {{ order_user.preferred_cuisine ? order_user.preferred_cuisine : 'No' }}
+                            </span>
+                        </li>
+                        <li class="li text-danger">Allergies : {{ order_user.allergies == 1 ? 'Yes' : 'No' }}
+                        </li>
+                        <li class="li text-danger">Restrictions : {{ order_user.restrictions == 1 ? 'Yes' :
+                            'No' }}
+                        </li>
+                        <li class="li">Birthday :
+                            <date-format :date="order_user.birthday" />
+                        </li>
+                        <li class="li">
+                            Status
+                        </li>
+                        <li class="li ">
                             <div class="radio row m-0 p-0 me-auto" style="width:220px">
 
-                                <div v-for="i in OrderStatus" :key="i.id" class="col-auto m-0 px-1">
+                                <div v-for="i in OrderStatus" :key="i.id" class="col-auto m-0 px-1 ">
                                     <input :value="i.id" type="radio" :label="i.text" @change="statusChange()"
-                                        v-model="order.status" :class="[{ 'bg-danger bg-gradient text-light': order.status == 3 && i.id == 3 },
-                                        { 'bg-warning bg-gradient text-light': order.status == 1 && i.id == 1 }]">
+                                        v-model="order_user.order_status"
+                                        :class="[{ 'bg-danger bg-gradient text-light': order_user.order_status == 3 && i.id == 3 },
+                                        { 'bg-warning bg-gradient text-light': order_user.order_status == 1 && i.id == 1 }]">
                                 </div>
                             </div>
                         </li>
@@ -31,50 +48,49 @@
 
                 </div>
             </div>
-            <div class="col-md-12 col-auto my-2">
+            <div class="col-md-8 col-auto my-2">
                 <div class="h3">Orders Items List</div>
                 <div class="col-md-12 px-2 mx-auto table-responsive pb-5">
 
                     <table class="table table-sm table-striped bg-light table-hover">
                         <thead class="text-center text-muted">
                             <tr>
-                                <th>No</th>
+                                <th class="no">No</th>
                                 <th>Dish</th>
 
                                 <th>Packages</th>
                                 <th>Quantity</th>
                                 <th>Unit price</th>
                                 <th>Total</th>
-                                <!-- <th>Final<span class="d-none d-md-inline">Amount</span></th> -->
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
                             <tr v-for=" (item, i) in items " :key="i">
-                                <td>
+                                <td class="no">
                                     {{ i + 1 }}
                                 </td>
 
                                 <td>
-                                    {{ item.food_name ? item.food_name : '-' }}
+                                    {{ item.type == 'food' ? item.name : '-' }}
                                 </td>
 
                                 <td>
-                                    {{ item.pack_name ? item.pack_name : '-' }}
+                                    {{ item.type == 'package' ? item.name : '-' }}
                                 </td>
 
-                                <td>{{ item.qty }}</td>
+                                <td>{{ item.quantity }}</td>
 
-                                <td>{{ item.food_price }} {{ item.pack_net }}</td>
+                                <td>{{ item.food_price }} {{ item.package_price }}</td>
 
 
                                 <td>
-                                    {{ item.total }}
+                                    {{ item.this_total }}
                                 </td>
 
 
                                 <td>
-                                    <date-format :date="order.created_at" />
+                                    <date-format :date="item.date" />
                                 </td>
                             </tr>
 
@@ -89,7 +105,7 @@
                                     Sub Total:
                                 </td>
                                 <td class="text-secondary fw-light">
-                                    {{ sub_total }} $
+                                    {{ order_user.order_sub_total }} $
                                 </td>
                             </tr>
 
@@ -99,7 +115,7 @@
                                     Final Amount:
                                 </td>
                                 <td class="text-success fw-bold">
-                                    {{ order.total }} $
+                                    {{ order_user.order_total }} $
                                 </td>
                             </tr>
                         </tfoot>
@@ -123,10 +139,7 @@ export default {
     data() {
         return {
             items: '',
-            order: {},
-            user: {},
-            sub_total: 0,
-
+            order_user: {},
             OrderStatus: [
                 { id: 1, text: 'Pending' },
                 { id: 2, text: 'Confirm' },
@@ -145,8 +158,8 @@ export default {
 
         statusChange() {
             const newStatus = event.target.value;
-            const info = { id: this.order.id, status: Number(newStatus) }
-            this.$store.dispatch('cart/updateAdminOrderList', info)
+            const info = { id: this.order_user.order_id, status: Number(newStatus) }
+            this.$store.dispatch('cart/updateAdminOrderList', info);
         },
 
 
@@ -155,27 +168,22 @@ export default {
 
     watch: {
         orderDetail() {
-            this.items = this.orderDetail.items;
+            console.log(this.orderDetail);
+            this.items = this.orderDetail.all_items;
+            this.user = this.orderDetail.order_user.user
         }
     },
 
     mounted() {
 
-        this.items = this.orderDetail.items;
-        this.order = this.orderDetail.order_user[0]
-        this.user = this.order.user
-
-        this.items.filter(i => {
-            this.sub_total += Number(i.total)
-        })
-
-
-
+        this.order_user = this.orderDetail.orderUser;
+        this.items = this.orderDetail.all_items;
 
     }
 
 
 }
+
 </script>
 
 <style  scoped>
@@ -194,7 +202,7 @@ td {
 }
 
 td {
-    min-width: 120px;
+    min-width: 50px;
 }
 
 thead {
@@ -203,6 +211,23 @@ thead {
     background-color: rgb(243, 240, 235);
 }
 
+.no {
+    width: 30px !important;
+    background-color: rgba(0, 128, 0, 0.047);
+}
+
+.list-group {
+    margin-top: 15px;
+    padding: 30px 10px;
+    box-shadow: 1px 1px 50px rgba(128, 128, 128, 0.222);
+}
+
+.li {
+    list-style: none;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    color: gray;
+}
 
 /* Radio */
 .radio {

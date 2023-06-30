@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-3 h3 fw-bold">
+        <div class="p-3 h3 ">
             User Profile
             <hr>
         </div>
@@ -22,7 +22,7 @@
 
 
                                 <div class="text-center" :hidden="disabled">
-                                    <label for="profile_pic" class="btn btn-info rounded-1 text-light py-1">
+                                    <label for="profile_pic" class="btn btn-warning rounded-1 text-light py-1">
                                         Upload Image
                                     </label>
                                     <input type="file" class="d-none" id="profile_pic" @change="previewImage">
@@ -274,8 +274,6 @@ export default {
 
         // --------- 
         update() {
-
-
 
 
             const profile = document.getElementById('profile_pic').files[0];

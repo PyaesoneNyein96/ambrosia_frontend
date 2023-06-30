@@ -97,6 +97,10 @@
                                 </li>
 
                                 <li>
+                                    <router-link class="nav-link scrollto " :to="{ name: 'review' }">Reviews</router-link>
+                                </li>
+
+                                <li>
                                     <router-link class="nav-link scrollto " :to="{ name: 'about_us' }">About
                                         Us</router-link>
                                 </li>
@@ -211,11 +215,12 @@ export default {
                 this.$store.commit('tool/setReservationPath', true)
             }
 
+
             this.$swal({
                 title: "Order As a member ?",
                 // showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: 'Member?',
+                confirmButtonText: 'Book a table?',
                 // denyButtonText: 'Member',
                 cancelButtonText: 'Cancel',
                 color: 'white',
@@ -229,11 +234,17 @@ export default {
                         if (!this.auth) {
                             smsInform(store.commit, 'Information', 'Firstly U have to Login for this Process')
                             this.$router.push({ name: 'login' });
-                        } else {
-                            this.$router.push({ name: 'booking' })
-
                         }
-                        // this.$router.push({ name: 'booking_phone' })
+                        else if (this.auth && this.cartCounts !== 0) {
+                            this.$router.push({ name: 'cart' })
+                        }
+                        else {
+                            this.$router.push({ name: 'menu' })
+                                .then(() => {
+                                    smsInform(store.commit, 'Reservation', 'U need to pick food or package at least 1 for book a table')
+                                })
+                        }
+
                     }
                 })
         },
@@ -287,7 +298,6 @@ export default {
                     this.cartCounts += i.count
                 })
             };
-            // console.log(this.cartCounts);
         }
 
 

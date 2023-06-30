@@ -28,12 +28,22 @@
                                 <span class="nav-item d-none d-lg-inline">Orders</span>
                             </router-link>
                         </li>
+
                         <li v-if="!isAdmin">
-                            <router-link :to="{ name: 'coming_soon' }">
-                                <i class="fa-solid fa-champagne-glasses ms-0 me-3"></i>
-                                <span class="nav-item d-none d-lg-inline">Event</span>
+                            <router-link :to="{ name: 'user_suggestion' }">
+                                <i class="fa-regular fa-message"></i>
+                                <span class="nav-item d-none d-lg-inline">Suggestion</span>
                             </router-link>
                         </li>
+
+                        <li v-if="!isAdmin">
+                            <router-link :to="{ name: 'user_review' }">
+                                <i class="fa-regular fa-comments"></i>
+                                <span class="nav-item d-none d-lg-inline">Reviews</span>
+                            </router-link>
+                        </li>
+
+
 
 
 
@@ -104,6 +114,22 @@
                                 <router-link :to="{ name: 'order_list' }">
                                     <i class="fa-solid fa-file-signature"></i>
                                     <span class="nav-item d-none d-lg-inline">OrderList</span>
+                                </router-link>
+                            </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'carousel_list' }">
+                                    <i class="fa-solid fa-images"></i>
+                                    <span class="nav-item d-none d-lg-inline">Carousel <span
+                                            class="d-none d-lg-inline">List</span></span>
+                                </router-link>
+                            </li>
+
+                            <li class="admin-nav-list">
+                                <router-link :to="{ name: 'carousel_add' }">
+                                    <i class="fa-regular fa-image"></i>
+                                    <span class="nav-item d-none d-lg-inline">Carousel <span
+                                            class="d-none d-lg-inline">Add</span></span>
                                 </router-link>
                             </li>
 

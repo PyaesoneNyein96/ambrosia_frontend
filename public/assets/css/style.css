@@ -1353,11 +1353,12 @@ section {
 # Testimonials
 --------------------------------------------------------------*/
 .testimonials {
-  padding: 80px 0;
+  padding: 100px 0;
   background: url("../img/testimonials-bg.jpg") no-repeat;
   background-position: center center;
   background-size: cover;
   position: relative;
+  min-height: 100vh;
 }
 
 .testimonials::before {
@@ -1367,7 +1368,7 @@ section {
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(12, 11, 10, 0.7);
+  background: rgba(12, 11, 10, 0.803);
 }
 
 .testimonials .section-header {

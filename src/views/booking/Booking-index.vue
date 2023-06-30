@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mt-5">
         <section id="book-a-table" class="book-a-table">
             <div class="container">
 
@@ -13,39 +13,35 @@
                 <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
                     <div class="row">
                         <div class="col-lg-4 col-md-6 form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                            <div class="validate"></div>
+                            <input type="text" name="name" class="form-control" v-model="userData.name"
+                                placeholder="Your Name" :disabled="userData.name">
                         </div>
+
                         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                                data-rule="email" data-msg="Please enter a valid email">
-                            <div class="validate"></div>
+                            <input type="email" class="form-control" v-model="userData.email" disabled
+                                placeholder="Your Email">
                         </div>
+
                         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone"
-                                data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                            <div class="validate"></div>
+                            <input type="text" class="form-control" placeholder="Your Phone" v-model="userData.phone"
+                                :disabled="userData.phone">
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="text" name="date" class="form-control" id="date" placeholder="Date"
-                                data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                            <div class="validate"></div>
+                            <input type="date" name="date" class="form-control" placeholder="Date">
+
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="text" class="form-control" name="time" id="time" placeholder="Time"
-                                data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                            <div class="validate"></div>
+                            <input type="time" class="form-control" placeholder="Time">
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="number" class="form-control" name="people" id="people" placeholder="# of people"
-                                data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                            <input type="number" min="1" max="25" class="form-control" placeholder="# of people">
                             <div class="validate"></div>
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message"></textarea>
-                        <div class="validate"></div>
+                        <textarea class="form-control" name="message" rows="5"
+                            placeholder="Special Order Message . . ."></textarea>
+
                     </div>
                     <div class="mb-3">
                         <div class="loading">Loading</div>
@@ -54,7 +50,15 @@
                             confirm your
                             reservation. Thank you!</div>
                     </div>
-                    <div class="text-center"><button type="submit">Send Message</button></div>
+                    <div class="text-center">
+                        <h4 class="fw-bold text-muted">Checkout With</h4>
+                        <button type="button" class="m-1 btn btn btn-warning text-light m-1 bg-gradient"
+                            @click="directOrderSubmit">Proceed
+                            to
+                            Checkout</button>
+                        <button type="button" class="btn btn btn-success m-1 text-light bg-gradient" @click="submitTable">
+                            Book a table and checkout</button>
+                    </div>
                 </form>
 
             </div>
@@ -71,7 +75,19 @@ export default {
     name: 'Booking-index',
     data() {
         return {
-            userData: ''
+            userData: {
+                order_code: '',
+                name: '',
+                email: '',
+                phone: '',
+                date: '',
+                time: '',
+                people: '',
+                message: '',
+            },
+
+            directCheckoutData: '',
+            bookLock: false
         }
     },
     computed: {
@@ -80,12 +96,54 @@ export default {
         })
     },
     methods: {
+        setData() {
+            this.userData.name = this.auth.name
+            this.userData.email = this.auth.email
+            this.userData.phone = this.auth.phone
+        },
+
+
+        directCheckout() {
+            let box = this.$route.query.box;
+            let decodeValue = JSON.parse(decodeURIComponent(box))
+
+            this.directCheckoutData = decodeValue
+        },
+
+        // direct checkout &(old method)
+        directOrderSubmit() {
+            this.$store.dispatch('cart/submitOrder', this.directCheckoutData)
+        },
+
+        submitTable() {
+            if (this.userData.date || this.userData.phone ||
+                this.userData.name || this.userData.time ||
+                this.userData.people || this.userData.message) {
+                console.log('xxx');
+            } else {
+                console.log('yyy');
+            }
+        }
+
+    },
+
+    watch: {
+        auth() {
+            this.setData();
+        },
+
+
 
     },
 
     mounted() {
         if (this.auth) {
-            this.userData = this.auth
+            this.setData();
+            this.userData.order_code = this.$route.query.code;
+
+            this.directCheckout();
+
+
         }
     }
 

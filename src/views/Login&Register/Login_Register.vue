@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ background: `url(${'https://jooinn.com/images/blur-restaurant-1.png'})` }" class="login-background">
+    <div :style="{ background: `url(${'https://jooinn.com/images/blur-restaurant-1.png'})` }" class="bg-wrap">
         <!-- <div class="login-background"> -->
 
         <section id=" menu" class="Login">
@@ -15,11 +15,14 @@
                                 <span v-html="type ? 'LOGIN' : 'REGISTER'"></span>
                             </p>
 
-                            <Field name="email" v-slot="{ field, errors, errorMessage }">
+                            <Field name="name" v-slot="{ field, errors, errorMessage }" v-if="!type">
+                                <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
+                                    type="text" placeholder="Name . . ." />
+                            </Field>
 
+                            <Field name="email" v-slot="{ field, errors, errorMessage }">
                                 <input-template :field="field" :errors="errors" :errorMessage="errorMessage" element="input"
                                     type="text" placeholder="Email . . ." />
-
                             </Field>
 
 
@@ -110,10 +113,11 @@ export default {
         typeChange() {
             this.type = !this.type;
             if (!this.type) {
-                this.formSchema.confirm_password = yup.string().required('Confirm password field is required !')
-
+                this.formSchema.confirm_password = yup.string().required('Confirm password field is required !'),
+                    this.formSchema.name = yup.string().required('Name field is required !')
             } else {
-                this.formSchema.confirm_password = null
+                this.formSchema.confirm_password = null;
+                this.formSchema.name = null
             }
         },
 
@@ -151,10 +155,32 @@ export default {
 </script>
 
 <style scoped>
-/* .login-background {
-    background: url('../../../../public/assets/img/navBackground/dashboard-nav-background.jpg');
-} */
+.bg-wrap {
+    min-height: 86vh;
+    top: 0;
+    background: url('../../../public/assets/img/logo/menu.jpg') top no-repeat;
+    position: relative;
+    background-size: cover;
+    padding-top: 50px;
+}
 
+.bg-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background-color: rgba(255, 255, 255, 0.164);
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+}
+
+/*  */
 .login-background {
     position: relative !important;
     background-position: center;
@@ -163,9 +189,6 @@ export default {
     height: 83vh;
     object-fit: cover;
     background-position: center !important;
-    /* background: url('../../../public/assets/img/login-Background/blur-restaurant-1.png') !important; */
-
-    /* background-image: url('../../../public/assets/img/login-Background/blur-restaurant-1.png'); */
 }
 
 .Login {

@@ -280,21 +280,26 @@ export default {
                     order_code: UID,
                     user_id: this.authUser.id,
                     item_id: i.food ? i.food_id : i.package_id,
-                    type: i.food ? 1 : 2,
+                    type: i.food ? 'food' : 'package',
                     quantity: i.count,
                     total: i.food ? i.count * i.food.price : i.count * i.package.net_total
                 })
 
             }
 
-            this.$store.dispatch('cart/submitOrder', this.orderBox)
+            let box = JSON.stringify(this.orderBox)
+
+            this.$router.push({ name: 'booking', query: { code: UID, box: encodeURIComponent(box) } })
                 .then(() => {
                     this.disabled = false;
                     this.orderBox = []
                 })
 
-
-
+            // this.$store.dispatch('cart/submitOrder', this.orderBox)  
+            //     .then(() => {
+            //         this.disabled = false;
+            //         this.orderBox = []
+            //     })
         },
 
 

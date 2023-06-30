@@ -20,9 +20,12 @@ import About from '../views/Home/About-Us.vue'
 import Coming_soon from '../views/Home/Coming_soon.vue'
 import Packages from '../views/Home/Package-index.vue'
 import Cart from '../views/booking/Cart-index.vue'
+import Reviews from '../views/Home/Review-index.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
+import UserReviews from '../views/Dashboard/UserSide/user-reviews-index.vue'
+import Suggestion from '../views/Dashboard/UserSide/user-suggestion.vue'
 
 
 
@@ -44,6 +47,8 @@ import Package_List from '../views/Dashboard/AdminSide/Package-list.vue'
 import Package_Edit from '../views/Dashboard/AdminSide/Package-edit.vue'
 import Order_List from '../views/Dashboard/AdminSide/Order-list.vue'
 import Order_Detail from '../views/Dashboard/AdminSide/Order-detail.vue'
+import Carousel_List from '../views/Dashboard/AdminSide/Carousel-list.vue'
+import Carousel_Add from '../views/Dashboard/AdminSide/Carousel-add.vue'
 
 
 
@@ -78,6 +83,7 @@ const router = createRouter({
     { path: '/coming_soon', component: Coming_soon, name: 'coming_soon' },
     { path: '/packages', component: Packages, name: 'packages' },
     { path: '/cart', component: Cart, name: 'cart', meta: { cart: true } },
+    { path: '/reviews', component: Reviews, name: 'review', },
 
 
 
@@ -88,6 +94,8 @@ const router = createRouter({
         { path: '', component: MainDashboard, name: 'main_dashboard', meta: { main_dashboard: true } },
         { path: 'user_profile', component: UserProfile, name: 'user_Profile' },
         { path: 'user_check', component: UserCheck, name: 'user_Check' },
+        { path: 'user_reviews', component: UserReviews, name: 'user_review' },
+        { path: 'user_suggestion', component: Suggestion, name: 'user_suggestion' },
 
         { path: 'food_add', component: Food_Add, name: 'food_Add', meta: { food_add: true } },
         { path: 'food_edit/:id', component: Food_Edit, name: 'food_Edit', meta: { food_edit: true } },
@@ -100,6 +108,10 @@ const router = createRouter({
         { path: 'package_edit/:id', component: Package_Edit, name: 'package_edit', meta: { package_edit: true } },
         { path: 'order_list', component: Order_List, name: 'order_list', meta: { order_list: true } },
         { path: 'order_detail/:id', component: Order_Detail, name: 'order_detail', meta: { order_detail: true } },
+
+        { path: 'carousel_list', component: Carousel_List, name: 'carousel_list', meta: { carousel: true } },
+        { path: 'carousel_add', component: Carousel_Add, name: 'carousel_add', meta: { carousel_add: true } },
+
 
 
       ]
@@ -139,10 +151,7 @@ const validation = (to, from, next) => {
     router.push({ name: 'package_list' })
 
   }
-  // else if ((to.meta.book_phone) && (localStorage.getItem('userCredentials') || store.getters['auth/isAdmin'] == 1)) {
-  //   router.push({ name: 'booking' })
-  //   smsInform(store.commit, 'If you are already a member', ' Register as a user.')
-  // }
+
   else if ((to.meta.cart) && !store.getters['auth/getUserData']) {
     router.push({ name: 'home' })
   }
@@ -160,6 +169,7 @@ const validation = (to, from, next) => {
     (to.meta.user_list) || (to.meta.tags) ||
     (to.meta.package_add) || (to.meta.package_list)
     || (to.meta.order_list)
+    // || (to.meta.carousel)
 
   )
 

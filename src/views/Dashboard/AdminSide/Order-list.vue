@@ -26,7 +26,7 @@
                         <th>Order Code <span class="d-none d-md-inline">(Click to Detail)</span> </th>
                         <th>Total Amount</th>
                         <th>Status</th>
-                        <th>Date</th>
+                        <th>Date and Time</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -61,7 +61,7 @@
 
                         </td>
                         <td>
-                            <date-format :date="o.created_at" />
+                            <date-format :date="o.created_at" :has-time="true" />
                         </td>
 
                     </tr>
