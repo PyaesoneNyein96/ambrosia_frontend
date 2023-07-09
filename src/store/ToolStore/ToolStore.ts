@@ -131,7 +131,6 @@ const ToolsModule = {
                             })
                         })
                     }
-
                 })
                 .catch(err => {
                     console.log(err);
