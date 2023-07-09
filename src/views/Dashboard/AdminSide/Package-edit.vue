@@ -8,11 +8,12 @@
             <div class="row bg-light bg-gradient shadow-sm p-2">
 
                 <div class="col-md-6">
-                    <div class="h4 mt-3">Food List
+                    <div class="h4 mt-3">Foods $ Drinks
+                        <FoodByType />
                         <hr>
                     </div>
                     <div class="row shadow-sm left-box">
-                        <div class="col-lg-3 col-md-4 col-sm-4 p-1 col-6" v-for="f in this.foodList" :key="f.id">
+                        <div class="col-lg-3 col-md-4 col-sm-4 p-1 col-6" v-for="f in this.foods" :key="f.id">
 
                             <div class="bg-light food-item-cover rounded-1 small p-1" draggable="true"
                                 @dragstart="dragStart" @dragend="dragend" @click="pickItem(f.id)">
@@ -110,12 +111,17 @@
 import { mapGetters } from 'vuex'
 import { smsInform } from '../../../store/Notify/notify.js'
 
+import FoodByType from '../../../components/Tools/foodByType'
 
 export default {
     name: 'package-edit',
+
+    components: {
+        FoodByType
+    },
     data() {
         return {
-
+            foods: '',
             form: {
                 name: '',
                 selected: [],
@@ -245,7 +251,20 @@ export default {
             this.form.percentage = this.editPackage.percentage
             this.form.net_total = this.editPackage.net_total;
 
-        }
+        },
+
+        // -------------by Type
+
+        // drink() {
+        //     this.$store.dispatch('food/getFoodByType', 0)
+        //     // this.getFoodByType([0])
+        // },
+        // food() {
+        //     this.$store.dispatch('food/getFoodByType', 1)
+        // },
+        // all() {
+        //     this.$store.dispatch('food/getFoodByType', 2)
+        // },
 
 
 
@@ -255,6 +274,11 @@ export default {
 
     },
 
+    watch: {
+        foodList() {
+            this.foods = this.foodList
+        }
+    },
 
     mounted() {
 

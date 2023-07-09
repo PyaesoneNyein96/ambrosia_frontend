@@ -26,7 +26,7 @@ import Footer from './views/Footer/Footer-index.vue';
 import Loader from './components/Tools/mini-Loader.vue';
 import Search from './components/Tools/search-index.vue'
 
-
+// import AutoTyping from ''
 
 
 import '../public/assets/css/style.css'

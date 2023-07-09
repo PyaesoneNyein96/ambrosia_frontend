@@ -1,15 +1,17 @@
 <template>
     <div class="bg-transparent bg-gradient" style="height: 100vh;">
 
-        <Carousel class="pt-0" :items-to-show="1" :wrap-around='true' :autoplay="5000" :transition="1500" v-if="slides">
+        <Carousel class="pt-0" :items-to-show="1" :wrap-around="true" :autoplay="18000" :transition="1500" v-if="slides"
+            @slide-start="start">
             <Slide v-for="slide in slides" :key="slide.id" class="slide">
                 <Transition name="carousel" appear>
                     <div class="slide-img" :style="{ background: `url(${slide.image})` }">
-                        <h2 class=" slide-up " :class="slide.position" :style="{ 'color': slide.color }">
-                            <div class="title fw-bold mb-3" :style="{ 'color': slide.color }">
+                        <h2 class=" slide-up " :class="slide.position" :style="{ 'color': slide.title_color }">
+                            <div class="title  mb-3">
                                 {{ slide.title }}
                             </div>
-                            {{ slide.description }}
+
+                            <slideAutoText @start="start" :text="slide.description" :style="{ 'color': slide.color }" />
 
                         </h2>
                     </div>
@@ -21,10 +23,12 @@
 
 <script>
 
-/* eslint-disable */
+
 
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
+
+import slideAutoText from '../../components/Tools/slideAutoText'
 
 import { mapGetters } from 'vuex'
 
@@ -34,13 +38,12 @@ export default {
     components: {
         Carousel,
         Slide,
+        slideAutoText
         // Pagination
     },
     data() {
         return {
-
             slides: '',
-
         }
     },
 
@@ -50,16 +53,21 @@ export default {
         })
     },
 
+    methods: {
+        start() {
+            this.$store.commit('tool/setCarouselText', true)
+        }
+    },
+
     watch: {
         carousels() {
             this.slides = this.carousels;
-            console.log(this.slides);
-
         }
     },
 
 
     mounted() {
+
         this.$store.dispatch('tool/getAllCarousel')
     }
 
@@ -85,7 +93,7 @@ export default {
 
 .title {
     font-size: 50px;
-    color: #960a0a !important;
+    /* color: #960a0a !important; */
     text-shadow: 1px 1px 0.5px rgb(135, 141, 133) !important
 }
 
@@ -139,7 +147,7 @@ h2 {
 }
 
 .slide-up * {
-    color: rgb(148, 151, 250);
+    /* color: rgb(148, 151, 250); */
     /* font-size: 1.5em !important; */
     text-shadow: 1px 1px 40px rgb(193, 216, 224);
 }
@@ -157,6 +165,12 @@ h2 {
         font-weight: 500;
         background-color: rgba(0, 115, 255, 0.248);
         border-radius: 5px;
+    }
+
+    .title {
+        font-size: 30px;
+        /* color: #960a0a !important; */
+        text-shadow: 1px 1px 0.5px rgb(135, 141, 133) !important
     }
 
 }

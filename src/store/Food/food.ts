@@ -235,6 +235,7 @@ const FoodModule = {
                 .then(res => {
                     // console.log(res);
                     commit('setAdminFoodList', res.data)
+                    commit('setFoodList', res.data)
                 })
                 .catch(err => {
                     // console.log(err);

@@ -3,8 +3,19 @@
         <section id="menu" class="menu mt-3">
             <div class="container">
 
-                <div class="section-title">
+                <div class="section-title text-center">
                     <h2>Check our tasty <span>Menu</span></h2>
+
+                    <div class="food-type d-none d-md-inline">
+                        <div class="inner-food-type">
+                            <button class="btn btx btn-eff py-1" @click="food">
+                                Food
+                            </button>
+                            <button class="btn btx2 btn-eff2 py-1 text-light" @click="drink">
+                                Drink
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -14,11 +25,20 @@
                                 :class="{ 'filter-active': classForAll == 'All' }">
                                 Show All
                             </li>
+                            <li data-filter="filter-specialty " class="bg-danger text-light d-inline d-md-none"
+                                @click="food">
+                                Food
+                            </li>
+                            <li data-filter="filter-specialty " class="bg-info text-light  d-inline d-md-none"
+                                @click="drink">
+                                Drink
+                            </li>
 
                             <li data-filter="filter-specialty" v-for="c in Categories" :key="c.id"
                                 @click="GetSpecific(c.id)" :class="{ 'filter-active': isActive == c.id }">
                                 {{ c.name }}
                             </li>
+
 
                         </ul>
                     </div>
@@ -31,7 +51,7 @@
 
                     <TransitionGroup name="item" appear>
 
-                        <div class="col-lg-6 menu-item filter-starters scroll" v-for="menu in MenuList" :key="menu">
+                        <div class="col-lg-6 menu-item filter-starters scroll" v-for="menu in Food" :key="menu">
                             <div class="menu-content">
                                 <a href="#">{{ menu.name }}</a><span>${{ menu.price }}</span>
                             </div>
@@ -82,6 +102,7 @@ export default {
         return {
             isActive: '',
             classForAll: '',
+            Food: '',
             isDisabled: false
         }
     },
@@ -134,15 +155,29 @@ export default {
             }
         },
 
+        // =============================================
 
         detail(i) {
             this.$store.dispatch('food/detailFood', i)
+        },
+        // =============================================
+
+        food() {
+            this.$store.dispatch('food/getFoodByType', 1)
+        },
+        drink() {
+            this.$store.dispatch('food/getFoodByType', 0)
+        },
+
+
+
+
+    },
+
+    watch: {
+        MenuList() {
+            this.Food = this.MenuList
         }
-
-
-
-
-
     },
 
 
@@ -151,6 +186,7 @@ export default {
         if (!this.MenuList) {
             this.$store.dispatch('food/GetSpecific_All', 'All');
         }
+        this.Food = this.MenuList
     },
 
 
@@ -231,5 +267,42 @@ export default {
 
 .item-move {
     transition: transform 1s ease-in-out;
+}
+
+/*  */
+
+.mobile-food {
+    background-color: rgb(185, 134, 41) !important;
+}
+
+.food-type {
+    position: fixed;
+    font-size: 40px;
+    background-color: rgba(0, 128, 0, 0.064);
+    right: 10px;
+    top: 100px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.inner-food-type:hover {
+    position: relative;
+    opacity: 1;
+}
+
+.inner-food-type {
+    display: flex;
+    flex-direction: column;
+    /* background-color: rgba(113, 128, 0, 0.993); */
+    padding: 5px;
+    position: relative;
+    opacity: 0.4;
+    border-radius: 10px;
+}
+
+
+
+.inner-food-type button {
+    margin: 5px 0;
 }
 </style>

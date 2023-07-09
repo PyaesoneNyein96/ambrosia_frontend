@@ -202,7 +202,8 @@ export default {
             return this.$route.matched.some(r => r.name === 'dashboard')
             // return this.$route.path.startsWith('/dashboard');
             // return this.$route.path.startsWith('/dashboard/');
-        }
+        },
+
 
     },
 

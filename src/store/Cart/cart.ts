@@ -4,6 +4,7 @@ import axios from "axios";
 import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
 import { smsSuccess, smsError, cartSuccess, orderSuccess } from '../Notify/notify.js'
+import { dispatch } from './../../../../restaurant_api/vendor/livewire/livewire/js/util/dispatch';
 
 
 
@@ -163,6 +164,31 @@ const CartModule = {
         },
 
         // ===========================================================
+        // Send Order with Table 
+        // ===========================================================
+
+        bookTable: ({ commit, dispatch }, payload) => {
+
+            Loader(commit, true)
+            console.log(payload);
+            axios.post('http://localhost:8000/api/user/book/table', payload)
+                .then(res => {
+                    console.log(res);
+                    dispatch('getCartListByUser');
+                    orderSuccess(commit)
+                    router.push({ name: 'user_Check' })
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+
+
+        },
+
+        // ===========================================================
         // Get order List for (user)
         // ===========================================================
 
@@ -244,7 +270,7 @@ const CartModule = {
                     router.push({ name: 'order_detail', params: { id: payload } });
                 })
                 .catch(err => {
-
+                    smsError(commit, err)
                 })
                 .finally(() => {
                     Loader(commit, false)

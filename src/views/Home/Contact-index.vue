@@ -49,21 +49,21 @@
                     </div>
                 </div>
 
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                <form @submit.prevent="submit" role="form" class="php-email-form" v-if="form">
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" disabled>
+                            <input type="text" class="form-control" v-model="form.name" placeholder="Your Name" disabled>
                         </div>
                         <div class="col-md-6 form-group mt-3 mt-md-0">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
-                                disabled>
+                            <input type="email" class="form-control" v-model="form.email" placeholder="Your Email" disabled>
                         </div>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                        <input type="text" class="form-control" v-model="form.subject" placeholder="Subject" required>
                     </div>
                     <div class="form-group mt-3">
-                        <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                        <textarea class="form-control" v-model="form.message" rows="5" placeholder="Message"
+                            required></textarea>
                     </div>
                     <div class="my-3">
                         <div class="loading">Loading</div>
@@ -78,8 +78,57 @@
     </div>
 </template>
 
+
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
+    name: 'user-suggestion',
+
+    data() {
+        return {
+            form: {
+                user_id: '',
+                name: '',
+                email: '',
+                subject: '',
+                message: '',
+                rating: 1
+
+            }
+        }
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'auth/getUserData'
+        })
+    },
+
+    methods: {
+        submit() {
+            this.$store.dispatch('users/submitReview', this.form)
+        },
+
+
+        setData() {
+            this.form.name = this.userInfo.name
+            this.form.email = this.userInfo.email
+            this.form.user_id = this.userInfo.id
+        }
+    },
+
+    watch: {
+        userInfo() {
+            this.setData()
+        }
+    },
+
+    mounted() {
+        if (this.userInfo) {
+            this.setData()
+        }
+    },
 
 }
 </script>

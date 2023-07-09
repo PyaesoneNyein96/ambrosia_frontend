@@ -10,7 +10,7 @@
                         autem.</p>
                 </div>
 
-                <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form">
+                <form @submit.prevent="BookTable" role="form" class="php-email-form">
                     <div class="row">
                         <div class="col-lg-4 col-md-6 form-group">
                             <input type="text" name="name" class="form-control" v-model="userData.name"
@@ -24,23 +24,34 @@
 
                         <div class="col-lg-4 col-md-6 form-group mt-3 mt-md-0">
                             <input type="text" class="form-control" placeholder="Your Phone" v-model="userData.phone"
-                                :disabled="userData.phone">
+                                :disabled="auth.phone" max="15" required>
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="date" name="date" class="form-control" placeholder="Date">
+                            <input type="date" name="date" class="form-control" placeholder="Date" v-model="userData.date"
+                                required>
 
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="time" class="form-control" placeholder="Time">
+                            <input type="time" format="12hr" class="form-control" placeholder="Time" v-model="userData.time"
+                                required>
                         </div>
                         <div class="col-lg-4 col-md-6 form-group mt-3">
-                            <input type="number" min="1" max="25" class="form-control" placeholder="# of people">
+                            <input type="number" min="1" max="25" class="form-control" placeholder="# of people"
+                                v-model="userData.people" required>
                             <div class="validate"></div>
                         </div>
                     </div>
+
                     <div class="form-group mt-3">
-                        <textarea class="form-control" name="message" rows="5"
-                            placeholder="Special Order Message . . ."></textarea>
+
+                        <textarea class="form-control" rows="5" v-model="userData.message"
+                            placeholder="Special Order Message . . .">
+                        </textarea>
+                        <small class="text-danger">* Please inform us of any food allergies or dietary restrictions when
+                            placing your order. Thank you!
+                        </small>
+
+
 
                     </div>
                     <div class="mb-3">
@@ -56,7 +67,7 @@
                             @click="directOrderSubmit">Proceed
                             to
                             Checkout</button>
-                        <button type="button" class="btn btn btn-success m-1 text-light bg-gradient" @click="submitTable">
+                        <button class="btn btn btn-success m-1 text-light bg-gradient">
                             Book a table and checkout</button>
                     </div>
                 </form>
@@ -76,13 +87,14 @@ export default {
     data() {
         return {
             userData: {
+                user_id: '',
                 order_code: '',
                 name: '',
                 email: '',
                 phone: '',
-                date: '',
-                time: '',
-                people: '',
+                date: '2023-06-28',
+                time: '14:06',
+                people: '5',
                 message: '',
             },
 
@@ -92,7 +104,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            auth: 'auth/getUserData'
+            auth: 'auth/getUserData',
         })
     },
     methods: {
@@ -115,14 +127,19 @@ export default {
             this.$store.dispatch('cart/submitOrder', this.directCheckoutData)
         },
 
-        submitTable() {
-            if (this.userData.date || this.userData.phone ||
-                this.userData.name || this.userData.time ||
-                this.userData.people || this.userData.message) {
-                console.log('xxx');
-            } else {
-                console.log('yyy');
+        BookTable() {
+
+            let cartData = this.directCheckoutData;
+
+
+            const combined = {
+                cart: cartData,
+                book: this.userData
             }
+            // console.log('Combined', combined);
+
+            this.$store.dispatch('cart/bookTable', combined)
+
         }
 
     },
@@ -130,6 +147,8 @@ export default {
     watch: {
         auth() {
             this.setData();
+            this.userData.user_id = this.auth.id;
+            console.log(this.userData);
         },
 
 
@@ -140,6 +159,7 @@ export default {
         if (this.auth) {
             this.setData();
             this.userData.order_code = this.$route.query.code;
+            this.userData.user_id = this.auth.id;
 
             this.directCheckout();
 

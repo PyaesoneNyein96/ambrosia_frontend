@@ -5,7 +5,7 @@
                 <div class="h3">User Information</div>
                 <div class="shadow-sm">
                     <ul class="list-group">
-                        <li class="li"> Order Code : <div class="d-inline-block text-success">{{
+                        <li class="li "> Order Code : <div class="d-inline-block text-success fw-bold">{{
                             order_user.order_code }}</div>
                         </li>
                         <li class="li">Name : {{ order_user.name }}</li>
@@ -49,7 +49,39 @@
                 </div>
             </div>
             <div class="col-md-8 col-auto my-2">
-                <div class="h3">Orders Items List</div>
+
+
+                <div class="booking-wrap" v-if="table_info !== null">
+                    <div class="h4">Booking Info</div>
+                    <div class="col-md-12 px-2 mx-auto ">
+
+                        <table class="table table-sm table-striped bg-light table-hover">
+                            <thead class="text-center text-muted">
+                                <tr>
+                                    <th class="no">Time</th>
+                                    <th class="no">Date</th>
+                                    <th class="no">message</th>
+                                    <th class="no">People</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ table_info.time }}</td>
+
+                                    <td>
+                                        <date-format :time="table_info.date" />
+                                    </td>
+                                    <td>{{ table_info.message }}</td>
+                                    <td>{{ table_info.people }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="h4">Orders Items List</div>
                 <div class="col-md-12 px-2 mx-auto table-responsive pb-5">
 
                     <table class="table table-sm table-striped bg-light table-hover">
@@ -132,6 +164,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import { timeFunction } from '../../../components/Tools/time.js'
 
 export default {
     name: 'Order-detail',
@@ -140,6 +173,7 @@ export default {
         return {
             items: '',
             order_user: {},
+            table_info: {},
             OrderStatus: [
                 { id: 1, text: 'Pending' },
                 { id: 2, text: 'Confirm' },
@@ -175,6 +209,13 @@ export default {
     },
 
     mounted() {
+
+
+        // console.log(this.orderDetail);
+        this.table_info = this.orderDetail.table_info;
+        if (this.table_info) {
+            this.table_info.time = timeFunction(this.table_info.time);
+        }
 
         this.order_user = this.orderDetail.orderUser;
         this.items = this.orderDetail.all_items;

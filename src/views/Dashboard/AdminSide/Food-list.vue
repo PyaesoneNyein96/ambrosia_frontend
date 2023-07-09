@@ -6,11 +6,7 @@
         </div>
         <div class="table-nav d-flex justify-content-between">
 
-            <div class="bg-light shadow-sm rounded-3 my-2">
-                <button class="btn-info text-light nav-btn btn btn-sm" @click="drink">Drink</button>
-                <button class="btn-success btn ms-1 btn-sm nav-btn" @click="food">Food</button>
-                <button class="btn-secondary btn ms-1 btn-sm nav-btn" @click="all">All</button>
-            </div>
+            <FoodByType />
             <div class="search">
                 <app-Search class="search-btn" />
             </div>
@@ -112,10 +108,15 @@ import { smsQuestion } from '../../../store/Notify/notify.js'
 import { mapActions } from 'vuex'
 import store from '../../../store'
 
+import FoodByType from '../../../components/Tools/foodByType'
 
 
 export default {
     name: 'Food-list',
+
+    components: {
+        FoodByType
+    },
 
 
     computed: {

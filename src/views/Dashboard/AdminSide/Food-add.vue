@@ -245,6 +245,11 @@ export default {
 </script>
 
 <style scoped>
+.img-fluid {
+    max-height: 500px;
+    object-fit: cover;
+}
+
 .bd-red {
     border: red 1.5px solid;
     border-radius: 10px;

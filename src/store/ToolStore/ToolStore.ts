@@ -3,6 +3,7 @@
 import axios from "axios"
 import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
+import { smsSuccess } from '../Notify/notify.js'
 
 const ToolsModule = {
     namespaced: true,
@@ -15,6 +16,9 @@ const ToolsModule = {
             reservationPath: false,
 
             carousels: '',
+            carouselEdit: '', //Route Security Only 
+
+            carouselText: false, // auto Text
 
 
 
@@ -28,7 +32,11 @@ const ToolsModule = {
 
         getReservationPath: state => state.reservationPath,
 
-        getAllCarousel: state => state.carousels
+        getAllCarousel: state => state.carousels,
+
+        getCarouselEdit: state => state.carouselEdit,
+
+        getCarouselText: state => state.carouselText,
 
 
     },
@@ -45,6 +53,10 @@ const ToolsModule = {
         setReservationPath: (state, payload) => state.reservationPath = payload,
 
         setCarousel: (state, payload) => state.carousels = payload,
+
+        setCarouselEdit: (state, payload) => state.carouselEdit = payload,
+
+        setCarouselText: (state, payload) => state.carouselText = payload,
 
 
     },
@@ -76,6 +88,7 @@ const ToolsModule = {
                     if (res.data == 200) {
                         dispatch('getAllCarousel').then(() => {
                             router.push({ name: 'carousel_list' })
+                            smsSuccess(commit, 'Carousel', 'Successfully added Carousel')
                         })
                     }
                 })
@@ -95,7 +108,30 @@ const ToolsModule = {
                 .then(res => {
                     if (res.data == 200) {
                         dispatch('getAllCarousel')
+                        smsSuccess(commit, 'Carousel', 'Carousel Successfully deleted')
                     }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+        },
+
+        UpdateCarousel: ({ commit, dispatch }, payload) => {
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/admin/carousel/update', payload)
+                .then(res => {
+                    if (res.data == 200) {
+                        dispatch('getAllCarousel').then(() => {
+                            router.push({ name: 'carousel_list' }).then(() => {
+                                smsSuccess(commit, 'Carousel', 'Carousel Successfully Updated')
+                            })
+                        })
+                    }
+
                 })
                 .catch(err => {
                     console.log(err);

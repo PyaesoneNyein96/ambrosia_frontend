@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container pt-3">
-            <div class="h4  text-muted">Carousel Customization: Add Carousel </div>
+            <div class="h5  text-muted">Carousel Customization: Add Carousel </div>
             <div class="row">
                 <div class="col-md-9 mx-auto">
                     <div class="carousel-wrap">
@@ -12,12 +12,14 @@
 
                             <Slide class="slide">
                                 <Transition name="carousel" appear>
-                                    <div class="slide-img" :style="{ background: `url(${item.url})` }">
-                                        <div class=" slide-up " :class="item.position" :style="{ 'color': item.color }">
-                                            <div class="title h5">
+                                    <div class="slide-img" :style="{ background: `url(${item.image})` }">
+                                        <div class=" slide-up " :class="item.position">
+                                            <div class="title h5" :style="{ 'color': item.title_color }">
                                                 {{ item.title }}
                                             </div>
-                                            {{ item.description }}
+                                            <div class="span" :style="{ 'color': item.color }">
+                                                {{ item.description }}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -29,7 +31,7 @@
                     <div class=" shadow-sm p-3 rounded-3 mt-2">
                         <form class="form-wrap" @submit.prevent="add">
 
-                            <input v-model="item.url" type="url" class="form-control shadow-none form-control-sm"
+                            <input v-model="item.image" type="url" class="form-control shadow-none form-control-sm"
                                 placeholder="Add Carousel Image URL" required>
 
                             <select class="form-control form-control-sm shadow-none my-3" v-model="item.position" required>
@@ -43,6 +45,8 @@
 
                             <input type="text" class="my-3 shadow-none form-control-sm form-control"
                                 placeholder="Carousel title" v-model="item.title" required>
+                            <input v-model="item.title_color" type="color" format="hexadecimal"
+                                class="color-box form-control w-25 form-control-sm mb-4" required>
 
                             <input type="text" class="my-3 shadow-none form-control form-control-sm"
                                 placeholder="Carousel description" v-model="item.description" required>
@@ -89,12 +93,13 @@ export default {
                 { id: 3, position: 'slide-right' },
             ],
             item: {
-                url: 'https://rare-gallery.com/uploads/posts/518492-blur-breakfast.jpg',
+                image: 'https://fugitives.com/wp-content/uploads/2023/01/The-Menu-Chef-Julians-Meals-Explained-2022-Horror-Comedy-Film.jpg',
                 // url: '',
                 position: 'slide-center',
                 title: 'Dummy title',
                 description: 'Dummy description . . .',
-                color: 'white'
+                color: '#e7e9e4',
+                title_color: '#246042',
             },
 
         }
@@ -135,11 +140,11 @@ export default {
 .title {
     font-size: 1.5em;
     font-weight: bold;
-    color: rgb(131, 13, 13) !important;
+    /* color: rgb(131, 13, 13) !important; */
 }
 
 .carousel-wrap {
-    background-color: rgb(231, 233, 228);
+    background-color: #e7e9e4;
     padding: 10px;
     border-radius: 10px;
     width: 100%;
@@ -153,7 +158,7 @@ export default {
 
 .slide {
     width: 100%;
-    height: 350px;
+    height: 56.25vh;
     position: relative;
 }
 
@@ -206,6 +211,7 @@ export default {
 
 .color-box {
     height: 50px;
+    border: none;
 }
 
 
@@ -213,7 +219,7 @@ export default {
 
 @media (max-width:600px) {
     .slide-up {
-        top: 60%;
+        bottom: 10%;
         width: 80%;
         color: rgb(255, 255, 255);
         font-size: 0.8em !important;

@@ -120,7 +120,7 @@
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'carousel_list' }">
                                     <i class="fa-solid fa-images"></i>
-                                    <span class="nav-item d-none d-lg-inline">Carousel <span
+                                    <span class="nav-item d-none d-lg-inline">Slide <span
                                             class="d-none d-lg-inline">List</span></span>
                                 </router-link>
                             </li>
@@ -128,7 +128,7 @@
                             <li class="admin-nav-list">
                                 <router-link :to="{ name: 'carousel_add' }">
                                     <i class="fa-regular fa-image"></i>
-                                    <span class="nav-item d-none d-lg-inline">Carousel <span
+                                    <span class="nav-item d-none d-lg-inline">Slide <span
                                             class="d-none d-lg-inline">Add</span></span>
                                 </router-link>
                             </li>

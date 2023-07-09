@@ -12,11 +12,12 @@
                             <Slide v-for="slide in slides" :key="slide.id" class="slide">
                                 <Transition name="carousel" appear>
                                     <div class="slide-img" :style="{ background: `url(${slide.image})` }">
-                                        <div class=" slide-up fw-bold" :class="slide.position"
-                                            :style="{ 'color': slide.color }">
-                                            <div class="title">
-                                                {{ slide.title }}</div>
-                                            {{ slide.description }}
+                                        <div class=" slide-up fw-bold" :class="slide.position">
+                                            <h4 class="title" :style="{ 'color': slide.title_color }">
+                                                {{ slide.title }}</h4>
+                                            <h5 :style="{ 'color': slide.color }">
+                                                {{ slide.description }}
+                                            </h5>
                                         </div>
                                     </div>
                                 </Transition>
@@ -51,7 +52,7 @@
                                             {{ item.quotes }}
                                         </div>
                                         <div class="footer text-end me-3 mb-2">
-                                            <button class="btn-sm btn-success btn mx-1">Edit</button>
+                                            <button class="btn-sm btn-success btn mx-1" @click="edit(item.id)">Edit</button>
                                             <button class="btn-sm btn-danger btn" @click=del(item.id)>Delete</button>
                                         </div>
                                     </div>
@@ -100,8 +101,20 @@ export default {
 
     methods: {
         del(id) {
-            // console.log(id);
             this.$store.dispatch('tool/DeleteCarousel', id)
+        },
+
+        edit(id) {
+            const spec = this.slides.find(i => {
+                return i.id == id
+            })
+
+            const specJSON = encodeURIComponent(JSON.stringify(spec));
+
+            this.$store.commit('tool/setCarouselEdit', specJSON);
+
+            this.$router.push({ name: 'carousel_edit', query: { data: specJSON } })
+
         }
     },
 
@@ -134,12 +147,13 @@ export default {
 
 .title {
     font-size: 1.5em;
-    color: rgb(143, 14, 14) !important;
+    /* color: rgb(143, 14, 14) !important; */
 }
 
 .slide {
     width: 100%;
-    height: 350px;
+    /* height: 400px; */
+    height: 56.25vh;
     position: relative;
 }
 
@@ -174,20 +188,23 @@ export default {
 
 .slide-left {
     text-align: start;
-    top: 54.7%;
+    /* top: 54.7%; */
+    bottom: 10.7%;
     left: 7%;
 }
 
 .slide-right {
     text-align: end !important;
-    top: 54.7%;
+    /* top: 54.7%; */
+    bottom: 10.7%;
     right: 7%;
 }
 
 .slide-center {
     text-align: center !important;
     position: absolute;
-    top: 44.7%;
+    /* top: 44.7%; */
+    bottom: 10.7%;
     right: 31%;
 }
 
@@ -198,9 +215,9 @@ export default {
 
 @media (max-width:600px) {
     .slide-up {
-        top: 60%;
+        bottom: 10%;
         width: 80%;
-        color: rgb(255, 255, 255);
+        /* color: rgb(255, 255, 255); */
         font-size: 0.8em !important;
         text-shadow: 1px 1px 40px lightblue;
         left: 10%;

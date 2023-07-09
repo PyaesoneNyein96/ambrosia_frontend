@@ -126,7 +126,8 @@
 
                 <button class="btn text-light w-100 btn-warning" @click="submitTotal"
                     :disabled="All_total == 0 || disabled">
-                    Proceed to checkout
+                    <!-- Proceed to checkout -->
+                    Next . . .
                 </button>
             </div>
         </div>
@@ -167,6 +168,9 @@ export default {
         getUserCarts() {
             this.mainList = this.getUserCarts;
             this.checkTotal();
+            if (this.getUserCarts.length == 0) {
+                this.$router.push({ name: 'menu' })
+            }
         },
 
     },
@@ -215,7 +219,7 @@ export default {
                         j.count++
                     }
                 });
-                // this.$store.dispatch('cart/setModifyCart', info)
+
             }
             this.checkTotal();
         },

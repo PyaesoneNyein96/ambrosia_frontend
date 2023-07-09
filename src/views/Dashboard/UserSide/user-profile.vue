@@ -359,4 +359,9 @@ legend.scheduler-border {
     /* To give a bit of padding on the left and right */
     border-bottom: none;
 }
+
+
+.warning-wrap * {
+    cursor: pointer;
+}
 </style>

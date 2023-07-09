@@ -49,6 +49,7 @@ import Order_List from '../views/Dashboard/AdminSide/Order-list.vue'
 import Order_Detail from '../views/Dashboard/AdminSide/Order-detail.vue'
 import Carousel_List from '../views/Dashboard/AdminSide/Carousel-list.vue'
 import Carousel_Add from '../views/Dashboard/AdminSide/Carousel-add.vue'
+import Carousel_Edit from '../views/Dashboard/AdminSide/Carousel-edit.vue'
 
 
 
@@ -111,6 +112,7 @@ const router = createRouter({
 
         { path: 'carousel_list', component: Carousel_List, name: 'carousel_list', meta: { carousel: true } },
         { path: 'carousel_add', component: Carousel_Add, name: 'carousel_add', meta: { carousel_add: true } },
+        { path: 'carousel_edit', component: Carousel_Edit, name: 'carousel_edit', meta: { carousel_edit: true } },
 
 
 
@@ -132,13 +134,13 @@ const validation = (to, from, next) => {
 
 
   if (((to.meta.dashboard) && localStorage.getItem('userCredentials')) && store.getters['tool/getReservationPath'] == true) {
-    router.push({ name: 'booking' }).then(() => {
+    router.push({ name: 'cart' }).then(() => {
       store.commit('tool/setReservationPath', false)
     })
   }
   if ((to.meta.dashboard) && !localStorage.getItem('userCredentials')) {
     router.push({ name: 'login' }).then(() => {
-      smsInform(store.commit, 'Hey Dude', "Don't try something like this :/")
+      smsInform(store.commit, 'Hey dude', "Please Don't try something like this :/")
     })
   }
   else if ((to.meta.login) && localStorage.getItem('userCredentials')) {
@@ -151,7 +153,6 @@ const validation = (to, from, next) => {
     router.push({ name: 'package_list' })
 
   }
-
   else if ((to.meta.cart) && !store.getters['auth/getUserData']) {
     router.push({ name: 'home' })
   }
@@ -161,7 +162,9 @@ const validation = (to, from, next) => {
   }
   else if ((to.meta.order_detail) && store.getters['cart/getOrderCode'] !== to.params.id) {
     router.push({ name: 'order_list' })
-
+  }
+  else if ((to.meta.carousel_edit) && store.getters['tool/getCarouselEdit'] != to.query.data) {
+    router.push({ name: 'home' })
   }
 
   else if (((to.meta.food_add) || (to.meta.edit) ||

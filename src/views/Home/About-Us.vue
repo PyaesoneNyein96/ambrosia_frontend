@@ -16,7 +16,7 @@
                         <div class="text-wrap" :class="scroll2">
                             <p>
                                 Founded in 1967, our restaurant has been serving delicious meals and creating memorable
-                                dining experiences for [NUMBER] of years. Our journey began with a simple passion for food
+                                dining experiences for 50+ years. Our journey began with a simple passion for food
                                 and a vision to provide a unique culinary destination for our guests.
                             </p>
                             <p class="fst-italic">
