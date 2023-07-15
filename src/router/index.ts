@@ -23,6 +23,7 @@ import Cart from '../views/booking/Cart-index.vue'
 import Reviews from '../views/Home/Review-index.vue'
 
 import UserProfile from '../views/Dashboard/UserSide/user-profile.vue'
+import PasswordChange from '../views/Dashboard/UserSide/user-password-change.vue'
 import UserCheck from '../views/Dashboard/UserSide/user-order-check.vue'
 import UserReviews from '../views/Dashboard/UserSide/user-reviews-index.vue'
 import Suggestion from '../views/Dashboard/UserSide/user-suggestion.vue'
@@ -97,6 +98,7 @@ const router = createRouter({
         { path: 'user_check', component: UserCheck, name: 'user_Check' },
         { path: 'user_reviews', component: UserReviews, name: 'user_review' },
         { path: 'user_suggestion', component: Suggestion, name: 'user_suggestion' },
+        { path: 'user_password_change', component: PasswordChange, name: 'user_password_change' },
 
         { path: 'food_add', component: Food_Add, name: 'food_Add', meta: { food_add: true } },
         { path: 'food_edit/:id', component: Food_Edit, name: 'food_Edit', meta: { food_edit: true } },
@@ -151,7 +153,6 @@ const validation = (to, from, next) => {
   }
   else if ((to.meta.package_edit) && store.getters['package/getEditPackage'].id != to.params.id) {
     router.push({ name: 'package_list' })
-
   }
   else if ((to.meta.cart) && !store.getters['auth/getUserData']) {
     router.push({ name: 'home' })

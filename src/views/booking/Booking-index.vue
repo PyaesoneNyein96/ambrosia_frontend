@@ -136,7 +136,7 @@ export default {
                 cart: cartData,
                 book: this.userData
             }
-            // console.log('Combined', combined);
+
 
             this.$store.dispatch('cart/bookTable', combined)
 
@@ -148,7 +148,7 @@ export default {
         auth() {
             this.setData();
             this.userData.user_id = this.auth.id;
-            console.log(this.userData);
+
         },
 
 

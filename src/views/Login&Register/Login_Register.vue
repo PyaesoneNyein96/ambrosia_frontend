@@ -7,8 +7,7 @@
                 <div class="mx-auto ">
                     <div class="login-card-wrap">
 
-                        <Form class="form mx-auto shadow" style="max-width:350px;" @submit="onSubmit"
-                            :validation-schema="formSchema">
+                        <Form class="form mx-auto shadow" @submit="onSubmit" :validation-schema="formSchema">
 
                             <p class="heading"><span class="h3">Ambrosia</span>
                                 <br>
@@ -196,6 +195,7 @@ export default {
 }
 
 .form {
+    max-width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;

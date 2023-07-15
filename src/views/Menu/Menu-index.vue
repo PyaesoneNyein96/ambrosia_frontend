@@ -8,7 +8,7 @@
 
                     <div class="food-type d-none d-md-inline">
                         <div class="inner-food-type">
-                            <button class="btn btx btn-eff py-1" @click="food">
+                            <button class="btn btx2 btn-eff2 py-1" @click="food">
                                 Food
                             </button>
                             <button class="btn btx2 btn-eff2 py-1 text-light" @click="drink">

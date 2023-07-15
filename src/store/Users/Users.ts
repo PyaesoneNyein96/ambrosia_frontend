@@ -79,7 +79,7 @@ const UserModule = {
 
             axios.post(`http://localhost:8000/api/user/delete/${payload}`)
                 .then((res) => {
-                    console.log(res.data);
+
                     if (res.data.name != null) {
                         smsSuccess(commit, res.data.name, 'Successfully deleted !!')
                     } else {
@@ -88,8 +88,7 @@ const UserModule = {
                     dispatch('getUserList')
                 })
                 .catch((err) => {
-                    console.log(err);
-                    smsError(commit, err)
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -103,7 +102,7 @@ const UserModule = {
 
         updateUser: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
-            // console.log(payload);
+
 
             axios.post(`http://localhost:8000/api/user/update`, payload)
                 .then((res) => {
@@ -113,7 +112,8 @@ const UserModule = {
                     smsInform(commit, res.data.email, 'was successfully changed role.')
                 })
                 .catch(err => {
-                    console.log(err);
+
+                    smsError(commit, err.response.data.message)
 
                 }).finally(() => {
                     Loader(commit, false)
@@ -180,18 +180,20 @@ const UserModule = {
 
         submitReview: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
-            console.log(payload);
+
 
             axios.post('http://localhost:8000/api/user/review/submit', payload)
                 .then(res => {
-                    console.log(res.data);
-                    dispatch('getReviews').then(() => {
+                    if (res.data) {
+                        dispatch('getReviews').then(() => {
 
-                        router.push({ name: 'review' })
-                            .then(() => {
-                                smsInform(commit, 'Review', 'Thanks so much for sharing your experience with us.')
-                            })
-                    })
+                            router.push({ name: 'review' })
+                                .then(() => {
+                                    smsInform(commit, 'Review', 'Thanks so much for sharing your experience with us.')
+                                })
+                        })
+                    }
+
 
                 }).catch(err => {
                     smsError(commit, err)
@@ -217,15 +219,12 @@ const UserModule = {
                         if (u.user.image !== null) {
                             u.user.image = `http://localhost:8000/storage/profile/` + u.user.image
                         }
-                        // else {
-                        //     u.user.image = '../../../public/assets/img/logo/GODlogopng.png'
-                        // }
 
                     }
                     commit('setReviewList', res.data)
 
                 }).catch(err => {
-                    smsError(commit, err.response)
+                    smsError(commit, err.response.data.message)
                 }).finally(() => {
                     Loader(commit, false)
                 })

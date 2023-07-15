@@ -153,7 +153,7 @@ export default {
                         this.form.selected.push(i);
                         this.form.sub_total += Number(i.price)
                     }
-                    console.log(this.form.sub_total);
+
                 });
                 this.totalCheck()
             }
@@ -286,9 +286,7 @@ export default {
 
     },
 
-    beforeUpdate() {
-        // console.log(this.editPackage);
-    },
+
 
     beforeMount() {
         this.$store.dispatch('food/getFoodByType', 2)

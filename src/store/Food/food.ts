@@ -89,7 +89,7 @@ const FoodModule = {
                     commit('setCategories', res.data);
 
                 }).catch((err) => {
-                    // console.log(err);
+
                     smsError(commit, err.response.data.errors)
                 })
         },
@@ -107,7 +107,7 @@ const FoodModule = {
                     commit('setTags', res.data);
 
                 }).catch((err) => {
-                    // console.log(err);
+
                     smsError(commit, err.response.data.errors)
 
                 })
@@ -125,7 +125,7 @@ const FoodModule = {
                 .then((res) => {
                     commit('setFoodList', res.data)
                 }).catch((err) => {
-                    // console.log(err);
+
                     smsError(commit, err.response.data.errors)
 
                 }).finally(() => {
@@ -143,9 +143,9 @@ const FoodModule = {
             Loader(commit, true)
 
 
-            axios.post(`http://localhost:8000/api/food/create`, payload)
+            axios.post(`http://localhost:8000/api/admin/food/create`, payload)
                 .then(res => {
-                    console.log(res.data);
+
                     smsSuccess(commit, res.data.food.name, 'Successfully Created')
                     router.push({ name: 'food_List' })
                 }).catch(err => {
@@ -164,14 +164,14 @@ const FoodModule = {
         getFoodBySpecific: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.get(`http://localhost:8000/api/food/edit/${payload}`,)
+            axios.get(`http://localhost:8000/api/admin/food/edit/${payload}`,)
                 .then(res => {
                     commit('setSpecificFood', res.data);
                 }).then(() => {
                     router.push({ name: 'food_Edit', params: { id: payload } })
                 })
                 .catch(err => {
-                    // console.log(err);
+
                     smsError(commit, err.response.data.errors)
 
                 }).finally(() => {
@@ -188,7 +188,7 @@ const FoodModule = {
 
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/food/update`, payload)
+            axios.post(`http://localhost:8000/api/admin/food/update`, payload)
                 .then(res => {
                     router.push({ name: 'food_List' });
                     smsSuccess(commit, `${res.data.food.name}`, `Successfully Updated .`);
@@ -207,10 +207,10 @@ const FoodModule = {
         //==================================================================================
 
         deleteFood: ({ commit, dispatch }, payload) => {
-            // console.log(payload);
+
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/food/delete/${payload}`)
+            axios.post(`http://localhost:8000/api/admin/food/delete/${payload}`)
                 .then((res) => {
 
                     smsInform(commit, `${res.data.food.name}`, 'Successfully Deleted');
@@ -233,12 +233,12 @@ const FoodModule = {
             Loader(commit, true)
             axios.get(`http://localhost:8000/api/food/type/${payload}`)
                 .then(res => {
-                    // console.log(res);
+
                     commit('setAdminFoodList', res.data)
                     commit('setFoodList', res.data)
                 })
                 .catch(err => {
-                    // console.log(err);
+
                     smsError(commit, 'Type Error', err);
                 })
                 .finally(() => {
@@ -312,7 +312,7 @@ const FoodModule = {
                 })
                 .catch(err => {
                     smsError(commit, 'Category Update Error', err.response.data.errors.name)
-                    console.log(err);
+
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -354,7 +354,7 @@ const FoodModule = {
 
         deleteTag: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
-            // console.log(payload);
+
 
 
             axios.post(`http://localhost:8000/api/tag/delete/${payload}`,)
@@ -363,7 +363,7 @@ const FoodModule = {
                     dispatch('getTags');
                 })
                 .catch(err => {
-                    // console.log(err.response.data.errors);
+
                     smsError(commit, err.response.data.errors.name)
                 }).finally(() => {
                     Loader(commit, false)
@@ -403,7 +403,7 @@ const FoodModule = {
                     commit('setAdminFoodList', res.data.result);
                 })
                 .catch(err => {
-                    console.log(err);
+
                     smsError(commit, 'GENERAL ERROR', err)
                 })
                 .finally(() => {

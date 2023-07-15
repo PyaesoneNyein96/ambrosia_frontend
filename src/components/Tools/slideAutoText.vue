@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vue-auto-writer :base-text="data" :infinite="true" :delay-on-writer="70" :cursor-size="30" />
+        <vue-auto-writer :base-text="data" class="autoText" :infinite="true" :delay-on-writer="70" :cursor-size="30" />
 
     </div>
 </template>
@@ -47,4 +47,9 @@ export default {
 }
 </script>
 
-<style  scoped></style>
+<style  scoped>
+.autoText {
+    text-shadow: 2px 2px 30px #e5fbfc;
+    /* font-size: 50px; */
+}
+</style>

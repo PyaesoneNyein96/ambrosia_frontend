@@ -115,7 +115,6 @@ export default {
         if (!this.packagesList) {
             this.$store.dispatch('package/getAllPackage')
         }
-        // console.log(this.packagesList);
     }
 
 }

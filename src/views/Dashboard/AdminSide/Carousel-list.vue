@@ -193,10 +193,24 @@ export default {
     left: 7%;
 }
 
+.slide-top-left {
+    text-align: start;
+    /* top: 54.7%; */
+    top: 25.7%;
+    left: 7%;
+}
+
 .slide-right {
     text-align: end !important;
     /* top: 54.7%; */
     bottom: 10.7%;
+    right: 7%;
+}
+
+.slide-top-right {
+    text-align: end !important;
+    /* top: 54.7%; */
+    top: 25.7%;
     right: 7%;
 }
 

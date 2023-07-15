@@ -81,7 +81,7 @@ const CartModule = {
                     cartSuccess(commit)
                 })
                 .catch(err => {
-                    console.log(err);
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false);
@@ -107,7 +107,7 @@ const CartModule = {
                     commit('setCartListByUser', res.data);
                 })
                 .catch(err => {
-                    console.log(err);
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -122,7 +122,7 @@ const CartModule = {
 
         remove: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
-            // console.log(payload);
+
             axios.post(`http://localhost:8000/api/user/cart/remove`, payload)
                 .then(res => {
                     dispatch('getCartListByUser')
@@ -143,19 +143,19 @@ const CartModule = {
 
         submitOrder: ({ commit, dispatch }, payload) => {
 
-            console.log(payload);
+
 
             Loader(commit, true)
 
             axios.post('http://localhost:8000/api/user/cart/order', payload)
                 .then(res => {
-                    console.log(res.data);
+
                     dispatch('getCartListByUser');
                     orderSuccess(commit)
                     router.push({ name: 'user_Check' })
                 })
                 .catch(err => {
-                    console.log(err);
+
                     smsError(commit, 'Order Error', 'Something wrong, try again later.')
                 })
                 .finally(() => {
@@ -170,16 +170,16 @@ const CartModule = {
         bookTable: ({ commit, dispatch }, payload) => {
 
             Loader(commit, true)
-            console.log(payload);
+
             axios.post('http://localhost:8000/api/user/book/table', payload)
                 .then(res => {
-                    console.log(res);
+
                     dispatch('getCartListByUser');
                     orderSuccess(commit)
                     router.push({ name: 'user_Check' })
                 })
                 .catch(err => {
-                    console.log(err);
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -194,7 +194,7 @@ const CartModule = {
 
         getOrderListByUser: ({ commit }, payload) => {
             Loader(commit, false)
-            // console.log(payload);
+
 
             axios.post(`http://localhost:8000/api/user/order/list/${payload}`)
                 .then(res => {
@@ -202,8 +202,7 @@ const CartModule = {
 
                 })
                 .catch(err => {
-
-                    console.log(err);
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -224,7 +223,7 @@ const CartModule = {
                     commit('setAdminOrderList', res.data)
                 })
                 .catch(err => {
-                    console.log(err);
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -248,7 +247,7 @@ const CartModule = {
                     }
                 })
                 .catch(err => {
-                    // console.log(err);
+
                     smsError(commit, err)
                 })
                 .finally(() => {
@@ -285,8 +284,7 @@ const CartModule = {
                     commit('setAdminOrderList', res.data);
                 })
                 .catch(err => {
-                    console.log(err);
-                    smsError(commit, err)
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -297,18 +295,17 @@ const CartModule = {
 
         filterOrderByStatus: ({ commit }, payload) => {
             Loader(commit, true)
-            console.log(payload);
+
 
 
             axios.post(`http://localhost:8000/api/admin/filter/order/${payload}`,)
                 .then(res => {
-                    console.log(res.data);
+
 
                     commit('setAdminOrderList', res.data);
                 })
                 .catch(err => {
-                    console.log(err);
-                    smsError(commit, err)
+                    smsError(commit, err.response.data.message)
                 })
                 .finally(() => {
                     Loader(commit, false)

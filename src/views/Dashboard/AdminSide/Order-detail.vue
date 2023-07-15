@@ -202,7 +202,6 @@ export default {
 
     watch: {
         orderDetail() {
-            console.log(this.orderDetail);
             this.items = this.orderDetail.all_items;
             this.user = this.orderDetail.order_user.user
         }
@@ -211,7 +210,6 @@ export default {
     mounted() {
 
 
-        // console.log(this.orderDetail);
         this.table_info = this.orderDetail.table_info;
         if (this.table_info) {
             this.table_info.time = timeFunction(this.table_info.time);

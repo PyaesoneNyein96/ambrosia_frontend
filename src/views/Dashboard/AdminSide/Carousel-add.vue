@@ -91,6 +91,8 @@ export default {
                 { id: 1, position: 'slide-left' },
                 { id: 2, position: 'slide-center' },
                 { id: 3, position: 'slide-right' },
+                { id: 3, position: 'slide-top-right' },
+                { id: 3, position: 'slide-top-left' },
             ],
             item: {
                 image: 'https://fugitives.com/wp-content/uploads/2023/01/The-Menu-Chef-Julians-Meals-Explained-2022-Horror-Comedy-Film.jpg',
@@ -113,7 +115,6 @@ export default {
 
     methods: {
         add() {
-            console.log(this.item);
             this.$store.dispatch('tool/setCarousel', this.item)
         }
     },
@@ -196,9 +197,21 @@ export default {
     left: 7%;
 }
 
+.slide-top-left {
+    text-align: start;
+    top: 25.7%;
+    left: 7%;
+}
+
 .slide-right {
     text-align: end !important;
     bottom: 10.7%;
+    right: 7%;
+}
+
+.slide-top-right {
+    text-align: end !important;
+    top: 25.7%;
     right: 7%;
 }
 

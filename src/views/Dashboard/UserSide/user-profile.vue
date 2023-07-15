@@ -1,8 +1,15 @@
 <template>
     <div>
-        <div class="p-3 h3 ">
-            User Profile
-            <hr>
+        <div class="head-wrap d-flex justify-content-between">
+            <div class="p-3 h3 ">
+                User Profile
+                <hr>
+            </div>
+            <div class="p-3 ">
+                <button class="btn btn-danger rounded-1" @click="this.$router.push({ name: 'user_password_change' })">
+                    Change Password
+                </button>
+            </div>
         </div>
         <div class="top-wrap container">
             <div class="col-md-10 mx-auto">
@@ -217,8 +224,6 @@ export default {
             Membership: [{ id: 1, level: 'Silver' }, { id: 2, level: 'Gold' }, { id: 3, level: 'Diamond' }],
 
             form: '',
-            // avatar_slot: 'https://rb.gy/kanf3',
-            // avatar_slot: '../../../../public/assets/img/chefs/chefs-1.jpg',
             disabled: true
         }
     },
@@ -289,14 +294,13 @@ export default {
             Object.entries(this.form).forEach(([key, value]) => {
                 if (value == 'null' || value == null) {
                     return
-                } // Check this out (important for backend validation)
-
+                }
+                // Check this out (important for backend validation)
                 formData.append(key, value);
             });
 
 
             formData.append('image', profile);
-
 
             this.$store.dispatch('auth/profileUpdate', formData)
 

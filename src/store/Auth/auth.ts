@@ -4,6 +4,7 @@ import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
 import { smsError, smsSuccess, smsLogOut } from '../Notify/notify.js'
 
+
 const AuthModule = {
     namespaced: true,
     state() {
@@ -67,7 +68,7 @@ const AuthModule = {
 
             Loader(commit, true)
 
-            // console.log(payload);
+
             axios.post(`http://localhost:8000/api/user/login`, payload)
 
                 .then((res) => {
@@ -87,7 +88,7 @@ const AuthModule = {
 
                 })
                 .catch((err) => {
-                    // console.log(err.response.data);
+
                     smsError(commit, "Login Error", err.response.data.message)
                 }).finally(() => {
 
@@ -138,7 +139,7 @@ const AuthModule = {
                     })
 
             } catch (error) {
-                console.log(error);
+                smsError(commit, error)
 
             }
 
@@ -173,7 +174,6 @@ const AuthModule = {
         // User Profile Data Update ========================================================================================
 
         profileUpdate: ({ commit }, payload) => {
-            // console.log(payload);
 
             axios.post('http://localhost:8000/api/user/profile/update', payload)
                 .then(res => {
@@ -187,15 +187,39 @@ const AuthModule = {
                     smsSuccess(commit, 'Profile Update', "Profile  Successfully Updated. ")
                 }).catch(err => {
                     smsError(commit, 'Profile Update Error', err.response.data.message)
-                    console.log(err.response);
+                    smsError(commit, err.response.data.message)
 
                     // if (Array.isArray(err.response.data.errors)) {
                     commit('setProfileErr', err.response.data.errors)
                     // }
 
                 })
-        }
+        },
 
+        // Password Change ========================================================================================
+
+        passwordUpdate: ({ commit, dispatch }, payload) => {
+
+            Loader(commit, true)
+
+            axios.post('http://localhost:8000/api/user/password/change', payload)
+                .then(res => {
+                    if (res.data == 200) {
+                        dispatch('logout')
+                            .then(() => {
+                                smsSuccess(commit, "Password Changed", 'Your Password is Successfully Changed, please Login Again');
+                            })
+                    } else if (res.data == 401) {
+                        smsError(commit, "Old Password", 'Your Old password is incorrect!')
+                    }
+                })
+                .catch(err => {
+                    smsError(commit, 'Err', err.response.data.message)
+                })
+                .finally(() => {
+                    Loader(commit, false)
+                })
+        }
 
 
     }

@@ -9,18 +9,6 @@
             <form class=" bg-gradient" @submit.prevent="submitForm">
                 <div class="p-3  rounded rounded-3 bg-gradient shadow">
 
-                    <!-- ========== Image Section ========== -->
-                    <!-- <div class="mb-4 pre-img">
-                        <img :src="form.image"
-                            class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}">
-                    </div>
-
-
-                    <div class="mb-4 text-danger text-center     old-img">
-                        <img :src="form.image" v-if="isImage"
-                            class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}">
-                        <img src="../../../../public/assets/img/ERR404/invalid-url-1354629517.png" v-else>
-                    </div> -->
 
                     <div class="mb-4 text-danger text-center old-img">
                         <img :src="form.image" v-if="isImage"
@@ -210,7 +198,7 @@ export default {
                 })
             }
 
-            // console.log(this.form.tags);
+
 
         },
 
@@ -225,7 +213,7 @@ export default {
                     this.tagErr = false
                 });
 
-            // console.log(this.getError.price);
+
         },
 
 

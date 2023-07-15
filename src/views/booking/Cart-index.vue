@@ -267,7 +267,7 @@ export default {
             if (this.mainList.length == 0) {
                 this.$router.push({ name: 'menu' })
             }
-            // console.log(this.mainList.length);
+
 
         },
 

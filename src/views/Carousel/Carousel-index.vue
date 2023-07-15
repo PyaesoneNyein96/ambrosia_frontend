@@ -11,7 +11,8 @@
                                 {{ slide.title }}
                             </div>
 
-                            <slideAutoText @start="start" :text="slide.description" :style="{ 'color': slide.color }" />
+                            <slideAutoText @start="start" class="autoText" :text="slide.description"
+                                :style="{ 'color': slide.color }" />
 
                         </h2>
                     </div>
@@ -108,10 +109,12 @@ export default {
     padding: 1em;
     border-radius: 0.7em;
     color: rgba(251, 6, 6, 0.699);
-    box-shadow: 1px 0px 5px rgba(76, 62, 62, 0.06);
+    /* box-shadow: 1px 0px 5px rgba(76, 62, 62, 0.842); */
+    /* box-shadow: 10px 10px 10px 5px rgb(76, 62, 62); */
     opacity: 1 !important;
     transition: all 2.3s ease-in-out;
-    background-color: rgba(159, 214, 243, 0.09);
+    /* background-color: rgba(98, 149, 177, 0.174); */
+
 }
 
 .slide-left {
@@ -127,12 +130,28 @@ export default {
     z-index: 999;
 }
 
+.slide-top-right {
+    text-align: end;
+    top: 25.7%;
+    right: 5% !important;
+    z-index: 999;
+}
+
+.slide-top-left {
+    /* text-align: end; */
+    top: 25.7%;
+    left: 5% !important;
+    z-index: 999;
+}
+
 .slide-center {
     text-align: center;
     bottom: 20.7%;
     left: 30% !important;
     z-index: 999;
 }
+
+
 
 .color {
     /* color: #daa520 !important; */

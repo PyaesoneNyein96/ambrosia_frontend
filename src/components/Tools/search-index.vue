@@ -51,7 +51,6 @@ export default {
 
     created() {
         this.route_name = this.$route.name;
-        // console.log(this.route_name);
     },
 
 }
