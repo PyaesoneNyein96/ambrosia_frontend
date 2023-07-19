@@ -5,6 +5,8 @@ import { Loader } from '../ToolStore/loader.js'
 import { smsSuccess, smsError } from '../Notify/notify.js'
 
 
+import { baseUrl } from './../../components/Tools-axios/baseURL';
+
 
 const PackageModule = {
     namespaced: true,
@@ -41,7 +43,7 @@ const PackageModule = {
         addPackage: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/package/add', payload)
+            axios.post(`${baseUrl}/package/add`, payload)
                 .then(res => {
                     smsSuccess(commit, 'Package Adding', `Successfully added ${res.data.package.name}.`)
                     router.push({ name: 'package_list' })
@@ -62,7 +64,7 @@ const PackageModule = {
         getAllPackage: ({ commit }) => {
             Loader(commit, true)
 
-            axios.get('http://localhost:8000/api/package/list')
+            axios.get(`${baseUrl}/package/list`)
                 .then(res => {
                     commit('setAdminPackage', res.data);
 
@@ -110,7 +112,7 @@ const PackageModule = {
         updatePackage: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
 
-            axios.post('http://localhost:8000/api/package/update', payload)
+            axios.post(`${baseUrl}/package/update`, payload)
                 .then(res => {
                     smsSuccess(commit, res.data.package.name, 'Successfully Updated');
                     dispatch('getAllPackage')
@@ -131,7 +133,7 @@ const PackageModule = {
 
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/package/delete/${payload}`)
+            axios.post(`${baseUrl}/package/delete/${payload}`)
                 .then(res => {
                     smsSuccess(commit, res.data.name, 'was Successfully Deleted ');
 

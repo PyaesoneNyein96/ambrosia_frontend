@@ -3,6 +3,8 @@ import axios from 'axios'
 import router from '../../router'
 import { Loader } from '../ToolStore/loader.js'
 import { smsError, smsSuccess, smsLogOut } from '../Notify/notify.js'
+import { baseUrl, imageUrl } from './../../components/Tools-axios/baseURL';
+
 
 
 const AuthModule = {
@@ -69,11 +71,11 @@ const AuthModule = {
             Loader(commit, true)
 
 
-            axios.post(`http://localhost:8000/api/user/login`, payload)
+            axios.post(`${baseUrl}/user/login`, payload)
 
                 .then((res) => {
                     if (res.data.userInfo.image !== null) {
-                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                        res.data.userInfo.image = `${imageUrl}/storage/profile/` + res.data.userInfo.image;
                     }
 
                     commit('setUserData', res.data);
@@ -103,7 +105,7 @@ const AuthModule = {
         //REGISTER ================================================================================================
         register: ({ commit, getters }, payload) => {
 
-            axios.post(`http://localhost:8000/api/user/register`, payload)
+            axios.post(`${baseUrl}/user/register`, payload)
                 .then((res) => {
 
                     commit('setUserData', res.data)
@@ -155,10 +157,10 @@ const AuthModule = {
 
             const userCredentials = localStorage.getItem('userCredentials');
 
-            axios.post(`http://localhost:8000/api/user/autoLogin`, { 'token': userCredentials })
+            axios.post(`${baseUrl}/user/autoLogin`, { 'token': userCredentials })
                 .then((res) => {
                     if (res.data.userInfo.image !== null) {
-                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                        res.data.userInfo.image = `${imageUrl}/storage/profile/` + res.data.userInfo.image;
                     }
                     commit('setUserData', res.data)
 
@@ -175,12 +177,15 @@ const AuthModule = {
 
         profileUpdate: ({ commit }, payload) => {
 
-            axios.post('http://localhost:8000/api/user/profile/update', payload)
+            axios.post(`${baseUrl}/user/profile/update`, payload)
                 .then(res => {
 
                     if (res.data.userInfo.image !== null) {
-                        res.data.userInfo.image = `http://localhost:8000/storage/profile/` + res.data.userInfo.image;
+                        res.data.userInfo.image = `${imageUrl}/storage/profile/` + res.data.userInfo.image;
                     }
+                    console.log(res.data.userInfo.image);
+
+
                     commit('setUserData', res.data)
                     commit('setProfileErr', '')
 
@@ -202,7 +207,7 @@ const AuthModule = {
 
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/user/password/change', payload)
+            axios.post(`${baseUrl}/user/password/change`, payload)
                 .then(res => {
                     if (res.data == 200) {
                         dispatch('logout')

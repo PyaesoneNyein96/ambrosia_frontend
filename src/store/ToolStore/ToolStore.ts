@@ -5,6 +5,9 @@ import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
 import { smsSuccess } from '../Notify/notify.js'
 
+
+import { baseUrl } from './../../components/Tools-axios/baseURL';
+
 const ToolsModule = {
     namespaced: true,
     state() {
@@ -67,7 +70,7 @@ const ToolsModule = {
         getAllCarousel: ({ commit }) => {
             Loader(commit, true)
 
-            axios.get('http://localhost:8000/api/admin/carousel/list')
+            axios.get(`${baseUrl}/admin/carousel/list`)
                 .then(res => {
                     commit('setCarousel', res.data)
                 })
@@ -82,7 +85,7 @@ const ToolsModule = {
 
         setCarousel: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
-            axios.post('http://localhost:8000/api/admin/carousel/add', payload)
+            axios.post(`${baseUrl}/admin/carousel/add`, payload)
                 .then(res => {
 
                     if (res.data == 200) {
@@ -104,7 +107,7 @@ const ToolsModule = {
 
         DeleteCarousel: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
-            axios.post(`http://localhost:8000/api/admin/carousel/delete/${payload}`)
+            axios.post(`${baseUrl}/admin/carousel/delete/${payload}`)
                 .then(res => {
                     if (res.data == 200) {
                         dispatch('getAllCarousel')
@@ -122,7 +125,7 @@ const ToolsModule = {
         UpdateCarousel: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/admin/carousel/update', payload)
+            axios.post(`${baseUrl}/admin/carousel/update`, payload)
                 .then(res => {
                     if (res.data == 200) {
                         dispatch('getAllCarousel').then(() => {

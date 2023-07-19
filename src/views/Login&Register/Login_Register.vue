@@ -132,8 +132,8 @@ export default {
                     this.$store.dispatch('auth/register', value)
                     resetForm()
                 }
-
             }
+            console.log(value);
         },
 
 

@@ -92,9 +92,9 @@ export default {
                 name: '',
                 email: '',
                 phone: '',
-                date: '2023-06-28',
-                time: '14:06',
-                people: '5',
+                date: '',
+                time: '',
+                people: '',
                 message: '',
             },
 

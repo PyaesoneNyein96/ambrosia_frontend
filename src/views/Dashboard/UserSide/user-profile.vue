@@ -23,6 +23,7 @@
                                 <div class="profile-wrap p-3">
                                     <img src="../../../../public/assets/img/GODlogopng.png"
                                         class="bg-warning card-img opacity-75" id="profile" v-if="!form.image">
+
                                     <img :src="form.image" class="bg-warning card-img" id="profile" v-else>
                                 </div>
 

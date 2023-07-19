@@ -24,12 +24,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Header from './views/Header/Header-index.vue';
 import Footer from './views/Footer/Footer-index.vue';
 import Loader from './components/Tools/mini-Loader.vue';
-import Search from './components/Tools/search-index.vue'
+import Search from './components/Tools/search-index.vue';
 
 // import AutoTyping from ''
 
 
 import '../public/assets/css/style.css'
+
 
 
 const app = createApp(App);

@@ -4,7 +4,8 @@ import axios from "axios";
 import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
 import { smsSuccess, smsError, cartSuccess, orderSuccess } from '../Notify/notify.js'
-import { dispatch } from './../../../../restaurant_api/vendor/livewire/livewire/js/util/dispatch';
+
+import { baseUrl } from './../../components/Tools-axios/baseURL';
 
 
 
@@ -75,7 +76,7 @@ const CartModule = {
             const info = { user_id: user_id, type: payload }
 
 
-            axios.post('http://localhost:8000/api/user/cart', info)
+            axios.post(`${baseUrl}/user/cart`, info)
                 .then(res => {
                     dispatch('getCartListByUser')
                     cartSuccess(commit)
@@ -101,13 +102,16 @@ const CartModule = {
 
             const user_id = rootGetters['auth/getUserData'].id
 
-            axios.post(`http://localhost:8000/api/user/cart/list/${user_id}`)
+            axios.post(`${baseUrl}/user/cart/list/${user_id}`)
+                // axios.post(`${baseUrl}/user/cart/list/${user_id}`)
                 .then(res => {
 
                     commit('setCartListByUser', res.data);
                 })
                 .catch(err => {
                     smsError(commit, err.response.data.message)
+                    console.log(err.response);
+
                 })
                 .finally(() => {
                     Loader(commit, false)
@@ -123,7 +127,7 @@ const CartModule = {
         remove: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/user/cart/remove`, payload)
+            axios.post(`${baseUrl}/user/cart/remove`, payload)
                 .then(res => {
                     dispatch('getCartListByUser')
                 })
@@ -147,7 +151,7 @@ const CartModule = {
 
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/user/cart/order', payload)
+            axios.post(`${baseUrl}/user/cart/order`, payload)
                 .then(res => {
 
                     dispatch('getCartListByUser');
@@ -171,7 +175,7 @@ const CartModule = {
 
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/user/book/table', payload)
+            axios.post(`${baseUrl}/user/book/table`, payload)
                 .then(res => {
 
                     dispatch('getCartListByUser');
@@ -196,7 +200,7 @@ const CartModule = {
             Loader(commit, false)
 
 
-            axios.post(`http://localhost:8000/api/user/order/list/${payload}`)
+            axios.post(`${baseUrl}/user/order/list/${payload}`)
                 .then(res => {
                     commit('setUserOrderList', res.data)
 
@@ -218,7 +222,7 @@ const CartModule = {
 
             Loader(commit, true)
 
-            axios.get('http://localhost:8000/api/admin/order/list')
+            axios.get(`${baseUrl}/admin/order/list`)
                 .then(res => {
                     commit('setAdminOrderList', res.data)
                 })
@@ -239,7 +243,7 @@ const CartModule = {
         updateAdminOrderList: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/admin/order/update', payload)
+            axios.post(`${baseUrl}/admin/order/update`, payload)
                 .then(res => {
                     if (res.data == 200) {
                         dispatch('getOrderListByAdmin');
@@ -262,7 +266,7 @@ const CartModule = {
         orderDetail: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/admin/order/detail/${payload}`)
+            axios.post(`${baseUrl}/admin/order/detail/${payload}`)
                 .then(res => {
                     commit('setOrderCode', payload)
                     commit('setOrderDetail', res.data);
@@ -279,7 +283,7 @@ const CartModule = {
         searchOrderByAdmin: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/search/order', payload)
+            axios.post(`${baseUrl}/search/order`, payload)
                 .then(res => {
                     commit('setAdminOrderList', res.data);
                 })
@@ -298,7 +302,7 @@ const CartModule = {
 
 
 
-            axios.post(`http://localhost:8000/api/admin/filter/order/${payload}`,)
+            axios.post(`${baseUrl}/admin/filter/order/${payload}`,)
                 .then(res => {
 
 

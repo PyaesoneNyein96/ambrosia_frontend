@@ -3,7 +3,10 @@ import axios from 'axios'
 import { Loader } from '../ToolStore/loader.js'
 import router from '../../router'
 
+
+
 import { smsSuccess, smsError, smsInform } from '../Notify/notify.js'
+import { baseUrl } from './../../components/Tools-axios/baseURL';
 
 
 
@@ -84,7 +87,7 @@ const FoodModule = {
         //==================================================================================
 
         getCategories: ({ commit }) => {
-            axios.get('http://localhost:8000/api/user/categoriesList')
+            axios.get(`${baseUrl}/user/categoriesList`)
                 .then((res) => {
                     commit('setCategories', res.data);
 
@@ -102,7 +105,7 @@ const FoodModule = {
         //==================================================================================
 
         getTags: ({ commit }) => {
-            axios.get('http://localhost:8000/api/user/tagsList')
+            axios.get(`${baseUrl}/user/tagsList`)
                 .then((res) => {
                     commit('setTags', res.data);
 
@@ -121,7 +124,7 @@ const FoodModule = {
 
         GetSpecific_All: ({ commit }, payload) => {
             Loader(commit, true)
-            axios.get(`http://localhost:8000/api/user/menu/getSpecific/${payload}`)
+            axios.get(`${baseUrl}/user/menu/getSpecific/${payload}`)
                 .then((res) => {
                     commit('setFoodList', res.data)
                 }).catch((err) => {
@@ -143,7 +146,7 @@ const FoodModule = {
             Loader(commit, true)
 
 
-            axios.post(`http://localhost:8000/api/admin/food/create`, payload)
+            axios.post(`${baseUrl}/admin/food/create`, payload)
                 .then(res => {
 
                     smsSuccess(commit, res.data.food.name, 'Successfully Created')
@@ -164,7 +167,7 @@ const FoodModule = {
         getFoodBySpecific: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.get(`http://localhost:8000/api/admin/food/edit/${payload}`,)
+            axios.get(`${baseUrl}/admin/food/edit/${payload}`,)
                 .then(res => {
                     commit('setSpecificFood', res.data);
                 }).then(() => {
@@ -188,7 +191,7 @@ const FoodModule = {
 
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/admin/food/update`, payload)
+            axios.post(`${baseUrl}/admin/food/update`, payload)
                 .then(res => {
                     router.push({ name: 'food_List' });
                     smsSuccess(commit, `${res.data.food.name}`, `Successfully Updated .`);
@@ -210,7 +213,7 @@ const FoodModule = {
 
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/admin/food/delete/${payload}`)
+            axios.post(`${baseUrl}/admin/food/delete/${payload}`)
                 .then((res) => {
 
                     smsInform(commit, `${res.data.food.name}`, 'Successfully Deleted');
@@ -231,7 +234,7 @@ const FoodModule = {
 
         getFoodByType({ commit }, payload) {
             Loader(commit, true)
-            axios.get(`http://localhost:8000/api/food/type/${payload}`)
+            axios.get(`${baseUrl}/food/type/${payload}`)
                 .then(res => {
 
                     commit('setAdminFoodList', res.data)
@@ -262,7 +265,7 @@ const FoodModule = {
 
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/category/create`, payload)
+            axios.post(`${baseUrl}/category/create`, payload)
                 .then((res) => {
                     dispatch('getCategories');
                     commit('setCategoryErr', '');
@@ -283,7 +286,7 @@ const FoodModule = {
         deleteCategory: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
-            axios.post(`http://localhost:8000/api/category/delete/${payload}`)
+            axios.post(`${baseUrl}/category/delete/${payload}`)
                 .then(res => {
                     dispatch('getCategories');
                     smsSuccess(commit, res.data.category.name, 'has been successfully deleted');
@@ -304,7 +307,7 @@ const FoodModule = {
             Loader(commit, true)
 
 
-            axios.post('http://localhost:8000/api/category/update', payload)
+            axios.post(`${baseUrl}/category/update`, payload)
                 .then(res => {
                     dispatch('getCategories');
                     smsSuccess(commit, res.data.category.name, 'Successfully Updated')
@@ -331,7 +334,7 @@ const FoodModule = {
         addTag: ({ commit, dispatch }, payload) => {
             Loader(commit, true);
 
-            axios.post(`http://localhost:8000/api/tag/add`, payload)
+            axios.post(`${baseUrl}/tag/add`, payload)
                 .then((res) => {
                     dispatch('getTags');
                     commit('setTagErr', '')
@@ -357,7 +360,7 @@ const FoodModule = {
 
 
 
-            axios.post(`http://localhost:8000/api/tag/delete/${payload}`,)
+            axios.post(`${baseUrl}/tag/delete/${payload}`,)
                 .then(res => {
                     smsSuccess(commit, res.data.tag.name, 'has been successfully deleted');
                     dispatch('getTags');
@@ -377,7 +380,7 @@ const FoodModule = {
             Loader(commit, true)
 
 
-            axios.post(`http://localhost:8000/api/tag/edit`, payload)
+            axios.post(`${baseUrl}/tag/edit`, payload)
                 .then(res => {
                     commit('setTagErr', '')
                     smsSuccess(commit, res.data.tag.name, `has been successfully Changed`);
@@ -398,7 +401,7 @@ const FoodModule = {
         searchByAdmin: ({ commit }, payload) => {
             Loader(commit, true)
 
-            axios.post('http://localhost:8000/api/search/food', payload)
+            axios.post(`${baseUrl}/search/food`, payload)
                 .then(res => {
                     commit('setAdminFoodList', res.data.result);
                 })
@@ -419,7 +422,7 @@ const FoodModule = {
         specialMenu: ({ commit }) => {
             Loader(commit, true)
 
-            axios.get('http://localhost:8000/api/user/special/menu')
+            axios.get(`${baseUrl}/user/special/menu`)
                 .then(res => {
                     commit('setSpecialMenu', res.data)
                 })

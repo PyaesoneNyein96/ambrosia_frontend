@@ -1,7 +1,7 @@
 <template>
     <div class="bg-transparent bg-gradient" style="height: 100vh;">
 
-        <Carousel class="pt-0" :items-to-show="1" :wrap-around="true" :autoplay="18000" :transition="1500" v-if="slides"
+        <Carousel class="pt-0" :items-to-show="1" :wrap-around="true" :autoplay="10000" :transition="4500" v-if="slides"
             @slide-start="start">
             <Slide v-for="slide in slides" :key="slide.id" class="slide">
                 <Transition name="carousel" appear>
