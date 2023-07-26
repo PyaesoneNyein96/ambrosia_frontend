@@ -18,17 +18,35 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="text" class="form-control" v-model="form.subject" placeholder="Subject" required>
+                    <input type="text" class="form-control" v-model="form.subject" placeholder="Title" required>
                 </div>
                 <div class="form-group mt-3">
                     <textarea class="form-control" v-model="form.message" rows="5" placeholder="Message"
                         required></textarea>
                 </div>
-                <div class="my-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                <div class="my-3 rating-wrap">
+                    <h4 class="my-0">Please rate our website <span class="fw-bold text-warning"> Ambrosia</span></h4>
+
+                    <div class="rating">
+
+                        <input type="radio" id="star1" name="rate" value="1" @click="rate(5)">
+                        <label for="star1" title="text"></label>
+
+                        <input type="radio" id="star2" name="rate" value="2" @click="rate(4)">
+                        <label for="star2" title="text"></label>
+
+                        <input type="radio" id="star3" name="rate" value="3" @click="rate(3)">
+                        <label for="star3" title="text"></label>
+
+                        <input type="radio" id="star4" name="rate" value="4" @click="rate(2)">
+                        <label for="star4" title="text"></label>
+
+                        <input type="radio" id="star5" name="rate" value="5" @click="rate(1)">
+                        <label for="star5" title="text"></label>
+
+                    </div>
                 </div>
+                <!-- <h1>{{ form.rating }}</h1> -->
                 <div class="text-center"><button type="submit">Send Message</button></div>
             </form>
         </div>
@@ -51,7 +69,7 @@ export default {
                 email: '',
                 subject: '',
                 message: '',
-                rating: 1
+                rating: ''
 
             }
         }
@@ -65,6 +83,10 @@ export default {
     methods: {
         submit() {
             this.$store.dispatch('users/submitReview', this.form)
+        },
+
+        rate(v) {
+            this.form.rating = v;
         },
 
 
@@ -90,4 +112,49 @@ export default {
 }
 </script>
 
-<style  scoped></style>
+<style  scoped>
+.rating-wrap {
+    height: 50px;
+}
+
+.rating:not(:checked)>input {
+    position: absolute;
+    appearance: none;
+}
+
+.rating:not(:checked)>label {
+    float: right;
+    align-items: center;
+    cursor: pointer;
+    font-size: 27px;
+    color: #666;
+}
+
+.rating:not(:checked)>label:before {
+    content: '★';
+}
+
+.rating>input:checked+label:hover,
+.rating>input:checked+label:hover~label,
+.rating>input:checked~label:hover,
+.rating>input:checked~label:hover~label,
+.rating>label:hover~input:checked~label {
+    color: #e58e09;
+}
+
+.rating:not(:checked)>label:hover,
+.rating:not(:checked)>label:hover~label {
+    color: #ff9e0b;
+}
+
+.rating>input:checked~label {
+    color: #ffa723;
+}
+
+.rating {
+    position: absolute;
+    /* background-color: green; */
+    padding: 0;
+    margin: 0;
+}
+</style>

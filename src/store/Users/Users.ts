@@ -182,7 +182,6 @@ const UserModule = {
         submitReview: ({ commit, dispatch }, payload) => {
             Loader(commit, true)
 
-
             axios.post(`${baseUrl}/user/review/submit`, payload)
                 .then(res => {
                     if (res.data) {

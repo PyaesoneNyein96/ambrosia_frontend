@@ -107,7 +107,7 @@
                     <!-- ========== Tag Section ========== -->
 
 
-                    <div class="wrap row mt-4 mx-2" :class="{ 'bd-red': getError.tags }">
+                    <div class="wrap row my-4 mx-2" :class="{ 'bd-red': getError.tags }">
                         <span class="h6 m-0 text-muted">Tags</span>
 
                         <div class="mt-3 col-lg-3 bg-light shadow-sm rounded" v-for="(tag, i) in tags" :key="i">
@@ -126,7 +126,7 @@
 
                     <!-- ========== Type Section ========== -->
 
-                    <div class="btn-wrap">
+                    <div class="btn-wrap mt-2">
                         <button class="btn btn-outline-warning w-100 text-success">
                             <h3 class=" my-0">Update</h3>
                         </button>

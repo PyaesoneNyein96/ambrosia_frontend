@@ -406,6 +406,7 @@ const FoodModule = {
                     commit('setAdminFoodList', res.data.result);
                 })
                 .catch(err => {
+                    console.log(err.response.data.message);
 
                     smsError(commit, 'GENERAL ERROR', err)
                 })
