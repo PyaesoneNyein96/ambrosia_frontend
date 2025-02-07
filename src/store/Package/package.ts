@@ -45,10 +45,13 @@ const PackageModule = {
 
             axios.post(`${baseUrl}/package/add`, payload)
                 .then(res => {
+                    console.log(`${baseUrl}/package/add`, payload);
+                    
                     smsSuccess(commit, 'Package Adding', `Successfully added ${res.data.package.name}.`)
                     router.push({ name: 'package_list' })
                 })
                 .catch(err => {
+                    
                     smsError(commit, "Package Adding Error", err.response.errors)
                 })
                 .finally(() => {

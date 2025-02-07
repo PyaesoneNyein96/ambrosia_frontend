@@ -5,8 +5,11 @@
 // const baseUrl = 'https://www.ambrosia.api.pyaesonenyein.com/api';
 // const imageUrl = 'https://www.ambrosia.api.pyaesonenyein.com/';
 
-const baseUrl = 'http://localhost:8000/api';
-const imageUrl = 'http://localhost:8000';
+// const baseUrl = 'http://localhost:8000/api';
+// const imageUrl = 'http://localhost:8000';
+
+const baseUrl = 'http://54.82.106.49/api';
+const imageUrl = 'http://54.82.106.49';
 
 
 export { baseUrl, imageUrl };

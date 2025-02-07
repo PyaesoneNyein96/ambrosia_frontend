@@ -35,10 +35,6 @@ const AuthModule = {
 
         getProfileErr: state => state.profileErr,
 
-
-
-
-
     },
 
 
