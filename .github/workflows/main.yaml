@@ -30,7 +30,7 @@ jobs:
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
 
                   script: |
-                      cd /var/www/ambrosia-frontend
+                      cd /var/www/ambrosia/ambrosia-frontend
                       git checkout cicd
                       git pull origin cicd
                       npm install          
