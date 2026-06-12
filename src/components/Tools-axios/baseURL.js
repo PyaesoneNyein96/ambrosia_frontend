@@ -12,4 +12,5 @@ const baseUrl = 'https://ambrosia.pyaesonenyein.com/api';
 const imageUrl = 'https://ambrosia.pyaesonenyein.com';
 
 
+
 export { baseUrl, imageUrl };
