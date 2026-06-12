@@ -28,7 +28,9 @@ jobs:
                   host: ${{ secrets.VPS_HOST }}
                   username: ${{ secrets.VPS_USERNAME }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  source: "dist/**"
-                  strip_components: 1
-                  #   target: "/var/www/ambrosia/ambrosia-frontend/html"
-                  target: "${{ secrets.APP_PATH }}/html"
+                  script: |
+                      cd /var/www/ambrosia-frontend
+                      git checkout cicd
+                      git pull origin cicd
+                      npm install          
+                      npm run build
