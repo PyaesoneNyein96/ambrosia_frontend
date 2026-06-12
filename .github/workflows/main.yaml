@@ -19,9 +19,15 @@ jobs:
                       # cd /var/www/ambrosia/ambrosia-frontend
                       cd ${{ secrets.APP_PATH }}
 
-                      git pull origin cicd
+                      git fetch origin cicd
+                      git reset --hard origin/cicd
+
+
                       npm install
                       npm run build
+
                       rm -rf /var/www/ambrosia/ambrosia-frontend/*
-                      cp -r dist/* /var/www/ambrosia/ambrosia-frontend/
-                      sudo systemctl reload nginx
+                      cp -r dist/. /var/www/ambrosia/ambrosia-frontend/
+
+                      systemctl reload nginx
+                      echo "✅ Deploy finished!"
