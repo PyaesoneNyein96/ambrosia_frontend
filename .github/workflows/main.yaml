@@ -22,6 +22,6 @@ jobs:
                       git pull origin cicd
                       npm install
                       npm run build
-                      rm -rf /var/www/ambrosia/ambrosia-frontend/*
-                      cp -r dist/* /var/www/ambrosia/ambrosia-frontend/
+                      sudo rm -rf /var/www/ambrosia/ambrosia-frontend/*
+                      sudo cp -r dist/* /var/www/ambrosia/ambrosia-frontend/
                       sudo systemctl reload nginx
