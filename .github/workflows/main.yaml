@@ -1,0 +1,27 @@
+name: Deploy Vue
+
+on:
+    push:
+        branches: ["cicd"]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: SSH Deploy Vue
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.VPS_HOST }}
+                  username: ${{ secrets.VPS_USERNAME }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  script: |
+                      # cd /var/www/ambrosia/ambrosia-frontend
+                      cd ${{ secrets.APP_PATH }}
+
+                      git pull origin cicd
+                      npm install
+                      npm run build
+                      rm -rf /var/www/ambrosia/ambrosia_frontend/*
+                      cp -r dist/* /var/www/ambrosia/ambrosia_frontend/
+                      sudo systemctl reload nginx
