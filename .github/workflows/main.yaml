@@ -5,29 +5,30 @@ on:
         branches: ["cicd"]
 
 jobs:
-    deploy:
+    build-and-deploy:
         runs-on: ubuntu-latest
 
         steps:
-            - name: SSH Deploy Vue
-              uses: appleboy/ssh-action@v1.0.3
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+
+            - name: Install & Build
+              run: |
+                  npm ci
+                  npm run build
+
+            - name: Deploy to VPS
+              uses: appleboy/scp-action@v0.1.7
               with:
                   host: ${{ secrets.VPS_HOST }}
                   username: ${{ secrets.VPS_USERNAME }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  script: |
-                      # cd /var/www/ambrosia/ambrosia-frontend
-                      cd ${{ secrets.APP_PATH }}
-
-                      git fetch origin cicd
-                      git reset --hard origin/cicd
-
-
-                      npm install
-                      npm run build
-
-                      rm -rf /var/www/ambrosia/ambrosia-frontend/*
-                      cp -r dist/. /var/www/ambrosia/ambrosia-frontend/
-
-                      systemctl reload nginx
-                      echo "✅ Deploy finished!"
+                  source: "dist/**"
+                  strip_components: 1
+                  #   target: "/var/www/ambrosia/ambrosia-frontend/html"
+                  target: "${{ secrets.APP_PATH }}/html"
